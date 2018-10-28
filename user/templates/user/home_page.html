@@ -1,0 +1,5 @@
+<b>HOME</b>
+
+<div>username: {{ user.username }}</div>
+
+<a class="btn btn-primary" href="{% url 'logout_submit'%}">{% csrf_token %}logout</a>
