@@ -3,6 +3,7 @@
     ERROR: {{ message }}
   {% endfor %}
 {% endif %}
+<div>LOGIN:</div>
 <form action="{% url 'login_submit' %}" method="post">
   {% csrf_token %}
   <div>username:</div>
