@@ -25,7 +25,7 @@ SECRET_KEY = '46928u)lfxuzannis_5_4w(e6_s4f2vmhrv#9$=l53^mt68hix'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["isa.theedgeofrage.com", "localhost", "127.0.0.1"]
 
 
 # Application definition
