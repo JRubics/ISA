@@ -56,7 +56,9 @@ ROOT_URLCONF = 'ISA.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['./user'],
+        'DIRS': [
+            './user',
+            './ISA'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
