@@ -1,4 +1,6 @@
 # ISA
+install requirements:
+pip install -r requirements.txt
 
 run tests:
 $python manage.py test
