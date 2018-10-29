@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Project</title>
+    </head>
+
+    <body>
+        {% load bootstrap3 %}
+
+        {# Load CSS and JavaScript #}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+
+        {% block content %}{% endblock content %}
+    </body>
+</html>

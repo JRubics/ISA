@@ -1,15 +1,19 @@
-{% if messages %}
-  {% for message in messages %}
-    ERROR: {{ message }}
-  {% endfor %}
-{% endif %}
-<form action="{% url 'login_submit' %}" method="post">
-  {% csrf_token %}
-  <div>username:</div>
-  <input type="text" name="username">
-  </br>
-  <div>password:</div>
-  <input type="password" name="password">
-  </br>
-  <input type="submit" value="login" onclick="">
-</form>
+{% extends 'user/base.html' %}
+
+{% block content %}
+  {% if messages %}
+    {% for message in messages %}
+      ERROR: {{ message }}
+    {% endfor %}
+  {% endif %}
+  <form action="{% url 'login_submit' %}" method="post">
+    {% csrf_token %}
+    <div>username:</div>
+    <input type="text" name="username">
+    </br>
+    <div>password:</div>
+    <input type="password" name="password">
+    </br>
+    <input type="submit" value="login" onclick="">
+  </form>
+{% endblock content %}
