@@ -8,8 +8,8 @@
   {% endif %}
   <form action="{% url 'login_submit' %}" method="post">
     {% csrf_token %}
-    <div>username:</div>
-    <input type="text" name="username">
+    <div>email:</div>
+    <input type="email" name="email">
     </br>
     <div>password:</div>
     <input type="password" name="password">

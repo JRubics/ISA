@@ -4,10 +4,15 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.template import *
 from django.conf import settings
+from django.contrib.auth.models import User
 
 def login_submit(request):
     if request.method == 'POST':
-        username = request.POST['username']
+        email = request.POST['email']
+        try:
+            username = User.objects.get(email=email)
+        except User.DoesNotExist:
+            username = None
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
