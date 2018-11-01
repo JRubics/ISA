@@ -126,3 +126,10 @@ STATIC_ROOT = '/static/'
 
 LOGIN_URL='/user/login/'
 LOGIN_REDIRECT_URL='/user/home/'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'isa2018bfj@gmail.com'
+EMAIL_HOST_PASSWORD = 'add_pass'
+DEFAULT_FROM_EMAIL = 'isa2018bfj@gmail.com'
