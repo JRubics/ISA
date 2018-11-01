@@ -22,10 +22,10 @@ def login_submit(request):
         return render(request,'user/login_page.html')
 
 def get_username_from_email(email):
-     if User.objects.filter(email=email).exists():
-        username = User.objects.get(email=email).username
+    if User.objects.filter(email=email).exists():
+        return User.objects.get(email=email).username
     else:
-        username = None
+        return None
 
 def registration_submit(request):
     if request.method == 'POST':
