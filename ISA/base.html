@@ -9,6 +9,11 @@
         {% bootstrap_css %}
         {% bootstrap_javascript %}
        
+        {% if messages %}
+            {% for message in messages %}
+                ERROR: {{ message }}
+            {% endfor %}
+        {% endif %}
         {% block content %}{% endblock content %}
     </body>
 </html>
