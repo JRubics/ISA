@@ -10,11 +10,7 @@ from django.core.mail import send_mail
 
 def login_submit(request):
     if request.method == 'POST':
-        if User.objects.filter(email=request.POST['email']).exists():
-            username = User.objects.get(email=request.POST['email']).username
-        else:
-            username = None
-        user = authenticate(request, username=username, password=request.POST['password'])
+        user = authenticate(request, username=get_username_from_email(request.POST['email']), password=request.POST['password'])
         if user is not None:
             login(request, user)
             return redirect('/user/home')
@@ -24,6 +20,12 @@ def login_submit(request):
     else:
         logout(request)
         return render(request,'user/login_page.html')
+
+def get_username_from_email(email):
+     if User.objects.filter(email=email).exists():
+        username = User.objects.get(email=email).username
+    else:
+        username = None
 
 def registration_submit(request):
     if request.method == 'POST':
