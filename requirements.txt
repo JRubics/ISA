@@ -1,2 +1,5 @@
-Django==2.1.2
+Django
+psycopg2
 django-bootstrap3==11.0.0
+# gunicorn
+whitenoise==3.3.1

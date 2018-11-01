@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    restart: unless-stopped
+  web:
+    build: .
+    image: isa:latest
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    links:
+      - db
+
