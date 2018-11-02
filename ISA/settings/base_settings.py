@@ -119,5 +119,5 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'isa2018bfj@gmail.com'
-EMAIL_HOST_PASSWORD = 'add_pass'
+EMAIL_HOST_PASSWORD = 'ADD_EMAIL'
 DEFAULT_FROM_EMAIL = 'isa2018bfj@gmail.com'

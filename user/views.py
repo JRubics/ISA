@@ -7,6 +7,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from .models import Profile
 from django.core.mail import send_mail
+# from Crypto.Cipher import AES
 
 def login_submit(request):
     if request.method == 'POST':
@@ -60,6 +61,8 @@ def validate_user(username, email, password1, password2):
         return None
 
 def send_email(username, email):
+    # aes = AES.new('poiuytrewq123456', AES.MODE_CFB, 'qwertyuiop654321')
+    # encrypted_username = aes.encrypt(username)
     send_mail(
         'Confirm registration',
         'http://isa.theedgeofrage.com/user/confirm/' + username,
@@ -71,9 +74,11 @@ def send_email(username, email):
 def confirmation(request):
     return render(request, 'user/confirmation_page.html')
 
-def confirm(request, username=None):
+def confirm(request, encrypted_username=None):
     logout(request)
-    user = User.objects.get(username=username)
+    # aes = AES.new('poiuytrewq123456', AES.MODE_CFB, 'qwertyuiop654321')
+    # username = aes.decrypt(str.encode(encrypted_username))
+    user = User.objects.get(username=encrypted_username)
     user.is_active = True
     user.save()
     return redirect(settings.LOGIN_REDIRECT_URL )
