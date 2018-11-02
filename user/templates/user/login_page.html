@@ -1,19 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  {% if messages %}
-    {% for message in messages %}
-      ERROR: {{ message }}
-    {% endfor %}
-  {% endif %}
   <form action="{% url 'login_submit' %}" method="post">
     {% csrf_token %}
-    <div>username:</div>
-    <input type="text" name="username">
+    <div>email:</div>
+    <input type="email" name="email">
     </br>
     <div>password:</div>
     <input type="password" name="password">
     </br>
-    <button type="submit" value="login" onclick="" class="btn btn-primary">Submit</button>
+    <button type="submit" value="login" onclick="" class="btn btn-primary">Login</button>
   </form>
 {% endblock content %}
