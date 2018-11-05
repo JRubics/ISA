@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <form action="{% url 'registration_submit' %}" method="post">
+  <form action="{% url 'user:registration_submit' %}" method="post">
     {% csrf_token %}
     <div>username:</div>
     <input type="text" name="username" required=true>

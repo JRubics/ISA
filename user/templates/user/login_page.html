@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <form action="{% url 'login_submit' %}" method="post">
+  <form action="{% url 'user:login_submit' %}" method="post">
     {% csrf_token %}
     <div>email:</div>
     <input type="email" name="email">
