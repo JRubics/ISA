@@ -7,6 +7,9 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from .models import Profile
 from django.core.mail import send_mail
+from django.contrib.auth.models import Permission
+from car.models import Car
+from django.contrib.contenttypes.models import ContentType
 
 def login_submit(request):
     if request.method == 'POST':
