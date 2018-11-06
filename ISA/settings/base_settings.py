@@ -20,7 +20,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '46928u)lfxuzannis_5_4w(e6_s4f2vmhrv#9$=l53^mt68hix'
+assert 'SECRET_KEY' in os.environ, 'Set SECRET_KEY in your .env file!'
+SECRET_KEY = os.environ.get('SECRET_KEY', '')
 
 ALLOWED_HOSTS = ["isa.theedgeofrage.com", "localhost", "127.0.0.1"]
 
@@ -119,6 +120,6 @@ LOGIN_REDIRECT_URL='/user/home/'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'isa2018bfj@gmail.com'
-EMAIL_HOST_PASSWORD = 'add_pass'
-DEFAULT_FROM_EMAIL = 'isa2018bfj@gmail.com'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER', '')
