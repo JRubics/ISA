@@ -13,6 +13,7 @@ RUN set -ex \
 	&& pip install -r requirements.txt \
 	&& apk del .build-deps
 
-CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000", "--settings=ISA.settings.production" ]
+CMD [ "python", "manage_prod.py", "runserver", "0.0.0.0:8000"]
+# CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000", "--settings=ISA.settings.production" ]
 # CMD ["gunicorn", "--bind", "0.0.0.0:80", "ISA.wsgi:application"]
 
