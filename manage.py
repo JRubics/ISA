@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 import os
 import sys
-from django.conf import settings
 import dotenv
 
 if __name__ == '__main__':
-    if settings.DEBUG:
-        dotenv.read_dotenv()
+    dotenv.read_dotenv()
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ISA.settings')
     try:
         from django.core.management import execute_from_command_line
