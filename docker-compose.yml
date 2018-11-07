@@ -4,9 +4,10 @@ services:
   db:
     image: postgres
     restart: unless-stopped
+    volumes:
+       - ./storage/db:/var/lib/postgresql/data
   web:
-    build: .
-    image: isa:latest
+    image: jrubics/isa
     env_file: 
       - ".env"
     restart: unless-stopped
@@ -14,4 +15,3 @@ services:
       - "8010:80"
     links:
       - db
-
