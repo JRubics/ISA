@@ -3,10 +3,13 @@ install requirements:
 pip install -r requirements.txt
 
 run tests:
-$python manage.py test --settings=ISA.settings.local
+$python manage.py test
 
 run app:
-$python manage.py runserver --settings=ISA.settings.local
+$python manage.py runserver
+
+production
+$python manage_prod.py runserver
 
 travis:
 https://travis-ci.com/JRubics/ISA
