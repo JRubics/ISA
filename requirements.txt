@@ -1,6 +1,6 @@
 Django
 psycopg2
 django-bootstrap3==11.0.0
-# gunicorn
+gunicorn
 whitenoise==3.3.1
 django-dotenv
