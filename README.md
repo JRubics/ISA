@@ -8,9 +8,6 @@ $python manage.py test
 run app:
 $python manage.py runserver
 
-production
-$python manage_prod.py runserver
-
 travis:
 https://travis-ci.com/JRubics/ISA
 
