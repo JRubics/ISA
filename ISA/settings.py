@@ -20,8 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-assert 'SECRET_KEY' in os.environ, 'Set SECRET_KEY in your .env file!'
+# assert 'SECRET_KEY' in os.environ, 'Set SECRET_KEY in your .env file!'
 SECRET_KEY = os.environ.get('SECRET_KEY', '')
+
+DEBUG = True
 
 ALLOWED_HOSTS = ["isa.theedgeofrage.com", "localhost", "127.0.0.1"]
 
@@ -50,6 +52,16 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+DATABASES = {
+    'default': {
+        'ENGINE': os.environ.get('DB_ENGINE', ''),
+        'NAME': os.path.join(BASE_DIR, os.environ.get('DB_NAME', '')) if os.environ.get('ENVIRONMENT')=='DEVELOPMENT' else os.environ.get('DB_NAME', ''),
+        'USER': os.environ.get('DB_USER', ''),
+        'HOST': os.environ.get('DB_HOST', ''),
+        'PORT': os.environ.get('DB_PORT', ''),
+    }
+}
 
 ROOT_URLCONF = 'ISA.urls'
 
