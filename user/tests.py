@@ -19,6 +19,10 @@ class UserTestCase(TestCase):
         else:
             assert False
 
+    def test_new_profile(self):
+        profile = Profile.new('username', 'email', 'pass123', 'name', 'lname', 'NS', '021333444')
+        self.assertTrue(isinstance(profile, Profile))
+
     def test_authenticate_negative(self):
         self.user = authenticate(username='testfalse', password='TestFalse')
         self.assertEqual(self.user, None)

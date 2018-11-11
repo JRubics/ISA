@@ -30,16 +30,16 @@ def registration_submit(request):
         if message:
             messages.error(request, message)
             return render(request,'user/registration_page.html')
-        user = User.objects.create_user(username=request.POST['username'],
-                                        email=request.POST['email'],
-                                        password=request.POST['password1'],
-                                        first_name=request.POST['first_name'],
-                                        last_name=request.POST['last_name'],
-                                        is_active = False)
-        profile = Profile.objects.create(user=user,
-                                        city=request.POST['city'],
-                                        phone_number=request.POST['phone_number'])
-        send_email(user.username, user.email)
+
+        profile = Profile.new(username=request.POST['username'],
+                            email=request.POST['email'],
+                            password=request.POST['password1'],
+                            first_name=request.POST['first_name'],
+                            last_name=request.POST['last_name'],
+                            city=request.POST['city'],
+                            phone_number=request.POST['phone_number']
+                            )
+        send_email(profile.user.username, profile.user.email)
         return redirect('/user/confirmation')
     else:
         logout(request)
