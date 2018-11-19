@@ -14,7 +14,7 @@ $python manage.py runserver
 ### travis:
 https://travis-ci.com/JRubics/ISA
 
-codeclimate - code quality:
+### codeclimate - code quality:
 https://codeclimate.com/github/JRubics/ISA
 
 # DOCKER
