@@ -3,7 +3,7 @@
 {% block content %}
   <form action="{% url 'user:login_submit' %}" method="post">
     {% csrf_token %}
-    LOGIN:
+    LOGIN
     <div>email:</div>
     <input type="email" name="email">
     </br>
