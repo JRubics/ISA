@@ -25,11 +25,12 @@
           <td>{{service.city}}</td>
           <td>{{service.address}}</td>
           <td>{{service.number}}</td>
-          <td><a class="btn btn-default" href="{% url 'car:edit_service' service.id%}">edit</button></td>
+          <td><a class="btn btn-default" href="{% url 'car:edit_service' service.id%}">edit</a></td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
+  <a class="btn btn-default" href="{% url 'car:add_service'%}">+</a>
   {% else %}
     <p>No services are available.</p>
   {% endif %}
