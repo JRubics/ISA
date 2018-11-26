@@ -89,3 +89,7 @@ def logout_submit(request):
 @login_required()
 def home(request):
     return render(request, 'user/home_page.html')
+
+@login_required()
+def profile(request):
+    return render(request, 'user/profile_page.html')
