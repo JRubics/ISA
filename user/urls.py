@@ -8,9 +8,6 @@ urlpatterns = [
     path('logout/', views.logout_submit, name='logout_submit'),
     path('home/', views.home, name='home'),
     path('confirmation/', views.confirmation, name='confirmation'),
-    path('confirm/<username>/', views.confirm, name='confirm'),
-
-    #filip dodao
     path('', views.home, name='home'),
     path('profile', views.profile, name='profile'),
 ]
