@@ -1,4 +1,7 @@
-<form action="{% url 'car:add_service'%}" method="post">
+{% extends 'base.html' %}
+
+{% block content %}
+  <form action="{% url 'car:add_service'%}" method="post">
     {% csrf_token %}
     <div class="container">
       <div class="row">
@@ -24,7 +27,7 @@
         <div class="col-md-4">
           <label>City:</label>
           <br>
-          <input type="text" name="city" equired=true>
+          <input type="text" name="city" required=true>
         </div>
         <div class="col-md-1"></div>
       </div>
@@ -64,3 +67,4 @@
       </div>
     </div>
   </form>
+{% endblock content %}

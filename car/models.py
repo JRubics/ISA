@@ -38,3 +38,13 @@ class Car(models.Model):
     seats = models.PositiveIntegerField()
     def __str__(self):
         return self.name + " (" + self.service.name + ")"
+
+class BranchOffice(models.Model):
+    name = models.CharField(max_length=30)
+    service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    country = models.CharField(max_length=60)
+    city = models.CharField(max_length=60)
+    address = models.CharField(max_length=60)
+    number = models.CharField(max_length=60)
+    def __str__(self):
+        return self.name + " (" + self.service.name + ")"
