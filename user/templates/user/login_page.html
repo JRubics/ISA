@@ -5,11 +5,11 @@
     {% csrf_token %}
     LOGIN:
     <div>email:</div>
-    <input type="email" name="email">
+    <input type="email" name="email" id="login_email">
     </br>
     <div>password:</div>
-    <input type="password" name="password">
+    <input type="password" name="password" id="login_pass">
     </br>
-    <button type="submit" value="login" onclick="" class="btn btn-primary">Login</button>
+    <button name="login" type="submit" value="login" onclick="" class="btn btn-primary">Login</button>
   </form>
 {% endblock content %}
