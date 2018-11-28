@@ -4,7 +4,7 @@ import sys
 import dotenv
 
 if __name__ == '__main__':
-    if os.environ.get('ENVIRONMENT','') != "PRODUCTION":
+    if os.environ.get('ENVIRONMENT', '') != "PRODUCTION":
         dotenv.read_dotenv()
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ISA.settings')
     try:
