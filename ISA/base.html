@@ -149,12 +149,19 @@
     {% load bootstrap3 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
-    {% if messages %}
-    {% for message in messages %}
-    ERROR: {{ message }}
-    {% endfor %}
-    {% endif %}
-    {% block content %}{% endblock content %}
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            {% if messages %}
+            {% for message in messages %}
+            ERROR: {{ message }}
+            {% endfor %}
+            {% endif %}
+            {% block content %}
+            {% endblock content %}
+        </div>
+        <div class="col-md-1"></div>
+    </div>
 </body>
 
 </html>
