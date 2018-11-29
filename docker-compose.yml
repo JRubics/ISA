@@ -4,14 +4,16 @@ services:
   db:
     image: postgres
     restart: unless-stopped
+    container_name: jelena_isa_db
+    volumes:
+       - ./db:/var/lib/postgresql/data
   web:
-    build: .
-    image: isa:latest
+    image: jrubics/isa
     env_file: 
       - ".env"
     restart: unless-stopped
+    container_name: jelena_isa_web
     ports:
       - "8010:80"
     links:
       - db
-

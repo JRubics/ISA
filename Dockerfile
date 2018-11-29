@@ -14,4 +14,3 @@ RUN set -ex \
 	&& apk del .build-deps
 
 CMD ["gunicorn", "--bind", "0.0.0.0:80", "ISA.wsgi:application"]
-

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <form action="{% url 'car:add_car' service_id%}" method="post">
+    {% csrf_token %}
+    <div class="container">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-4">
+          <label>Name:</label>
+          <br>
+          <input type="text" name="name" required=true>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+          <label>Model:</label>
+          <br>
+          <input type="text" name="model" required=true>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-4">
+          <label>Manufacturer:</label>
+          <br>
+          <select name='manufacturer_select'>
+            {% for key, tuple in manufacturer %}
+              <option value="{{key}}">{{tuple}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+          <label>Type:</label>
+          <br>
+          <select name='type_select'>
+            {% for key, tuple in type %}
+              <option value="{{key}}">{{tuple}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-2">
+          <label>Price:</label>
+          <br>
+          <input type="number" name="price" required=true>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-2">
+          <label>Year of production:</label>
+          <br>
+          <input type="number" name="year" required=true>
+        </div>
+        <div class="col-md-1"></div>
+          <div class="col-md-2">
+            <label>Seats:</label>
+            <br>
+            <input type="number" name="seats" required=true>
+          </div>
+        <div class="col-md-1"></div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-5"></div>
+        <div class="col-md-2">
+          <button type="submit" value="add_car" onclick="" class="btn btn-primary">Save</button>
+        </div>
+        <div class="col-md-5"></div>
+      </div>
+    </div>
+  </form>
+{% endblock content %}

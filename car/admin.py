@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import Service
+from .models import Car
+from .models import BranchOffice
 
-# Register your models here.
+admin.site.register(Service)
+admin.site.register(Car)
+admin.site.register(BranchOffice)
