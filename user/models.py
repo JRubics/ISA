@@ -15,3 +15,4 @@ class Profile(models.Model):
                        ("is_hotel_admin", "Is hotel admin"),
                        ("is_flight_admin", "Is flight admin"),
                        )
+

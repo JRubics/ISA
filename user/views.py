@@ -93,3 +93,7 @@ def home(request):
 @login_required()
 def profile(request):
     return render(request, 'user/profile_page.html')
+
+@login_required()
+def profile_edit(request):
+    return render(request, 'user/profile_edit.html')
