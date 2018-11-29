@@ -33,6 +33,7 @@
   <a class="btn btn-default" href="{% url 'car:add_service'%}">+</a>
   {% else %}
     <p>No services are available.</p>
+    <a class="btn btn-default" href="{% url 'car:add_service'%}">+</a>
   {% endif %}
   
 {% endblock content %}
