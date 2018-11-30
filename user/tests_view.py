@@ -56,7 +56,7 @@ class UserSeleniumTestCase(LiveServerTestCase):
     #   selenium.get(self.live_server_url + "/user/register")
 
     #   selenium.find_element_by_name('username').send_keys('username')
-    #   selenium.find_element_by_name('email').send_keys('email@test.test')
+    #   selenium.find_element_by_name('email').send_keys('isa2018bfj@gmail.com')
     #   selenium.find_element_by_name('password1').send_keys('Test1234')
     #   selenium.find_element_by_name('password2').send_keys('Test1234')
     #   selenium.find_element_by_name('first_name').send_keys('first name')
