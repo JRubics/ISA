@@ -7,7 +7,7 @@ from .models import Profile
 
 class UserSeleniumTestCase(LiveServerTestCase):
     def setUp(self):
-      self.selenium = webdriver.Chrome()
+      self.selenium = webdriver.Firefox()
       super(UserSeleniumTestCase, self).setUp()
 
       self.user = User.objects.create(username='test', email='test@test.com', is_active=True)
