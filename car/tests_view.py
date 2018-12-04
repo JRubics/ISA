@@ -107,7 +107,7 @@ class CarSeleniumTestCase(LiveServerTestCase):
       selenium.find_element_by_name('price').send_keys('1000')
       selenium.find_element_by_name('year').send_keys('2012')
       selenium.find_element_by_name('seats').send_keys('4')
-     
+
       selenium.find_element_by_name('add_car').click()
 
       assert 'car/service' in selenium.current_url
