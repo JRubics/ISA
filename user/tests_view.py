@@ -8,7 +8,6 @@ from .models import Profile
 class UserSeleniumTestCase(LiveServerTestCase):
     def setUp(self):
       self.selenium = webdriver.Chrome()
-      super(UserSeleniumTestCase, self).setUp()
 
       self.user = User.objects.create(username='test', email='test@test.com', is_active=True)
       self.profile = Profile.objects.create(user=self.user, city='Novi Sad', phone_number='021333444')
@@ -17,7 +16,6 @@ class UserSeleniumTestCase(LiveServerTestCase):
 
     def tearDown(self):
       self.selenium.quit()
-      super(UserSeleniumTestCase, self).tearDown()
 
 
     def test_login_fail(self):
