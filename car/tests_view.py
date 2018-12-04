@@ -81,7 +81,7 @@ class CarSeleniumTestCase(LiveServerTestCase):
       selenium.find_element_by_name('promo_description').clear()
       selenium.find_element_by_name('promo_description').send_keys('someDesc 1')
 
-      selenium.find_element_by_name('save').click()
+      selenium.find_element_by_name('edit_service').click()
 
       assert 'car/service' in selenium.current_url
       assert 'testService1' in selenium.page_source
