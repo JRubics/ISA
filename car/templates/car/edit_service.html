@@ -113,6 +113,7 @@
             {% else %}
               <td>no</td>
               <td><a class="btn btn-default" href="{% url 'car:edit_car' car.id%}">edit</a></td>
+              <td><a class="btn btn-default" href="{% url 'car:delete_car' car.id%}">delete</a></td>
             {% endif %}
           </tr>
         {% endfor %}

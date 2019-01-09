@@ -88,6 +88,14 @@ def edit_car(request, id=None):
 
 @login_required()
 @permission_required('user.is_car_admin')
+def delete_car(request, id=None):
+  car = Car.objects.filter(id=id).first()
+  service = car.service
+  car.delete()
+  return redirect('/car/service/'+str(service.id))
+
+@login_required()
+@permission_required('user.is_car_admin')
 def add_office(request, service_id=None):
   if request.method == 'POST':
     office = BranchOffice(name = request.POST['name'],
