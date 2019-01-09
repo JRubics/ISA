@@ -81,7 +81,7 @@
           <th scope="col">Price</th>
           <th scope="col">Year of production</th>
           <th scope="col">Seats</th>
-          <th scope="col">Seats</th>
+          <th scope="col">Is taken</th>
         </tr>
       </thead>
       <tbody>
@@ -108,7 +108,12 @@
             <td>{{car.price}}</td>
             <td>{{car.year}}</td>
             <td>{{car.seats}}</td>
-            <td><a class="btn btn-default" href="{% url 'car:edit_car' car.id%}">edit</a></td>
+            {% if car.is_taken %}
+              <td>yes</td>
+            {% else %}
+              <td>no</td>
+              <td><a class="btn btn-default" href="{% url 'car:edit_car' car.id%}">edit</a></td>
+            {% endif %}
           </tr>
         {% endfor %}
       </tbody>
