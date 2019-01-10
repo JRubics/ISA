@@ -6,6 +6,7 @@ from .models import Service
 from .models import Car
 from .models import BranchOffice
 
+
 @login_required()
 @permission_required('user.is_car_admin')
 def car_home(request):
@@ -128,3 +129,11 @@ def edit_office(request, id=None):
     office = BranchOffice.objects.filter(id=id).first()
     context = {'office':office}
     return render(request, 'car/edit_office.html',context)
+
+@login_required()
+@permission_required('user.is_car_admin')
+def test_graph(request, id=None):
+  godina = [2,1,3,4]
+  mesec = [1,3,4,2,5,3,4]
+  dan = [1,3,4,2,9,6,1,2]
+  return render(request, 'car/test.html', {'godina': godina, 'mesec':mesec, 'dan':dan})
