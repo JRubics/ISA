@@ -40,3 +40,10 @@ class CarTestCase(TestCase):
     
     def test_office_str(self):
       self.assertEqual(self.office.__str__(), 'testOffice (testService)')
+
+    def test_car_taken_default(self):
+      self.assertEqual(self.car.is_taken, 0)
+
+    def test_car_taken(self):
+      self.car.is_taken = 1
+      self.assertEqual(self.car.is_taken, 1)
