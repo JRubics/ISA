@@ -12,6 +12,7 @@ from .models import Reservation
 from .models import CarRate
 from user.models import User
 
+
 @login_required()
 @permission_required('user.is_car_admin')
 def car_home(request):
@@ -316,3 +317,11 @@ def cancel_reservation(request, id=None):
   reservation = Reservation.objects.filter(id=id).first()
   reservation.delete()
   return redirect('/user/reservations')
+
+@login_required()
+def test_graph(request, id=None):
+  godina = [2,1,3,4]
+  mesec = [1,3,4,2,5,3,4]
+  dan = [1,3,4,2,9,6,1,2]
+  return render(request, 'car/test.html', {'godina': godina, 'mesec':mesec, 'dan':dan})
+
