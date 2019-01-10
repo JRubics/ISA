@@ -110,10 +110,12 @@
             <td>{{car.seats}}</td>
             {% if car.is_taken %}
               <td>yes</td>
+              <td></td>
+              <td></td>
             {% else %}
               <td>no</td>
-              <td><a class="btn btn-default" href="{% url 'car:edit_car' car.id%}">edit</a></td>
-              <td><a class="btn btn-default" href="{% url 'car:delete_car' car.id%}">delete</a></td>
+              <td><a class="btn btn-default" href="{% url 'car:edit_car' car.id%}" name="edit_car">edit</a></td>
+              <td><a class="btn btn-default" href="{% url 'car:delete_car' car.id%}" name="delete_car">delete</a></td>
             {% endif %}
           </tr>
         {% endfor %}
