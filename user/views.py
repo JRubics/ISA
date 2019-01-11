@@ -6,6 +6,7 @@ from django.template import *
 from django.conf import settings
 from django.contrib.auth.models import User
 from .models import Profile
+from car.models import Reservation
 from django.core.mail import send_mail
 from django.contrib.auth.models import Permission
 from car.models import Car
@@ -80,3 +81,9 @@ def profile(request):
 @login_required()
 def profile_edit(request):
     return render(request, 'user/profile_edit.html')
+
+@login_required()
+def reservations(request):
+    reservation_list = Reservation.objects.filter(user=request.user.id)
+    context = {'reservations':reservation_list}
+    return render(request, 'user/reservations.html', context)

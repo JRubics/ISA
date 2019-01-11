@@ -7,6 +7,8 @@ from datetime import datetime
 from .models import Service
 from .models import Car
 from .models import BranchOffice
+from .models import Reservation
+from user.models import User
 
 @login_required()
 @permission_required('user.is_car_admin')
@@ -29,6 +31,8 @@ def edit_service(request, id=None):
     service.save()
   service = Service.objects.filter(id=id).first()
   cars = Car.objects.select_related().filter(service = id)
+  for car in cars:
+    car.is_reserved()
   offices = BranchOffice.objects.select_related().filter(service = id)
   context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,'service':service, 'cars':cars, 'offices':offices}
   return render(request, 'car/edit_service.html',context)
@@ -173,7 +177,6 @@ def reservation(request):
 
 @login_required()
 def choose_car(request, id):
-    # PROVERI DA LI JE FREE
   if request.method == 'POST':
     max_price = request.POST['max'] if request.POST['max'] != "" else sys.maxsize
     min_price = request.POST['min'] if request.POST['min'] != "" else -sys.maxsize - 1
@@ -189,6 +192,10 @@ def choose_car(request, id):
     d1 = datetime.strptime(date1, '%Y-%m-%d')
     d2 = datetime.strptime(date2, '%Y-%m-%d')
     days = abs((d2-d1).days)
+    for car in cars:
+      car.is_taken(d1, d2)
+    cars1 = [c for c in cars if c.is_taken == 0]
+    cars = cars1
     context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,
               'cars':cars,'office1':office1, 'office2':office2,
               'date1':date1, 'date2':date2, 'days':days}
@@ -197,17 +204,15 @@ def choose_car(request, id):
 @login_required()
 def make_reservation(request, id):
   if request.method == 'POST':
-    print(id)
     office1 = request.POST['office1']
-    print(office1)
     office2 = request.POST['office2']
-    print(office2)
     date1 = request.POST['date1']
-    print(date1)
     date2 = request.POST['date2']
-    print(date2)
-    print(request.user)
-    context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,
-              'cars':cars, 'office1':office1, 'office2':office2,
-              'date1':date1, 'date2':date2}
-    return render(request, 'car/choose_car.html', context)
+    reservation = Reservation(car = Car.objects.filter(id=id).first(),
+                          office1 = BranchOffice.objects.filter(id=office1).first(),
+                          office2 = BranchOffice.objects.filter(id=office2).first(),
+                          date1 = date1,
+                          date2 = date2,
+                          user = User.objects.filter(id=request.user.id).first())
+    reservation.save()
+    return redirect('/user/reservations')
