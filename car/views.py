@@ -147,7 +147,8 @@ def choose_service(request):
                         and street in service.address
                         and number in service.number]
     offices = BranchOffice.objects.all()
-    context = {'services':services, 'name':name, 'country':country, 'city':city, 'street':street, 'number':number, 'offices':offices}
+    context = {'services':services, 'name':name, 'country':country,
+            'city':city, 'street':street, 'number':number, 'offices':offices}
     return render(request, 'car/service_list.html', context)
   else:
     services = Service.objects.all()
@@ -189,8 +190,8 @@ def choose_car(request, id):
     d2 = datetime.strptime(date2, '%Y-%m-%d')
     days = abs((d2-d1).days)
     context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,
-                    'cars':cars,'office1':office1, 'office2':office2,
-                    'date1':date1, 'date2':date2, 'days':days}
+              'cars':cars,'office1':office1, 'office2':office2,
+              'date1':date1, 'date2':date2, 'days':days}
     return render(request, 'car/choose_car.html', context)
 
 @login_required()
@@ -207,6 +208,6 @@ def make_reservation(request, id):
     print(date2)
     print(request.user)
     context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,
-                    'cars':cars, 'office1':office1, 'office2':office2,
-                    'date1':date1, 'date2':date2}
+              'cars':cars, 'office1':office1, 'office2':office2,
+              'date1':date1, 'date2':date2}
     return render(request, 'car/choose_car.html', context)
