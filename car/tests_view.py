@@ -22,6 +22,8 @@ class CarSeleniumTestCase(LiveServerTestCase):
 
       self.car = Car(name='testCar', service=self.service, manufacturer='1', model='someModel', car_type='1', price=123.45, year=2001, seats=3)
       self.car.save()
+      self.taken_car = Car(name='testCar1', service=self.service, manufacturer='1', model='someModel', car_type='1', price=123.45, year=2001, seats=3, is_taken=1)
+      self.taken_car.save()
 
       self.office = BranchOffice(name='testOffice', service=self.service, country='SRB', city='Novi Sad', address='Street 2', number='6')
       self.office.save()
@@ -196,3 +198,19 @@ class CarSeleniumTestCase(LiveServerTestCase):
       assert 'London' in selenium.page_source
       assert 'addr 1' in selenium.page_source
       assert '4' in selenium.page_source
+
+    def test_car_taken(self):
+      selenium = self.selenium
+      force_login(self.user, selenium, self.live_server_url)
+      selenium.get(self.live_server_url + "/car/service/" + str(self.service.id))
+
+      assert len(selenium.find_elements_by_name('edit_car')) is 1
+      assert len(selenium.find_elements_by_name('delete_car')) is 1
+
+      self.taken_car.is_taken = 0
+      self.taken_car.save()
+
+      selenium.refresh()
+
+      assert len(selenium.find_elements_by_name('edit_car')) is 2
+      assert len(selenium.find_elements_by_name('delete_car')) is 2

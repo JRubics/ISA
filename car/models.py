@@ -36,6 +36,7 @@ class Car(models.Model):
     price = models.DecimalField(max_digits=100,decimal_places=2)
     year = models.PositiveIntegerField()
     seats = models.PositiveIntegerField()
+    is_taken = models.BooleanField(default=0)
     def __str__(self):
         return self.name + " (" + self.service.name + ")"
 
