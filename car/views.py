@@ -140,11 +140,12 @@ def choose_service(request):
     city = request.POST['city']
     street = request.POST['address']
     number = request.POST['number']
-    services = [service for service in Service.objects.all() if name in service.name 
-                                                              and country in service.country
-                                                              and city in service.city
-                                                              and street in service.address
-                                                              and number in service.number]
+    services = [service for service in Service.objects.all()
+                                    if name in service.name
+                                    and country in service.country
+                                    and city in service.city
+                                    and street in service.address
+                                    and number in service.number]
     offices = BranchOffice.objects.all()
     context = {'services':services, 'name':name, 'country':country, 'city':city, 'street':street, 'number':number, 'offices':offices}
     return render(request, 'car/service_list.html', context)
@@ -174,8 +175,12 @@ def choose_car(request, id):
   # PROVERI DA LI JE FREE
   if request.method == 'POST':
     max_price = request.POST['max'] if request.POST['max'] != "" else sys.maxsize
-    min_price = request.POST['min'] if request.POST['min'] != "" else -sys.maxsize -1
-    cars = Car.objects.select_related().filter(service = id, car_type = request.POST['type_select'], price__lte = max_price, price__gte = min_price, seats__gte = request.POST['seats'])
+    min_price = request.POST['min'] if request.POST['min'] != "" else -sys.maxsize - 1
+    cars = Car.objects.select_related().filter(service = id,
+                                  car_type = request.POST['type_select'],
+                                  price__lte = max_price,
+                                  price__gte = min_price,
+                                  seats__gte = request.POST['seats'])
     office1 = request.POST['office_select1']
     office2 = request.POST['office_select2']
     date1 = request.POST['date1']
@@ -183,7 +188,9 @@ def choose_car(request, id):
     d1 = datetime.strptime(date1, '%Y-%m-%d')
     d2 = datetime.strptime(date2, '%Y-%m-%d')
     days = abs((d2-d1).days)
-    context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE, 'cars':cars, 'office1':office1, 'office2':office2, 'date1':date1, 'date2':date2, 'days':days}
+    context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,
+              'cars':cars,'office1':office1, 'office2':office2,
+              'date1':date1, 'date2':date2, 'days':days}
     return render(request, 'car/choose_car.html', context)
 
 @login_required()
@@ -199,5 +206,7 @@ def make_reservation(request, id):
     date2 = request.POST['date2']
     print(date2)
     print(request.user)
-    context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE, 'cars':cars, 'office1':office1, 'office2':office2, 'date1':date1, 'date2':date2}
+    context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,
+              'cars':cars, 'office1':office1, 'office2':office2,
+              'date1':date1, 'date2':date2}
     return render(request, 'car/choose_car.html', context)
