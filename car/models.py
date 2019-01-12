@@ -99,3 +99,12 @@ class Reservation(models.Model):
         date1 = self.date2.replace(tzinfo=None)
         date2 = datetime.now().replace(tzinfo=None)
         return date1 < date2
+    def is_rated(self):
+        return CarRate.objects.filter(reservation=self.id).exists()
+
+class CarRate(models.Model):
+   reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE)
+   car_rate = models.PositiveIntegerField()
+   service_rate = models.PositiveIntegerField()
+   def __str__(self):
+        return "car - " + str(self.car_rate) + ", service - " + str(self.service_rate) + ", rez - " + str(self.reservation)

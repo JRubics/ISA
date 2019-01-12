@@ -8,6 +8,7 @@ from .models import Service
 from .models import Car
 from .models import BranchOffice
 from .models import Reservation
+from .models import CarRate
 from user.models import User
 
 @login_required()
@@ -224,3 +225,19 @@ def make_reservation(request, id):
                           user = User.objects.filter(id=request.user.id).first())
     reservation.save()
     return redirect('/user/reservations')
+
+@login_required()
+def car_rate(request, id=None):
+  if request.method == 'POST':
+    reservation = Reservation.objects.filter(id=id).first()
+    car_rate = request.POST['car_rate']
+    service_rate = request.POST['service_rate']
+    car_rate = CarRate(reservation = reservation,
+                      car_rate = car_rate,
+                      service_rate = service_rate)
+    car_rate.save()
+    return redirect('/user/reservations')
+  else:
+    reservation = Reservation.objects.filter(id=id).first()
+    context = {'reservation':reservation}
+    return render(request, 'car/rate_car.html',context)
