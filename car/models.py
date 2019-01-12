@@ -43,26 +43,22 @@ class Car(models.Model):
         return self.name + " (" + self.service.name + ")"
     def is_car_taken(self, date1=datetime.now, date2=datetime.now):
         reservations = Reservation.objects.filter(car=self.id).all()
+        taken = 0
         for reservation in reservations:
             reservation.date1 = reservation.date1.replace(tzinfo=None)
             reservation.date2 = reservation.date2.replace(tzinfo=None)
             if reservation.date1 <= date1 and reservation.date2 >= date1:
-                self.is_taken = 1
-                self.save()
-                return
+                taken = 1
             if reservation.date1 <= date2 and reservation.date2 >= date2:
-                self.is_taken = 1
-                self.save()
-                return
+                taken = 1
             if reservation.date1 <= date1 and reservation.date2 >= date2:
-                self.is_taken = 1
-                self.save()
-                return
+                taken = 1
             if reservation.date1 >= date1 and reservation.date2 <= date2:
-                self.is_taken = 1
-                self.save()
-                return
-        self.is_taken = 0
+                taken = 1
+        if taken:
+            self.is_taken = 1
+        else:
+            self.is_taken = 0
         self.save()
         return
     def is_reserved(self, date=datetime.now(timezone.utc)):
