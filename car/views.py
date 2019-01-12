@@ -135,6 +135,14 @@ def edit_office(request, id=None):
     context = {'office':office}
     return render(request, 'car/edit_office.html',context)
 
+@login_required()
+@permission_required('user.is_car_admin')
+def delete_office(request, id=None):
+  office = BranchOffice.objects.filter(id=id).first()
+  service = office.service
+  office.delete()
+  return redirect('/car/service/'+str(service.id))
+
 
 @login_required()
 def choose_service(request):
