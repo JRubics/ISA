@@ -193,7 +193,7 @@ def choose_car(request, id):
     d2 = datetime.strptime(date2, '%Y-%m-%d')
     days = abs((d2-d1).days)
     for car in cars:
-      car.is_taken(d1, d2)
+      car.is_car_taken(d1, d2)
     cars1 = [c for c in cars if c.is_taken == 0]
     cars = cars1
     context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,

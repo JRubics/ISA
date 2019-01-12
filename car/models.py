@@ -41,38 +41,36 @@ class Car(models.Model):
     is_taken = models.BooleanField(default=0)
     def __str__(self):
         return self.name + " (" + self.service.name + ")"
-    def is_taken(self, date1=datetime.now, date2=datetime.now):
+    def is_car_taken(self, date1=datetime.now, date2=datetime.now):
         reservations = Reservation.objects.filter(car=self.id).all()
         for reservation in reservations:
             reservation.date1 = reservation.date1.replace(tzinfo=None)
             reservation.date2 = reservation.date2.replace(tzinfo=None)
             if reservation.date1 <= date1 and reservation.date2 >= date1:
-                print("1")
                 self.is_taken = 1
                 self.save()
                 return
             if reservation.date1 <= date2 and reservation.date2 >= date2:
-                print("2")
                 self.is_taken = 1
                 self.save()
                 return
             if reservation.date1 <= date1 and reservation.date2 >= date2:
-                print("3")
                 self.is_taken = 1
                 self.save()
                 return
             if reservation.date1 >= date1 and reservation.date2 <= date2:
-                print("4")
                 self.is_taken = 1
                 self.save()
                 return
-        print("5")
         self.is_taken = 0
         self.save()
         return
     def is_reserved(self, date=datetime.now(timezone.utc)):
+        date = date.replace(tzinfo=None)
         reservations = Reservation.objects.filter(car=self.id).all()
         for reservation in reservations:
+            reservation.date1 = reservation.date1.replace(tzinfo=None)
+            reservation.date2 = reservation.date2.replace(tzinfo=None)
             if reservation.date1 >= date or reservation.date2 >= date:
                 self.is_taken = 1
                 self.save()

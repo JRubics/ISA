@@ -7,7 +7,14 @@ from seleniumlogin import force_login
 from .models import Service
 from .models import Car
 from .models import BranchOffice
+from .models import Reservation
+from user.models import User
+from datetime import datetime
+from datetime import timedelta
 from selenium.webdriver.support.ui import Select
+
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 class CarSeleniumTestCase(LiveServerTestCase):
     def setUp(self):
@@ -22,11 +29,14 @@ class CarSeleniumTestCase(LiveServerTestCase):
 
       self.car = Car(name='testCar', service=self.service, manufacturer='1', model='someModel', car_type='1', price=123.45, year=2001, seats=3)
       self.car.save()
-      self.taken_car = Car(name='testCar1', service=self.service, manufacturer='1', model='someModel', car_type='1', price=123.45, year=2001, seats=3, is_taken=1)
+      self.taken_car = Car(name='testCar1', service=self.service, manufacturer='1', model='someModel', car_type='1', price=123.45, year=2001, seats=3, is_taken = 1)
       self.taken_car.save()
 
       self.office = BranchOffice(name='testOffice', service=self.service, country='SRB', city='Novi Sad', address='Street 2', number='6')
       self.office.save()
+
+      self.reservation = Reservation(car = self.car, office1 = self.office, office2 = self.office, date1 = (datetime.now()).replace(tzinfo=None), date2 = (datetime.now() + timedelta(days=2)).replace(tzinfo=None), user = self.user)
+      self.reservation.save()
 
     def tearDown(self):
       self.selenium.quit()
@@ -207,10 +217,56 @@ class CarSeleniumTestCase(LiveServerTestCase):
       assert len(selenium.find_elements_by_name('edit_car')) is 1
       assert len(selenium.find_elements_by_name('delete_car')) is 1
 
-      self.taken_car.is_taken = 0
-      self.taken_car.save()
+    def test_car_reservation_choose_service_from_list(self):
+      selenium = self.selenium
+      force_login(self.user, selenium, self.live_server_url)
+      selenium.get(self.live_server_url + "/car/choose")
 
-      selenium.refresh()
+      selenium.find_element_by_name('radio1').click()
 
-      assert len(selenium.find_elements_by_name('edit_car')) is 2
-      assert len(selenium.find_elements_by_name('delete_car')) is 2
+      assert 'Choose from list' in selenium.page_source
+      assert 'Next' in selenium.page_source
+
+      select = Select(selenium.find_element_by_name('service_select'))
+      select.select_by_value(str(self.service.id))
+
+      selenium.find_element_by_name('choose_service_next').click()
+
+      assert 'car/reservation' in selenium.current_url
+      assert 'Take' in selenium.page_source
+      assert 'Return' in selenium.page_source
+      assert 'Find' in selenium.page_source
+
+      selenium.find_element_by_name('seats').send_keys('1')
+      selenium.find_element_by_name('find').click()
+
+      assert len(selenium.find_elements_by_name('make_reservation')) is 2
+      assert 'Available cars:' in selenium.page_source
+
+    def test_car_search(self):
+      selenium = self.selenium
+      force_login(self.user, selenium, self.live_server_url)
+      selenium.get(self.live_server_url + "/car/choose")
+
+      selenium.find_element_by_name('radio2').click()
+
+      selenium.find_element_by_name('name').send_keys('testS')
+      selenium.find_element_by_name('country').send_keys('SRB')
+      selenium.find_element_by_name('search_service').click()
+
+      assert 'car/choose' in selenium.current_url
+      assert 'testService' in selenium.page_source
+
+    # def test_car_reservation(self):
+      # selenium = self.selenium
+      # force_login(self.user, selenium, self.live_server_url)
+      # selenium.get(self.live_server_url + "/user/choose")
+
+      # selenium.find_element_by_name('radio2').click()
+
+      # selenium.find_element_by_name('name').send_keys('testS')
+      # selenium.find_element_by_name('country').send_keys('SRB')
+      # selenium.find_element_by_name('search_service').click()
+
+      # assert 'car/choose' in selenium.current_url
+      # assert 'testService' in selenium.page_source
