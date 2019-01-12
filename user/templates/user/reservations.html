@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% if reservations %}
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Service</th>
+          <th scope="col">Office</th>
+          <th scope="col">Date</th>
+          <th scope="col">Return office</th>
+          <th scope="col">Return date</th>
+          <th scope="col">Car</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for reservation in reservations %}
+          <tr>
+            <td>{{reservation.office1.service}}</td>
+            <td>{{reservation.office1}}</td>
+            <td>{{reservation.date1|date:"M-d-Y"}}</td>
+            <td>{{reservation.office2}}</td>
+            <td>{{reservation.date2|date:"M-d-Y" }}</td>
+            <td>{{reservation.car}}</td>
+            <td>
+              {% if reservation.is_done %}
+                oceni
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>You don't have reservations.</p>
+  {% endif %}
+{% endblock content %}
