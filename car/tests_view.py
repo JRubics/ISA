@@ -257,6 +257,36 @@ class CarSeleniumTestCase(LiveServerTestCase):
       assert 'car/choose' in selenium.current_url
       assert 'testService' in selenium.page_source
 
+    def test_car_delete(self):
+      selenium = self.selenium
+      force_login(self.user, selenium, self.live_server_url)
+      selenium.get(self.live_server_url + "/car/service/" + str(self.service.id))
+
+      assert len(selenium.find_elements_by_name('delete_car')) is 1
+
+      self.car1 = Car(name='testCar2', service=self.service, manufacturer='1', model='someModel', car_type='1', price=123.45, year=2001, seats=3)
+      self.car1.save()
+      selenium.refresh()
+      assert len(selenium.find_elements_by_name('delete_car')) is 2
+
+      selenium.get(self.live_server_url + "/car/delete/" + str(self.car1.id))
+      assert len(selenium.find_elements_by_name('delete_car')) is 1
+
+    def test_car_delete_office(self):
+      selenium = self.selenium
+      force_login(self.user, selenium, self.live_server_url)
+      selenium.get(self.live_server_url + "/car/service/" + str(self.service.id))
+
+      assert len(selenium.find_elements_by_name('delete_office')) is 1
+
+      self.office1 = BranchOffice(name='testOffice', service=self.service, country='SRB', city='Novi Sad', address='Street 2', number='6')
+      self.office1.save()
+      selenium.refresh()
+      assert len(selenium.find_elements_by_name('delete_office')) is 2
+      
+      selenium.get(self.live_server_url + "/car/office/delete/" + str(self.office1.id))
+      assert len(selenium.find_elements_by_name('delete_office')) is 1
+
     # def test_car_reservation(self):
       # selenium = self.selenium
       # force_login(self.user, selenium, self.live_server_url)

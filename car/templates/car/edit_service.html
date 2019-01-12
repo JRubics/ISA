@@ -146,6 +146,7 @@
             <td>{{office.address}}</td>
             <td>{{office.number}}</td>
             <td><a class="btn btn-default" href="{% url 'car:edit_office' office.id%}">edit</a></td>
+            <td><a class="btn btn-default" href="{% url 'car:delete_office' office.id%}" name="delete_office">delete</a></td>
           </tr>
         {% endfor %}
       </tbody>
