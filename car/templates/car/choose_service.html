@@ -9,18 +9,12 @@
     function showlist() {
       document.getElementById("search_id").style.visibility = 'hidden'; 
       document.getElementById("list_id").style.visibility = 'visible';
+      document.getElementById("Radios2").checked = false;
     }
     function showsearch() {
       document.getElementById("list_id").style.visibility = 'hidden'; 
       document.getElementById("search_id").style.visibility = 'visible';
-    }
-    function Search(){
-      document.getElementById("search_list_id").style.visibility = 'visible'; 
-      name = document.getElementById("s_name").value
-      country = document.getElementById("s_country").value
-      city = document.getElementById("s_city").value
-      street = document.getElementById("s_street").value
-      number = document.getElementById("s_number").value
+      document.getElementById("Radios1").checked = false;
     }
     </script>
   {%if services%}
@@ -59,6 +53,11 @@
                         {% endif %}
                       {% endfor %}
                       Ocena:
+                      {% for key, value in service_rates.items %}
+                        {% if service.id == key %}
+                          {{value}}
+                        {% endif %}
+                      {% endfor %}
                     </option>
                   {%endfor%}
               </select>

@@ -16,7 +16,7 @@
           <th scope="col">Year of production</th>
           <th scope="col">Seats</th>
           <th scope="col">Price</th>
-          <th scope="col">Grade</th>
+          <th scope="col">Rate</th>
         </tr>
       </thead>
       <tbody>
@@ -43,7 +43,13 @@
             <td>{{car.year}}</td>
             <td>{{car.seats}}</td>
             <td>{% widthratio car.price 1 days %}</td><!-- mnozenje -->
-            <td>ocena</td>
+            <td>
+              {% for key, value in car_rates.items %}
+                {% if car.id == key %}
+                  {{value}}
+                 {% endif %}
+              {% endfor %}
+            </td>
             <td>
               <form action="{% url 'car:make_reservation' car.id%}" method="post">
                 {% csrf_token %}
