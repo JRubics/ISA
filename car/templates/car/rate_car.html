@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% if reservation %}
+    <br>
+    <br>
+    <form action="{% url 'car:car_rate' reservation.id%}" method="post">
+      {% csrf_token %}
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-2">
+            <label>Service:</label>
+            <br>
+            <input type="number" name="service_rate" required=true value="5" max="5" min="0">
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-2">
+            <label>Car:</label>
+            <br>
+            <input type="number" name="car_rate" required=true value="5" max="5" min="0">
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-5"></div>
+          <div class="col-md-2" style="text-align: center">
+            <button type="submit" value="rate_car" name="rate_car" onclick="" class="btn btn-primary">Rate</button>
+          </div>
+          <div class="col-md-5"></div>
+        </div>
+      </div>
+    </form>
+  {% else %}
+    <p>Car doesn't exist.</p>
+  {% endif %}
+{% endblock content %}

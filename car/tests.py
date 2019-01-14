@@ -3,6 +3,7 @@ from .models import Service
 from .models import Car
 from .models import BranchOffice
 from .models import Reservation
+from .models import CarRate
 from user.models import User
 from datetime import datetime
 from datetime import timedelta
@@ -27,6 +28,13 @@ class CarTestCase(TestCase):
 
       self.reservation = Reservation(car = self.car, office1 = self.office, office2 = self.office, date1 = (datetime.now()).replace(tzinfo=None), date2 = (datetime.now() + timedelta(days=2)).replace(tzinfo=None), user = self.user)
       self.reservation.save()
+      self.reservation1 = Reservation(car = self.car, office1 = self.office, office2 = self.office, date1 = (datetime.now() - timedelta(days=8)).replace(tzinfo=None), date2 = (datetime.now() - timedelta(days=6)).replace(tzinfo=None), user = self.user)
+      self.reservation1.save()
+
+      self.rate1 = CarRate(reservation = self.reservation, car_rate = 3, service_rate = 4)
+      self.rate1.save()
+      self.rate2 = CarRate(reservation = self.reservation1, car_rate = 4, service_rate = 2)
+      self.rate2.save()
 
     def test_service_in_database(self):
       self.assertEqual(Service.objects.all().count(), 1)
@@ -64,7 +72,7 @@ class CarTestCase(TestCase):
       self.assertEqual(self.car.is_taken, 1)
 
     def test_car_is_car_taken1(self):
-      self.car.is_car_taken(datetime.now() - timedelta(days=10), datetime.now() - timedelta(days=4))
+      self.car.is_car_taken(datetime.now() - timedelta(days=5), datetime.now() - timedelta(days=4))
       self.assertEqual(self.car.is_taken, 0)
 
     def test_car_is_car_taken2(self):
@@ -94,3 +102,9 @@ class CarTestCase(TestCase):
     def test_car_is_reserved2(self):
       self.car.is_reserved(datetime.now() + timedelta(days=3))
       self.assertEqual(self.car.is_taken, 0)
+
+    def test_car_rate(self):
+      self.assertEqual(self.car.get_rate(), 3.5)
+
+    def test_car_service_rate(self):
+      self.assertEqual(self.service.get_rate(), 3)

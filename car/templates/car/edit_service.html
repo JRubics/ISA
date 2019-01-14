@@ -6,6 +6,13 @@
     {% csrf_token %}
       <div class="container">
         <div class="row">
+          <div class="col-md-5"></div>
+          <div class="col-md-3">
+            <h1>{{service.name}}</h1>
+          </div>
+          <div class="col-md-4"> <h2>rate: {{rate}}</h2></div>
+        </div>
+        <div class="row">
           <div class="col-md-1"></div>
           <div class="col-md-4">
             <label>Name:</label>
@@ -81,6 +88,7 @@
           <th scope="col">Price</th>
           <th scope="col">Year of production</th>
           <th scope="col">Seats</th>
+          <th scope="col">Rate</th>
           <th scope="col">Is taken</th>
         </tr>
       </thead>
@@ -108,6 +116,13 @@
             <td>{{car.price}}</td>
             <td>{{car.year}}</td>
             <td>{{car.seats}}</td>
+            <td>
+              {% for key, value in car_rates.items %}
+                {% if car.id == key %}
+                  {{value}}
+                 {% endif %}
+              {% endfor %}
+            </td>
             {% if car.is_taken %}
               <td>yes</td>
               <td></td>

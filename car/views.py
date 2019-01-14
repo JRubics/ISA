@@ -8,6 +8,7 @@ from .models import Service
 from .models import Car
 from .models import BranchOffice
 from .models import Reservation
+from .models import CarRate
 from user.models import User
 
 @login_required()
@@ -31,10 +32,13 @@ def edit_service(request, id=None):
     service.save()
   service = Service.objects.filter(id=id).first()
   cars = Car.objects.select_related().filter(service = id)
+  car_rates = {}
   for car in cars:
     car.is_reserved()
+    car_rates[car.id] = car.get_rate()
+  rate = service.get_rate()
   offices = BranchOffice.objects.select_related().filter(service = id)
-  context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,'service':service, 'cars':cars, 'offices':offices}
+  context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,'service':service, 'cars':cars, 'offices':offices, 'rate':rate, 'car_rates':car_rates}
   return render(request, 'car/edit_service.html',context)
 
 @login_required()
@@ -159,13 +163,22 @@ def choose_service(request):
                         and street in service.address
                         and number in service.number]
     offices = BranchOffice.objects.all()
+    service_rates = {}
+    for service in services:
+      service_rates[service.id] = service.get_rate()
+    rate = service.get_rate()
     context = {'services':services, 'name':name, 'country':country,
-            'city':city, 'street':street, 'number':number, 'offices':offices}
+            'city':city, 'street':street, 'number':number, 'offices':offices,
+            'service_rates':service_rates}
     return render(request, 'car/service_list.html', context)
   else:
     services = Service.objects.all()
+    service_rates = {}
+    for service in services:
+      service_rates[service.id] = service.get_rate()
+    rate = service.get_rate()
     offices = BranchOffice.objects.all()
-    context = {'services':services, 'offices':offices,}
+    context = {'services':services, 'offices':offices, 'service_rates':service_rates}
     return render(request, 'car/choose_service.html', context)
 
 @login_required()
@@ -200,13 +213,16 @@ def choose_car(request, id):
     d1 = datetime.strptime(date1, '%Y-%m-%d')
     d2 = datetime.strptime(date2, '%Y-%m-%d')
     days = abs((d2-d1).days)
+    car_rates = {}
     for car in cars:
       car.is_car_taken(d1, d2)
+      car_rates[car.id] = car.get_rate()
     cars1 = [c for c in cars if c.is_taken == 0]
     cars = cars1
     context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,
               'cars':cars,'office1':office1, 'office2':office2,
-              'date1':date1, 'date2':date2, 'days':days}
+              'date1':date1, 'date2':date2, 'days':days,
+              'car_rates': car_rates}
     return render(request, 'car/choose_car.html', context)
 
 @login_required()
@@ -224,3 +240,19 @@ def make_reservation(request, id):
                           user = User.objects.filter(id=request.user.id).first())
     reservation.save()
     return redirect('/user/reservations')
+
+@login_required()
+def car_rate(request, id=None):
+  if request.method == 'POST':
+    reservation = Reservation.objects.filter(id=id).first()
+    car_rate = request.POST['car_rate']
+    service_rate = request.POST['service_rate']
+    car_rate = CarRate(reservation = reservation,
+                      car_rate = car_rate,
+                      service_rate = service_rate)
+    car_rate.save()
+    return redirect('/user/reservations')
+  else:
+    reservation = Reservation.objects.filter(id=id).first()
+    context = {'reservation':reservation}
+    return render(request, 'car/rate_car.html',context)

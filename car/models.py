@@ -11,6 +11,18 @@ class Service(models.Model):
     number = models.CharField(max_length=60)
     def __str__(self):
         return self.name
+    def get_rate(self):
+        reservations = Reservation.objects.filter(office1__service=self.id).all()
+        if reservations:
+            rate = 0
+            counter = 0
+            for reservation in reservations:
+                if CarRate.objects.filter(reservation=reservation.id).exists():
+                    rate = rate + CarRate.objects.filter(reservation=reservation.id).first().service_rate
+                    counter = counter + 1
+            return rate / counter
+        else:
+            return 0
 
 class Car(models.Model):
     MANUFACTURER = (
@@ -74,6 +86,18 @@ class Car(models.Model):
         self.is_taken = 0
         self.save()
         return
+    def get_rate(self):
+        reservations = Reservation.objects.filter(car=self.id).all()
+        if reservations:
+            rate = 0
+            counter = 0
+            for reservation in reservations:
+                if CarRate.objects.filter(reservation=reservation.id).exists():
+                    rate = rate + CarRate.objects.filter(reservation=reservation.id).first().car_rate
+                    counter = counter + 1
+            return rate / counter
+        else:
+            return 0
 
 
 class BranchOffice(models.Model):
@@ -99,3 +123,12 @@ class Reservation(models.Model):
         date1 = self.date2.replace(tzinfo=None)
         date2 = datetime.now().replace(tzinfo=None)
         return date1 < date2
+    def is_rated(self):
+        return CarRate.objects.filter(reservation=self.id).exists()
+
+class CarRate(models.Model):
+   reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE)
+   car_rate = models.PositiveIntegerField()
+   service_rate = models.PositiveIntegerField()
+   def __str__(self):
+        return "car - " + str(self.car_rate) + ", service - " + str(self.service_rate) + ", rez - " + str(self.reservation)

@@ -16,4 +16,5 @@ urlpatterns = [
     path('reservation', views.reservation, name='reservation'),
     path('choose/<id>', views.choose_car, name='choose_car'),
     path('reservation/<id>', views.make_reservation, name='make_reservation'),
+    path('rate/<id>', views.car_rate, name='car_rate'),
 ]
