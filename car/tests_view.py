@@ -8,6 +8,7 @@ from .models import Service
 from .models import Car
 from .models import BranchOffice
 from .models import Reservation
+from .models import CarRate
 from user.models import User
 from datetime import datetime
 from datetime import timedelta
@@ -37,6 +38,9 @@ class CarSeleniumTestCase(LiveServerTestCase):
 
       self.reservation = Reservation(car = self.car, office1 = self.office, office2 = self.office, date1 = (datetime.now()).replace(tzinfo=None), date2 = (datetime.now() + timedelta(days=2)).replace(tzinfo=None), user = self.user)
       self.reservation.save()
+
+      self.rate1 = CarRate(reservation = self.reservation, car_rate = 3, service_rate = 4)
+      self.rate1.save()
 
     def tearDown(self):
       self.selenium.quit()
