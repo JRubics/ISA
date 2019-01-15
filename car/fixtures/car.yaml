@@ -1,0 +1,9 @@
+- model: car.service
+  pk: 10
+  fields:
+    name: s3
+    promo_description: some desc
+    country: Serbia
+    city: Beograd
+    address: Francuska
+    number: 12
