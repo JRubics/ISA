@@ -1,9 +1,121 @@
 - model: car.service
-  pk: 10
+  pk: 1
   fields:
-    name: s3
-    promo_description: some desc
+    name: s1
+    promo_description: Best service
     country: Serbia
     city: Beograd
     address: Francuska
     number: 12
+
+- model: car.service
+  pk: 2
+  fields:
+    name: s2
+    promo_description: Car Car Car
+    country: Serbia
+    city: Novi Sad
+    address: Bulevar oslobodjenja
+    number: 33
+
+- model: car.service
+  pk: 3
+  fields:
+    name: s3
+    promo_description: Deutsche Car
+    country: Deutschland
+    city: Karlsruhe
+    address: Schlossplatz
+    number: 9
+
+- model: car.car
+  pk: 1
+  fields:
+    name: c1
+    service: 1
+    manufacturer: 2
+    model: model2
+    car_type: 2
+    price: 100
+    year: 2007
+    seats: 5
+    is_taken: 0
+
+- model: car.car
+  pk: 2
+  fields:
+    name: c11
+    service: 1
+    manufacturer: 3
+    model: model3
+    car_type: 3
+    price: 120
+    year: 2016
+    seats: 4
+    is_taken: 0
+
+- model: car.car
+  pk: 3
+  fields:
+    name: c2
+    service: 3
+    manufacturer: 5
+    model: modela
+    car_type: 2
+    price: 1080
+    year: 2008
+    seats: 5
+    is_taken: 0
+
+- model: car.car
+  pk: 4
+  fields:
+    name: c3
+    service: 3
+    manufacturer: 6
+    model: modele
+    car_type: 3
+    price: 170
+    year: 2014
+    seats: 4
+    is_taken: 0
+
+- model: car.branchoffice
+  pk: 1
+  fields:
+    name: b1
+    service: 1
+    country: Serbia
+    city: Novi Sad
+    address: Pariske komune
+    number: 8
+
+- model: car.branchoffice
+  pk: 2
+  fields:
+    name: b2
+    service: 2
+    country: Serbia
+    city: Novi Sad
+    address: Dunavska
+    number: 18
+
+- model: car.branchoffice
+  pk: 3
+  fields:
+    name: b3
+    service: 1
+    country: Serbia
+    city: Beograd
+    address: Takovska
+    number: 22
+
+- model: car.branchoffice
+  pk: 4
+  fields:
+    name: b4
+    service: 3
+    country: Deutschland
+    city: Karlsruhe
+    address: Zirkel
+    number: 4
