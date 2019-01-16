@@ -28,9 +28,11 @@ class CarTestCase(TestCase):
       self.office = BranchOffice(name='testOffice', service=self.service, country='SRB', city='Novi Sad', address='Street 2', number='6')
       self.office.save()
 
-      self.reservation = Reservation(car = self.car, office1 = self.office, office2 = self.office, date1 = (datetime.now()).replace(tzinfo=None), date2 = (datetime.now() + timedelta(days=2)).replace(tzinfo=None), user = self.user)
+      self.reservation = Reservation(car = self.car, office1 = self.office, office2 = self.office, date1 = (datetime.now() + timedelta(days=1)).replace(tzinfo=None), date2 = (datetime.now() + timedelta(days=2)).replace(tzinfo=None), user = self.user)
       self.reservation.save()
       self.reservation1 = Reservation(car = self.car, office1 = self.office, office2 = self.office, date1 = (datetime.now() - timedelta(days=8)).replace(tzinfo=None), date2 = (datetime.now() - timedelta(days=6)).replace(tzinfo=None), user = self.user)
+      self.reservation1.save()
+      self.reservation2 = Reservation(car = self.car, office1 = self.office, office2 = self.office, date1 = (datetime.now() - timedelta(days=10)).replace(tzinfo=None), date2 = (datetime.now() - timedelta(days=9)).replace(tzinfo=None), user = self.user)
       self.reservation1.save()
 
       self.rate1 = CarRate(reservation = self.reservation, car_rate = 3, service_rate = 4)
@@ -110,3 +112,21 @@ class CarTestCase(TestCase):
 
     def test_car_service_rate(self):
       self.assertEqual(self.service.get_rate(), 3)
+
+    def test_car_reservation_done(self):
+      self.assertEqual(self.reservation1.is_done(), True)
+
+    def test_car_reservation_not_done(self):
+      self.assertEqual(self.reservation.is_done(), False)
+
+    def test_car_reservation_can_be_closed(self):
+      self.assertEqual(self.reservation1.can_be_closed(), True)
+
+    def test_car_reservation_can_be_closed_false(self):
+      self.assertEqual(self.reservation.can_be_closed(), False)
+
+    def test_car_reservation_is_rated(self):
+      self.assertEqual(self.reservation.is_rated(), True)
+
+    def test_car_reservation_is_rated_false(self):
+      self.assertEqual(self.reservation2.is_rated(), False)

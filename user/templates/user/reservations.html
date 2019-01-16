@@ -23,11 +23,15 @@
             <td>{{reservation.office2}}</td>
             <td>{{reservation.date2|date:"M-d-Y" }}</td>
             <td>{{reservation.car}}</td>
-            {% if reservation.is_done and not reservation.is_rated %}
-              <td><a class="btn btn-default" href="{% url 'car:car_rate' reservation.id%}">rate</a></td>
-            {% elif reservation.is_rated %}
-              <td>rated</td>
-            {% endif %}
+            <td>
+              {% if reservation.is_done and not reservation.is_rated %}
+                <a class="btn btn-default" href="{% url 'car:car_rate' reservation.id%}">rate</a>
+              {% elif reservation.is_rated %}
+                rated
+              {% elif reservation.can_be_closed%}
+                <a class="btn btn-default" href="{% url 'car:cancel_reservation' reservation.id%}">cancel</a>
+              {% endif %}
+            </td>
           </tr>
         {% endfor %}
       </tbody>
