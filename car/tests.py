@@ -5,6 +5,7 @@ from .models import BranchOffice
 from .models import Reservation
 from .models import CarRate
 from user.models import User
+from user.models import Profile
 from datetime import datetime
 from datetime import timedelta
 
@@ -14,6 +15,7 @@ warnings.filterwarnings("ignore", category=RuntimeWarning)
 class CarTestCase(TestCase):
     def setUp(self):
       self.user = User.objects.create(username='test', email='test@test.com', is_active=True)
+      self.profile = Profile.objects.create(user=self.user, city='Novi Sad', phone_number='021333444', bonus=2)
       self.user.set_password('Test1234')
       self.user.save()
 
