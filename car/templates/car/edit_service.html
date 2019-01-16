@@ -89,6 +89,7 @@
           <th scope="col">Year of production</th>
           <th scope="col">Seats</th>
           <th scope="col">Rate</th>
+          <th scope="col">On sale</th>
           <th scope="col">Is taken</th>
         </tr>
       </thead>
@@ -123,6 +124,7 @@
                  {% endif %}
               {% endfor %}
             </td>
+            <td>{% if car.on_sale %} yes {% else %} no {% endif %}</td>
             {% if car.is_taken %}
               <td>yes</td>
               <td></td>

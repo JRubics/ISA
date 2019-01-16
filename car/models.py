@@ -54,6 +54,7 @@ class Car(models.Model):
     year = models.PositiveIntegerField()
     seats = models.PositiveIntegerField()
     is_taken = models.BooleanField(default=0)
+    on_sale = models.BooleanField(default=0)
     def __str__(self):
         return self.name + " (" + self.service.name + ")"
     def is_car_taken(self, date1=datetime.now, date2=datetime.now):

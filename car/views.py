@@ -89,6 +89,10 @@ def edit_car(request, id=None):
     car.price = request.POST['price']
     car.year = request.POST['year']
     car.seats = request.POST['seats']
+    if request.POST.getlist('on_sale') != []:
+      car.on_sale = True
+    else:
+      car.on_sale = False
     car.save()
     context = {'car':car}
     return redirect('/car/service/'+str(car.service.id))
@@ -214,14 +218,14 @@ def choose_car(request, id):
     d1 = datetime.strptime(date1, '%Y-%m-%d')
     d2 = datetime.strptime(date2, '%Y-%m-%d')
     days = abs((d2-d1).days)
+    cars1 = [c for c in cars if c.is_taken == 0 and c.on_sale == 0]
+    cars = cars1
     car_rates = {}
     car_prices_for_user = {}
     for car in cars:
       car.is_car_taken(d1, d2)
       car_rates[car.id] = car.get_rate()
       car_prices_for_user[car.id] = car.price * days * Decimal((100-request.user.profile.bonus) * 0.01)
-    cars1 = [c for c in cars if c.is_taken == 0]
-    cars = cars1
     context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,
               'cars':cars,'office1':office1, 'office2':office2,
               'date1':date1, 'date2':date2, 'days':days,
