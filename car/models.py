@@ -117,8 +117,9 @@ class Reservation(models.Model):
     date1 = models.DateTimeField(default=datetime.now)
     date2 = models.DateTimeField(default=datetime.now)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=100,decimal_places=2, default=0)
     def __str__(self):
-        return self.car.name + " - " + self.user.username + " (" + str(self.date1) + "," + str(self.date2) + ")"
+        return self.car.name + " - " + self.user.username + " (" + str(self.date1) + "," + str(self.date2) + ") - " + str(self.price)
     def is_done(self):
         date1 = self.date2.replace(tzinfo=None)
         date2 = datetime.now().replace(tzinfo=None)

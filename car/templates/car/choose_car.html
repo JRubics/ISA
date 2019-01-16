@@ -42,7 +42,13 @@
             <td>{{car.price}}</td>
             <td>{{car.year}}</td>
             <td>{{car.seats}}</td>
-            <td>{% widthratio car.price 1 days %}</td><!-- mnozenje -->
+            <td>
+              {% for key, value in car_prices_for_user.items %}
+                {% if car.id == key %}
+                  {{value|floatformat:2}}
+                {% endif %}
+              {% endfor %}
+            </td>
             <td>
               {% for key, value in car_rates.items %}
                 {% if car.id == key %}
@@ -57,6 +63,11 @@
                 <input type="hidden" name="date2" value="{{date2}}" />
                 <input type="hidden" name="office1" value="{{office1}}" />
                 <input type="hidden" name="office2" value="{{office2}}" />
+                <input type="hidden" name="price" value="{% for key, value in car_prices_for_user.items %}
+                                                            {% if car.id == key %}
+                                                              {{value|floatformat:2}}
+                                                            {% endif %}
+                                                          {% endfor %}" />
                 <button type="submit" name="make_reservation" value="make_reservation" onclick="" class="btn btn-default">Make reservation</button>
               </form>
             </td>
