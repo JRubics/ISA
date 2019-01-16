@@ -127,6 +127,10 @@ class Reservation(models.Model):
         date1 = self.date2.replace(tzinfo=None)
         date2 = datetime.now().replace(tzinfo=None)
         return date1 < date2
+    def can_be_closed(self):
+        date1 = self.date1.replace(tzinfo=None)
+        date2 = datetime.now().replace(tzinfo=None)
+        return abs((date2 - date1).days) >= 2
     def is_rated(self):
         return CarRate.objects.filter(reservation=self.id).exists()
 

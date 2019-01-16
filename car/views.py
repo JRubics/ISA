@@ -261,3 +261,9 @@ def car_rate(request, id=None):
     reservation = Reservation.objects.filter(id=id).first()
     context = {'reservation':reservation}
     return render(request, 'car/rate_car.html',context)
+
+@login_required()
+def cancel_reservation(request, id=None):
+  reservation = Reservation.objects.filter(id=id).first()
+  reservation.delete()
+  return redirect('/user/reservations')
