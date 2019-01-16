@@ -35,7 +35,7 @@
     service: 1
     manufacturer: 2
     model: model2
-    car_type: 2
+    car_type: 1
     price: 100
     year: 2007
     seats: 5
@@ -74,7 +74,7 @@
     service: 3
     manufacturer: 6
     model: modele
-    car_type: 3
+    car_type: 1
     price: 170
     year: 2014
     seats: 4
@@ -119,3 +119,40 @@
     city: Karlsruhe
     address: Zirkel
     number: 4
+
+- model: car.reservation
+  pk: 1
+  fields:
+    car: 1
+    office1: 1
+    office2: 1
+    date1: 2013-03-18 13:19:37+00:00
+    date2: 2013-03-18 13:19:37+00:00
+    user: 1
+
+- model: car.reservation
+  pk: 2
+  fields:
+    car: 3
+    office1: 4
+    office2: 4
+    date1: 2019-01-10 13:19:37+00:00
+    date2: 2019-01-11 13:19:37+00:00
+    user: 1
+
+- model: car.reservation
+  pk: 3
+  fields:
+    car: 3
+    office1: 4
+    office2: 4
+    date1: 2020-08-10 13:19:37+00:00
+    date2: 2020-09-18 13:19:37+00:00
+    user: 1
+
+- model: car.carrate
+  pk: 1
+  fields:
+    reservation: 1
+    car_rate: 4
+    service_rate: 5

@@ -20,7 +20,10 @@ class Service(models.Model):
                 if CarRate.objects.filter(reservation=reservation.id).exists():
                     rate = rate + CarRate.objects.filter(reservation=reservation.id).first().service_rate
                     counter = counter + 1
-            return rate / counter
+            if counter != 0:
+                return rate / counter
+            else:
+                return 0
         else:
             return 0
 
@@ -95,7 +98,10 @@ class Car(models.Model):
                 if CarRate.objects.filter(reservation=reservation.id).exists():
                     rate = rate + CarRate.objects.filter(reservation=reservation.id).first().car_rate
                     counter = counter + 1
-            return rate / counter
+            if counter != 0:
+                return rate / counter
+            else:
+                return 0
         else:
             return 0
 
