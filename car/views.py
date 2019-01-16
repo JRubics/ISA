@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
+from decimal import Decimal
 import sys
 from datetime import datetime
 from .models import Service
@@ -214,15 +215,17 @@ def choose_car(request, id):
     d2 = datetime.strptime(date2, '%Y-%m-%d')
     days = abs((d2-d1).days)
     car_rates = {}
+    car_prices_for_user = {}
     for car in cars:
       car.is_car_taken(d1, d2)
       car_rates[car.id] = car.get_rate()
+      car_prices_for_user[car.id] = car.price * days * Decimal((100-request.user.profile.bonus) * 0.01)
     cars1 = [c for c in cars if c.is_taken == 0]
     cars = cars1
     context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,
               'cars':cars,'office1':office1, 'office2':office2,
               'date1':date1, 'date2':date2, 'days':days,
-              'car_rates': car_rates}
+              'car_rates': car_rates, 'car_prices_for_user':car_prices_for_user}
     return render(request, 'car/choose_car.html', context)
 
 @login_required()
@@ -232,11 +235,13 @@ def make_reservation(request, id):
     office2 = request.POST['office2']
     date1 = request.POST['date1']
     date2 = request.POST['date2']
+    price = request.POST['price']
     reservation = Reservation(car = Car.objects.filter(id=id).first(),
                           office1 = BranchOffice.objects.filter(id=office1).first(),
                           office2 = BranchOffice.objects.filter(id=office2).first(),
                           date1 = date1,
                           date2 = date2,
+                          price = price,
                           user = User.objects.filter(id=request.user.id).first())
     reservation.save()
     return redirect('/user/reservations')

@@ -10,7 +10,7 @@ class UserSeleniumTestCase(LiveServerTestCase):
       self.selenium = webdriver.Chrome()
 
       self.user = User.objects.create(username='test', email='test@test.com', is_active=True)
-      self.profile = Profile.objects.create(user=self.user, city='Novi Sad', phone_number='021333444')
+      self.profile = Profile.objects.create(user=self.user, city='Novi Sad', phone_number='021333444', bonus=2)
       self.user.set_password('Test1234')
       self.user.save()
 

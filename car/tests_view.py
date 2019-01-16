@@ -10,6 +10,7 @@ from .models import BranchOffice
 from .models import Reservation
 from .models import CarRate
 from user.models import User
+from user.models import Profile
 from datetime import datetime
 from datetime import timedelta
 from selenium.webdriver.support.ui import Select
@@ -22,6 +23,7 @@ class CarSeleniumTestCase(LiveServerTestCase):
       self.selenium = webdriver.Chrome()
 
       self.user = User.objects.create(username='test', email='test@test.com',password='passtest', is_active=True)
+      self.profile = Profile.objects.create(user=self.user, city='Novi Sad', phone_number='021333444', bonus=2)
       self.user.user_permissions.add(Permission.objects.get(name='Is car admin'))
       self.user.save()
 
