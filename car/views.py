@@ -89,6 +89,10 @@ def edit_car(request, id=None):
     car.price = request.POST['price']
     car.year = request.POST['year']
     car.seats = request.POST['seats']
+    if request.POST.getlist('on_sale') != []:
+      car.on_sale = True
+    else:
+      car.on_sale = False
     car.save()
     context = {'car':car}
     return redirect('/car/service/'+str(car.service.id))
@@ -220,13 +224,39 @@ def choose_car(request, id):
       car.is_car_taken(d1, d2)
       car_rates[car.id] = car.get_rate()
       car_prices_for_user[car.id] = car.price * days * Decimal((100-request.user.profile.bonus) * 0.01)
-    cars1 = [c for c in cars if c.is_taken == 0]
+    cars1 = [c for c in cars if c.is_taken == 0 and c.on_sale == 0]
     cars = cars1
     context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,
               'cars':cars,'office1':office1, 'office2':office2,
-              'date1':date1, 'date2':date2, 'days':days,
-              'car_rates': car_rates, 'car_prices_for_user':car_prices_for_user}
+              'date1':date1, 'date2':date2, 'car_rates': car_rates,
+              'car_prices_for_user':car_prices_for_user}
     return render(request, 'car/choose_car.html', context)
+
+@login_required()
+def fast_choose_car(request):
+  if request.method == 'POST':
+    cars = Car.objects.all()
+    country = request.POST['country']
+    city = request.POST['city']
+    date1 = request.POST['date1']
+    date2 = request.POST['date2']
+    d1 = datetime.strptime(date1, '%Y-%m-%d')
+    d2 = datetime.strptime(date2, '%Y-%m-%d')
+    days = abs((d2-d1).days)
+    car_rates = {}
+    car_prices_for_user = {}
+    for car in cars:
+      car.is_car_taken(d1, d2)
+      car_rates[car.id] = car.get_rate()
+      car_prices_for_user[car.id] = car.price * days * Decimal((100-request.user.profile.bonus - 5) * 0.01)
+    cars1 = [c for c in cars if c.is_taken == 0 and c.on_sale == 1 and c.service.country == country and c.service.city == city]
+    cars = cars1
+    print(cars)
+    context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,
+              'cars':cars, 'days':days,
+              'date1':date1, 'date2':date2,
+              'car_prices_for_user':car_prices_for_user}
+    return render(request, 'car/fast_choose_car.html', context)
 
 @login_required()
 def make_reservation(request, id):
@@ -245,6 +275,25 @@ def make_reservation(request, id):
                           user = User.objects.filter(id=request.user.id).first())
     reservation.save()
     return redirect('/user/reservations')
+
+@login_required()
+def make_fast_reservation(request, id):
+  if request.method == 'POST':
+    service = Service.objects.filter(id=request.POST['service']).first()
+    date1 = request.POST['date1']
+    date2 = request.POST['date2']
+    price = request.POST['price']
+    office = BranchOffice.objects.filter(service=service.id).first()
+    reservation = Reservation(car = Car.objects.filter(id=id).first(),
+                          office1 = office,
+                          office2 = office,
+                          date1 = date1,
+                          date2 = date2,
+                          price = price,
+                          user = User.objects.filter(id=request.user.id).first())
+    reservation.save()
+    return redirect('/user/reservations')
+
 
 @login_required()
 def car_rate(request, id=None):

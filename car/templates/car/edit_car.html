@@ -7,12 +7,16 @@
       <div class="container">
         <div class="row">
           <div class="col-md-1"></div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <label>Name:</label>
             <br>
             <input type="text" name="name" value="{{car.name}}" required=true>
           </div>
-          <div class="col-md-2"></div>
+          <div class="col-md-3">
+            <label>On sale:</label>
+              <br>
+            <input type="checkbox" name="on_sale" value="sale" {% if car.on_sale%} checked {% endif %}> 5% sale
+          </div>
           <div class="col-md-4">
             <label>Model:</label>
             <br>
