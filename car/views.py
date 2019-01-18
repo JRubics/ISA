@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from decimal import Decimal
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 from .models import Service
 from .models import Car
 from .models import BranchOffice
@@ -225,8 +225,7 @@ def choose_car(request, id):
       car.is_car_taken(d1, d2)
       car_rates[car.id] = car.get_rate()
       car_prices_for_user[car.id] = car.price * days * Decimal((100-request.user.profile.bonus) * 0.01)
-    cars1 = [c for c in cars if c.is_taken == 0 and c.on_sale == 0]
-    cars = cars1
+    cars = [c for c in cars if c.is_taken == 0 and c.on_sale == 0]
     context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,
               'cars':cars,'office1':office1, 'office2':office2,
               'date1':date1, 'date2':date2, 'car_rates': car_rates,
@@ -250,8 +249,7 @@ def fast_choose_car(request):
       car.is_car_taken(d1, d2)
       car_rates[car.id] = car.get_rate()
       car_prices_for_user[car.id] = car.price * days * Decimal((100-request.user.profile.bonus - 5) * 0.01)
-    cars1 = [c for c in cars if c.is_taken == 0 and c.on_sale == 1 and c.service.country == country and c.service.city == city]
-    cars = cars1
+    cars = [c for c in cars if c.is_taken == 0 and c.on_sale == 1 and c.service.country == country and c.service.city == city]
     print(cars)
     context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,
               'cars':cars, 'days':days,
@@ -315,13 +313,31 @@ def car_rate(request, id=None):
 @login_required()
 def cancel_reservation(request, id=None):
   reservation = Reservation.objects.filter(id=id).first()
-  reservation.delete()
+  if reservation.can_be_closed:
+    reservation.delete()
   return redirect('/user/reservations')
 
 @login_required()
-def test_graph(request, id=None):
-  godina = [2,1,3,4]
-  mesec = [1,3,4,2,5,3,4]
-  dan = [1,3,4,2,9,6,1,2]
-  return render(request, 'car/test.html', {'godina': godina, 'mesec':mesec, 'dan':dan})
+def graph(request, id=None):
+  service = Service.objects.filter(id=id).first()
+  reservations = Reservation.objects.all()
+  reservations = [r for r in reservations if r.office1.service == service]
+  r_year = [r for r in reservations if r.date1.replace(tzinfo=None) >= datetime.now() - timedelta(days=365) and r.date1.replace(tzinfo=None) <= datetime.now()]
+  r_month = [r for r in reservations if r.date1.replace(tzinfo=None) >= datetime.now() - timedelta(days=30) and r.date1.replace(tzinfo=None) <= datetime.now()]
+  r_week = [r for r in reservations if r.date1.replace(tzinfo=None) >= datetime.now() - timedelta(days=7) and r.date1.replace(tzinfo=None) <= datetime.now()]
+  r_day = [r for r in reservations if r.date1.replace(tzinfo=None) >= datetime.now() - timedelta(days=1) and r.date1.replace(tzinfo=None) <= datetime.now()]
+  res_num = [len(r_day), len(r_week), len(r_month), len(r_year)]
+  print([len(r_day), len(r_week), len(r_month), len(r_year)])
+  day_income = 0
+  day_income = sum([r.price for r in r_day]) / 100
+  week_income = 0
+  week_income = sum([r.price for r in r_week]) / 100
+  month_income = 0
+  month_income = sum([r.price for r in r_month]) / 100
+  year_income = 0
+  year_income = sum([r.price for r in r_year]) / 100
+  print([day_income,week_income,month_income,year_income])
+  print(type(2.2))
+  income = [float(day_income),float(week_income),float(month_income),float(year_income)]
+  return render(request, 'car/graph.html', {'res_num': res_num, 'income':income})
 

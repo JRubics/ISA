@@ -15,17 +15,21 @@
                   text: 'Rentals'
               },
               xAxis: {
-                  categories: ['2016', '2017', '2018', '2019']
+                  categories: ['day', 'week', 'month', 'year']
               },
               series: [{
-                  name: 'Godina',
-                  data: {{ godina }},
+                  name: 'Number of reservations',
+                  data: {{ res_num }},
                   color: 'purple'
+              },
+              {
+                  name: 'Income (x 100e)',
+                  data: {{ income }}
               }
             ]
           });
         </script>
-        <a class="btn btn-default" href="{% url 'car:car_home' %}">home</a>
+        <a class="btn btn-default" onClick="javascript:history.go(-1);">back</a>
       </div>
     </div>
   <div class="col-md-3"></div>
