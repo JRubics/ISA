@@ -13,6 +13,7 @@ from .models import CarRate
 from user.models import User
 
 
+
 @login_required()
 @permission_required('user.is_car_admin')
 def car_home(request):
@@ -340,4 +341,3 @@ def graph(request, id=None):
   print(type(2.2))
   income = [float(day_income),float(week_income),float(month_income),float(year_income)]
   return render(request, 'car/graph.html', {'res_num': res_num, 'income':income})
-
