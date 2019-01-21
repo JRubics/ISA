@@ -255,9 +255,8 @@ class CarSeleniumTestCase(LiveServerTestCase):
       selenium.get(self.live_server_url + "/car/choose")
 
       selenium.find_element_by_name('radio2').click()
-
       selenium.find_element_by_name('name').send_keys('testS')
-      selenium.find_element_by_name('country').send_keys('SRB')
+      selenium.find_element_by_name('country1').send_keys('SRB')
       selenium.find_element_by_name('search_service').click()
 
       assert 'car/choose' in selenium.current_url

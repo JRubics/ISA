@@ -159,7 +159,7 @@ def delete_office(request, id=None):
 def choose_service(request):
   if request.method == 'POST':
     name = request.POST['name']
-    country = request.POST['country']
+    country = request.POST['country1']
     city = request.POST['city']
     street = request.POST['address']
     number = request.POST['number']
@@ -173,7 +173,6 @@ def choose_service(request):
     service_rates = {}
     for service in services:
       service_rates[service.id] = service.get_rate()
-    rate = service.get_rate()
     context = {'services':services, 'name':name, 'country':country,
             'city':city, 'street':street, 'number':number, 'offices':offices,
             'service_rates':service_rates}
