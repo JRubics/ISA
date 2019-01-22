@@ -9,6 +9,7 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     path('confirmation/', views.confirmation, name='confirmation'),
     path('confirm/<username>/', views.confirm, name='confirm'),
+<<<<<<< HEAD
     path('reservations', views.reservations, name='reservations'),
 
     #filip dodao
@@ -16,3 +17,8 @@ urlpatterns = [
     path('profile', views.profile, name='profile'),
     path('profile/edit', views.profile_edit, name='profile_edit'),
 ]
+=======
+    path('', views.home, name='home'),
+    path('profile', views.profile, name='profile'),
+]
+>>>>>>> 00c753c144a21150869dc1738cd557b0b0893ad8
