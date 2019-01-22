@@ -9,6 +9,7 @@
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
 </head>
 
 <body>
@@ -71,7 +72,7 @@
                         </a>
                     </li>
                     <li class="">
-                        <a href="{% url 'user:home' %}">
+                        <a href="{% url 'car:choose_service' %}">
                             <span class="glyphicon glyphicon-knight" aria-hidden="true"></span>&nbsp; Book A Ride
                         </a>
                     </li>
@@ -149,12 +150,19 @@
     {% load bootstrap3 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
-    {% if messages %}
-    {% for message in messages %}
-    ERROR: {{ message }}
-    {% endfor %}
-    {% endif %}
-    {% block content %}{% endblock content %}
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            {% if messages %}
+            {% for message in messages %}
+            ERROR: {{ message }}
+            {% endfor %}
+            {% endif %}
+            {% block content %}
+            {% endblock content %}
+        </div>
+        <div class="col-md-1"></div>
+    </div>
 </body>
 
 </html>

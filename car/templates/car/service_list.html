@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row">
+      <div class="col-md-8">
+        <h2>Search by 
+          {% if name%}
+            name({{name}}) : 
+          {% endif %}
+          {% if country%}
+          country({{country}}) : 
+          {% endif %}
+          {% if city%}
+          city({{city}}) : 
+          {% endif %}
+          {% if street%}
+          street({{street}}) : 
+          {% endif %}
+          {% if number%}
+          number({{number}}) : 
+          {% endif %}
+        </h2>
+      </div>
+    <div class="col-md-2"></div>
+  </div>
+  {%if services%}
+    <br>
+    <div id="list_id">
+      <div class="row">
+        <form action="{% url 'car:reservation'%}" method="post">
+            {% csrf_token %}
+          <div class="col-md-2"><h4>Choose from list</h4></div>
+          <div class="col-md-6">
+            <select class="form-control" name="service_select">
+              <option value="None" selected="true" disabled="true">Choose from list</option>
+              {% for service in services %}
+                <option value="{{service.id}}">
+                  {{service.name}} |
+                  {% for office in offices %}
+                    {% if office.service.id is service.id %}
+                      {{office.address}} {{office.number}} {{office.city}} {{office.country}} | 
+                    {% endif %}
+                  {% endfor %}
+                  Ocena:
+                  {% for key, value in service_rates.items %}
+                    {% if service.id == key %}
+                      {{value}}
+                    {% endif %}
+                  {% endfor %}
+                </option>
+              {%endfor%}
+            </select>
+          </div>
+          <div class="col-md-4">
+              <button type="submit" name="edit_service" value="edit_service" onclick="" class="btn btn-primary">Next</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  {% else %}
+    <p>Service doesn't exist.</p>
+  {% endif %}
+{% endblock content %}

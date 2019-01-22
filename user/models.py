@@ -10,6 +10,7 @@ class Profile(models.Model):
     )
     city = models.CharField(max_length=30)
     phone_number = models.CharField(max_length=30)
+    bonus = models.PositiveIntegerField(default=0)
 
     class Meta:
         permissions = (("is_car_admin", "Is car admin"),

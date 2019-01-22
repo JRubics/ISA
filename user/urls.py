@@ -9,6 +9,7 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     path('confirmation/', views.confirmation, name='confirmation'),
     path('confirm/<username>/', views.confirm, name='confirm'),
+    path('reservations', views.reservations, name='reservations'),
 
     #filip dodao
     path('', views.home, name='home'),

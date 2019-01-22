@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <script>
+    $(document).ready(function() {
+      document.getElementById("list_id").style.visibility = 'hidden'; 
+      document.getElementById("search_id").style.visibility = 'hidden'; 
+    });
+    function showlist() {
+      document.getElementById("search_id").style.visibility = 'hidden'; 
+      document.getElementById("list_id").style.visibility = 'visible';
+      document.getElementById("Radios2").checked = false;
+    }
+    function showsearch() {
+      document.getElementById("list_id").style.visibility = 'hidden'; 
+      document.getElementById("search_id").style.visibility = 'visible';
+      document.getElementById("Radios1").checked = false;
+    }
+    </script>
+  {%if services%}
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div class="container">
+        <h1>Choose Service</h1>
+        <div class="radio">
+          <label>
+            <input type="radio" name="radio1" id="Radios1" value="List" onclick="showlist();">
+            Choose from list
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="radio2" id="Radios2" value="Search" onclick="showsearch();">
+            Search
+          </label>
+        </div>
+      </div>
+      </br>
+      <div>
+        <form action="{% url 'car:fast_choose_car'%}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="date1" value="2019-01-10" />
+          <input type="hidden" name="date2" value="2019-01-12" />
+          <input type="hidden" name="country" value="Serbia" />
+          <input type="hidden" name="city" value="Beograd" />
+          <button type="submit" name="fast_reservation" value="fast_reservation" onclick="" class="btn btn-default">Fast reservation</button>
+        </form>
+      </div>
+      <div id="list_id">
+        <div class="row">
+          <form action="{% url 'car:reservation'%}" method="post">
+            {% csrf_token %}
+            <div class="col-md-2"><h4>Choose from list</h4></div>
+            <div class="col-md-6">
+              <select class="form-control" name="service_select">
+                  <option value="None" selected="true" disabled="true">Choose from list</option>
+                  {% for service in services %}
+                    <option value="{{service.id}}">
+                      {{service.name}} |
+                      {% for office in offices %}
+                        {% if office.service.id is service.id %}
+                          {{office.address}} {{office.number}} {{office.city}} {{office.country}} | 
+                        {% endif %}
+                      {% endfor %}
+                      Ocena:
+                      {% for key, value in service_rates.items %}
+                        {% if service.id == key %}
+                          {{value}}
+                        {% endif %}
+                      {% endfor %}
+                    </option>
+                  {%endfor%}
+              </select>
+            </div>
+            <div class="col-md-4">
+                <button type="submit" name="choose_service_next" value="choose_service_next" onclick="" class="btn btn-primary">Next</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div id="search_id">
+        <form action="{% url 'car:choose_service'%}" method="post">
+          {% csrf_token %}
+          <div class="container">
+            <div class="row">
+              <div class="col-md-4"></div>
+              <div class="col-md-4"><h3>Search</h3></div>
+              <div class="col-md-2"></div>
+            </div>
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-4">
+              <label>Name:</label>
+              <br>
+              <input type="text" name="name" id="s_name">
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-4"></div>
+            <div class="col-md-1"></div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-4">
+              <label>Country:</label>
+              <br>
+              <input type="text" name="country1" id="s_country">
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
+              <label>City:</label>
+              <br>
+              <input type="text" name="city" id="s_city">
+            </div>
+            <div class="col-md-1"></div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-4">
+              <label>Street:</label>
+              <br>
+              <input type="text" name="address" id="s_street">
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
+              <label>Number:</label>
+              <br>
+              <input type="number" name="number" id="s_number">
+            </div>
+            <div class="col-md-1"></div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-2">
+              <button type="submit" name="search_service" id="search_service_id" class="btn btn-primary">Search</button>
+            </div>
+            <div class="col-md-6"></div>
+          </div>
+        </form>
+      </div>
+      <br>
+    </div>
+    <div class="col-md-2"></div>
+  {% else %}
+    <p>Service doesn't exist.</p>
+  {% endif %}
+{% endblock content %}

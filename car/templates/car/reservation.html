@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% if service %}
+  <div class="row">
+    <div class="col-md-5"></div>
+    <div class="col-md-2">
+      <h1>{{service.name}}</h1>
+    </div>
+    <div class="col-md-5"></div>
+  </div>
+  <br>
+  <form action="{% url 'car:choose_car' service.id%}" method="post">
+    {% csrf_token %}
+    <div class="container">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-4">
+          <label>Take:</label>
+          <br>
+          <select class="form-control" name="office_select1">
+            {% for office in offices %}
+              {% if office.service.id is service.id %}
+                <option value="{{office.id}}">{{office.name}}, {{office.address}} {{office.number}} {{office.city}} {{office.country}}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+          <label>Return:</label>
+          <br>
+          <select class="form-control" name="office_select2">
+            {% for office in offices %}
+              {% if office.service.id is service.id %}
+                <option value="{{office.id}}">{{office.name}}, {{office.address}} {{office.number}} {{office.city}} {{office.country}}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-4">
+          <input name="date1" type="date" value="2019-01-01">
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+          <input name="date2" type="date" value="2019-01-01">
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-1"></div>
+          <div class="col-md-4">
+            <label>Type:</label>
+            <br>
+            <select name='type_select'>
+              {% for key, tuple in type %}
+                <option value="{{key}}">{{tuple}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-4">
+            <label>Seats:</label>
+            <br>
+            <input name="seats" type="number" required=true>
+          </div>
+        <div class="col-md-1"></div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-1"></div>
+          <div class="col-md-4">
+            <label>Min price/day:</label>
+            <br>
+            <input name="min" type="number">
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-4">
+            <label>Max price/day:</label>
+            <br>
+            <input name="max" type="number">
+          </div>
+        <div class="col-md-1"></div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-5"></div>
+        <div class="col-md-2">
+          <button type="submit" name="find" value="find" class="btn btn-primary">Find</button>
+        </div>
+        <div class="col-md-5"></div>
+      </div>
+    </div>
+  </form>
+  {% else %}
+    <p>Service doesn't exist.</p>
+  {% endif %}
+{% endblock content %}
