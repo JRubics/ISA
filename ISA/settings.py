@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ["isa.theedgeofrage.com", "localhost", "127.0.0.1"]
 INSTALLED_APPS = [
     'user',
     'car',
+    'avio',
     'bootstrap3',
     'django.contrib.admin',
     'django.contrib.auth',
