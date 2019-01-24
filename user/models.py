@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from avio.models import AvioCompany
 
 class Profile(models.Model):
     user = models.OneToOneField(
@@ -11,6 +12,7 @@ class Profile(models.Model):
     city = models.CharField(max_length=30)
     phone_number = models.CharField(max_length=30)
     bonus = models.PositiveIntegerField(default=0)
+    avio_admin = models.ForeignKey(AvioCompany, on_delete=models.DO_NOTHING, null=True)
 
     class Meta:
         permissions = (("is_car_admin", "Is car admin"),
