@@ -30,7 +30,8 @@ ALLOWED_HOSTS = ["isa.theedgeofrage.com", "localhost", "127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
-    'hotels'
+    'crispy_forms',
+    'hotels',
     'user',
     'car',
     'bootstrap3',
@@ -41,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

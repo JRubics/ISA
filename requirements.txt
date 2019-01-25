@@ -7,3 +7,4 @@ django-dotenv
 selenium
 django-selenium-login
 PyYaml==3.13
+django-crispy-forms

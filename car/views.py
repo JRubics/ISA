@@ -19,7 +19,7 @@ from user.models import User
 def car_home(request):
   services = Service.objects.all()
   context = {'services':services}
-  return render(request, 'car/car_admin_home.html',context)
+  return render(request, 'car/car_admin_home.html', context)
 
 @login_required()
 @permission_required('user.is_car_admin')
