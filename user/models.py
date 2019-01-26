@@ -4,21 +4,12 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from avio.models import AvioCompany
 
+
 class Profile(models.Model):
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     city = models.CharField(max_length=30)
     phone_number = models.CharField(max_length=30)
     bonus = models.PositiveIntegerField(default=0)
-    avio_admin = models.ForeignKey(AvioCompany, on_delete=models.DO_NOTHING, null=True)
-
-    class Meta:
-        permissions = (("is_car_admin", "Is car admin"),
-                       ("is_hotel_admin", "Is hotel admin"),
-                       ("is_flight_admin", "Is flight admin"),
-                       )
 
     def new(username, email, password, first_name, last_name, city, phone_number):
         user = User.objects.create_user(username=username,
@@ -26,10 +17,10 @@ class Profile(models.Model):
                                         password=password,
                                         first_name=first_name,
                                         last_name=last_name,
-                                        is_active = False)
+                                        is_active=False)
         profile = Profile.objects.create(user=user,
-                                        city=city,
-                                        phone_number=phone_number)
+                                         city=city,
+                                         phone_number=phone_number)
         return profile
 
     def get_username_from_email(email):
@@ -47,3 +38,47 @@ class Profile(models.Model):
             return "Passwords must be same"
         else:
             return None
+
+    def __str__(self):
+        return (str(self.user.username) + " " + str(self.user.id))
+
+
+class AdminUser(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avio_admin = models.ForeignKey(
+        AvioCompany, on_delete=models.DO_NOTHING, null=True)
+
+    class Meta:
+        permissions = (("is_car_admin", "Is car admin"),
+                       ("is_hotel_admin", "Is hotel admin"),
+                       ("is_flight_admin", "Is flight admin"),
+                       ("is_master_admin", "Is master admin"),
+                       )
+
+
+class UserRelationship(models.Model):
+    user_1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_1')
+    user_2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_2')
+    RELATIONSHIP_STATUS = (('FF', 'Friends'), ('PS', 'Pending_first_second'), ('PF', 'Pending_second_first'))
+    status = models.CharField(max_length=2, choices=RELATIONSHIP_STATUS)
+
+    class Meta:
+        unique_together = ['user_1', 'user_2']
+
+    def sendRequest(sender, reciver):
+        if sender.id < reciver.id:
+            UserRelationship.objects.create(user_1 = sender, user_2 = reciver, status = "PS")
+        else:
+            UserRelationship.objects.create(user_1 = reciver, user_2 = sender, status = "PF")
+
+    def accept(user1, user2):
+        if user1.id < user2.id:
+            UserRelationship.objects.filter(user_1 = user1, user_2 = user2).update(status='FF')
+        else:
+            UserRelationship.objects.filter(user_1 = user2, user_2 = user1).update(status='FF')
+
+    def decline(user1, user2):
+        if user1.id < user2.id:
+            UserRelationship.objects.filter(user_1 = user1, user_2 = user2).delete()
+        else:
+            UserRelationship.objects.filter(user_1 = user2, user_2 = user1).delete()

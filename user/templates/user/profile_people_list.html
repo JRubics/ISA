@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<ul>
+    {% for profile in q_profiles %}
+    <div class="col-md-4">
+        <div class="card mb-4 box-shadow">
+            <img class="card-img-top img-responsive center-block" alt="Thumbnail [100%x225]" style="height: 225px; width: 225px; display: block;"
+                src="https://d12swbtw719y4s.cloudfront.net/images/Rd1vPjpb/JcVoKZNoamRePNKeh67s/EFePP1DVeN.jpeg?w=620"
+                data-holder-rendered="true">
+            <div class="card-body gradient text-center">
+                <h4 class="card-text">{{ profile.user.first_name }} {{ profile.user.last_name }}</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" class="" value="{{ profile.user.id }}" name="adding">
+                    <input type="submit" class="btn" value="Add" name="my_btn">
+                </form>
+            </div>
+        </div><br><br>
+    </div>
+    {% endfor %}
+</ul>
+{% endblock content %}

@@ -12,6 +12,8 @@ class Country (models.Model):
         return (self.name)
 
 # model grada
+
+
 class City (models.Model):
     name = models.CharField(max_length=30)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
@@ -20,6 +22,8 @@ class City (models.Model):
         return (self.name)
 
 # model avio kompanije
+
+
 class AvioCompany (models.Model):
     name = models.CharField(max_length=30)  # naziv avio kompanije
     promo_description = models.TextField()  # promotivan opis
