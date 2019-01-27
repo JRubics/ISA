@@ -182,7 +182,6 @@ def choose_service(request):
     service_rates = {}
     for service in services:
       service_rates[service.id] = service.get_rate()
-    rate = service.get_rate()
     offices = BranchOffice.objects.all()
     context = {'services':services, 'offices':offices, 'service_rates':service_rates}
     return render(request, 'car/choose_service.html', context)
