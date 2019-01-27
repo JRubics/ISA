@@ -27,7 +27,12 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
-            <h3>Rooms</h3>
+            <h3>
+                Rooms
+                <a class="btn btn-success" href="{% url 'hotels:add_hotel_room' hotel.id%}" role="button">
+                    <span class="glyphicon glyphicon-plus-sign"></span> Add Room
+                </a>
+            </h3>
         </div>
     </div>
     <div class="row">
@@ -40,6 +45,8 @@
                         <th>Floor Number</th>
                         <th>Capacity</th>
                         <th>Balcony</th>
+                        <th>Default Price</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,6 +56,12 @@
                         <td>{{room.floor_number}}</td>
                         <td>{{room.capacity}}</td>
                         <td>{{room.has_balcony|yesno:"Yes,No,N/A"}}</td>
+                        <td>{{room.default_price_per_day}}</td>
+                        <td>
+                            <a class="btn btn-primary" href="{% url 'hotels:edit_hotel_room' hotel.id room.id %}" role="button">Edit</a>
+                            <button class="btn btn-success">Prices</button>
+                            <a class="btn btn-danger" href="{% url 'hotels:delete_hotel_room' hotel.id room.id %}" role="button">Delete</a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -65,7 +78,12 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
-            <h3>Services</h3>
+            <h3>
+                Services
+                <a class="btn btn-success" href="{% url 'hotels:add_hotel_service' hotel.id%}" role="button">
+                    <span class="glyphicon glyphicon-plus-sign"></span> Add Service
+                </a>
+            </h3>
         </div>
     </div>
     <div class="row">
@@ -76,22 +94,67 @@
                     <tr>
                         <th>Name</th>
                         <th>Price</th>
+                        <th>Type of Charge</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for room in hotel.hotelroom_set.all %}
+                    {% for service in hotel.hotelservice_set.all %}
                     <tr>
-                        <td>{{room.number}}</td>
-                        <td>{{room.floor_number}}</td>
-                        <td>{{room.capacity}}</td>
-                        <td>{{room.has_balcony|yesno:"Yes,No,N/A"}}</td>
+                        <td>{{service.name}}</td>
+                        <td>{{service.price}}</td>
+                        <td>{{service.type_of_charge}}</td>
+                        <td><a class="btn btn-primary" href="{% url 'hotels:edit_hotel_service' hotel.id service.id %}" role="button">Edit</a>
+                            <a class="btn btn-danger" href="{% url 'hotels:delete_hotel_service' hotel.id service.id %}" role="button">Delete</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
             {% else %}
             <div class="panel panel-default">
-                <div class="panel-body">No rooms have been added</div>
+                <div class="panel-body">No services have been added</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3>
+                Service Packages
+                <a class="btn btn-success" href="{% url 'hotels:add_service_package' hotel.id%}" role="button">
+                    <span class="glyphicon glyphicon-plus-sign"></span> Add Package
+                </a>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            {% if hotel.hotelservicepackage_set.all %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Discount</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for package in hotel.hotelservicepackage_set.all %}
+                    <tr>
+                        <td>{{package.name}}</td>
+                        <td>{{package.rooms_discount}}</td>
+                        <td><a class="btn btn-primary" href="{% url 'hotels:edit_service_package' hotel.id package.id %}" role="button">Edit</a>
+                            <a class="btn btn-danger" href="{% url 'hotels:delete_service_package' hotel.id package.id %}" role="button">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="panel panel-default">
+                <div class="panel-body">No packages have been added</div>
             </div>
             {% endif %}
         </div>

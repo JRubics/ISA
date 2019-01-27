@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.conf import settings
+from decimal import *
+from django.core.exceptions import ValidationError
 
 
 class Hotel(models.Model):
@@ -8,8 +10,8 @@ class Hotel(models.Model):
     country = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     address = models.CharField(max_length=50)
-    address_number = models.CharField(max_length=20)
-    description = models.TextField(max_length=500)
+    address_number = models.CharField(max_length=20, blank=True)
+    description = models.TextField(max_length=500, blank=True)
 
     def __str__(self):
         return self.name
@@ -22,8 +24,26 @@ class HotelRoom(models.Model):
     floor_number = models.IntegerField()
     capacity = models.PositiveIntegerField()
     has_balcony = models.BooleanField()
+    default_price_per_day = models.DecimalField(
+        decimal_places=2,
+        max_digits=8,
+        validators=[MinValueValidator(
+            Decimal('0.01'), "Price cannot be negative")]
+    )
+
     class Meta:
         unique_together = ('hotel', 'number')
+
+    def clean(self):
+        if self.default_price_per_day is None:
+            raise ValidationError("Price must be between 0 and 10^6")
+        elif self.default_price_per_day < 0:
+            raise ValidationError("Price cannot be negative")
+        if self.capacity < 1:
+            raise ValidationError("Capacity minimum is 1 person")
+
+    def __str__(self):
+        return self.hotel.__str__() + '|' + self.name
 
 
 class HotelService(models.Model):
@@ -50,8 +70,14 @@ class HotelService(models.Model):
         default=PER_PERSON_PER_DAY
     )
 
+    def clean(self):
+        if self.price is None:
+            raise ValidationError("Price must be between 0 and 10^6")
+        elif self.price < 0:
+            raise ValidationError("Price cannot be negative")
+
     def __str__(self):
-        return self.name
+        return self.hotel.__str__() + '|' + self.name
 
 
 class HotelServicePackage(models.Model):
@@ -64,6 +90,13 @@ class HotelServicePackage(models.Model):
         validators=[MinValueValidator(0, "Percentage is between 0 and 1"),
                     MaxValueValidator(1, "Percentage is between 0 and 1")]
     )
+    def clean(self):
+        if self.rooms_discount is None:
+            raise ValidationError("Percentage is between 0 and 1")
+        elif self.rooms_discount < 0 or self.rooms_discount > 1:
+            raise ValidationError("Percentage is between 0 and 1")
+    def __str__(self):
+        return self.hotel.__str__() + '|' + self.name
 
 
 class HotelRoomPrice(models.Model):
@@ -79,7 +112,20 @@ class HotelRoomPrice(models.Model):
     # Service package only if room is on strict discount
     strictly_discounted = models.BooleanField(default=False)
     service_package = models.ForeignKey(
-        HotelServicePackage, on_delete=models.CASCADE)
+        HotelServicePackage,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+    def clean(self):
+        if self.valid_from > self.valid_to:
+            raise ValidationError("Valid from cannot be later than valid to")
+        if self.price_per_day is None:
+            raise ValidationError("Percentage is between 0 and 1") 
+        elif self.price_per_day < 0:
+            raise ValidationError("Price cannot be negative")
+        if self.strictly_discounted and self.service_package is None:
+            raise ValidationError("Reference to service package is required if room is discounted")
 
 
 class HotelReservation(models.Model):
