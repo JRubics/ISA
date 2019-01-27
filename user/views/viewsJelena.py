@@ -85,11 +85,6 @@ def home(request):
 
 
 @login_required()
-def profile_edit(request):
-    return render(request, 'user/profile_edit.html')
-
-
-@login_required()
 def reservations(request):
     reservation_list = Reservation.objects.filter(user=request.user.id)
     context = {'reservations': reservation_list}
