@@ -1,8 +1,8 @@
-from django.db import models
+from decimal import Decimal
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.conf import settings
-from decimal import *
 from django.core.exceptions import ValidationError
+from django.db import models
 
 
 class Hotel(models.Model):
@@ -33,6 +33,7 @@ class HotelRoom(models.Model):
 
     class Meta:
         unique_together = ('hotel', 'number')
+        ordering = ['number']
 
     def clean(self):
         if self.default_price_per_day is None:
@@ -43,7 +44,7 @@ class HotelRoom(models.Model):
             raise ValidationError("Capacity minimum is 1 person")
 
     def __str__(self):
-        return self.hotel.__str__() + '|' + self.name
+        return self.hotel.__str__() + '|' + str(self.number)
 
 
 class HotelService(models.Model):
@@ -84,19 +85,19 @@ class HotelServicePackage(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
     services = models.ManyToManyField(HotelService)
     name = models.CharField(max_length=30)
-    rooms_discount = models.DecimalField(
-        max_digits=3,
-        decimal_places=2,
-        validators=[MinValueValidator(0, "Percentage is between 0 and 1"),
-                    MaxValueValidator(1, "Percentage is between 0 and 1")]
+    rooms_discount = models.PositiveIntegerField(
+        validators=[MinValueValidator(0, "Percentage is between 0 and 100"),
+                    MaxValueValidator(100, "Percentage is between 0 and 100")]
     )
+
     def clean(self):
         if self.rooms_discount is None:
-            raise ValidationError("Percentage is between 0 and 1")
-        elif self.rooms_discount < 0 or self.rooms_discount > 1:
-            raise ValidationError("Percentage is between 0 and 1")
+            raise ValidationError("Percentage is between 0 and 100")
+        elif self.rooms_discount < 0 or self.rooms_discount > 100:
+            raise ValidationError("Percentage is between 0 and 100")
+
     def __str__(self):
-        return self.hotel.__str__() + '|' + self.name
+        return self.name + ' (' + str(self.rooms_discount) + '%)'
 
 
 class HotelRoomPrice(models.Model):
@@ -108,7 +109,6 @@ class HotelRoomPrice(models.Model):
     )
     valid_from = models.DateField()
     valid_to = models.DateField()
-    # TODO: Date check constraint or validation
     # Service package only if room is on strict discount
     strictly_discounted = models.BooleanField(default=False)
     service_package = models.ForeignKey(
@@ -117,15 +117,20 @@ class HotelRoomPrice(models.Model):
         null=True,
         blank=True
     )
+
+    class Meta:
+        ordering = ['valid_from']
+
     def clean(self):
         if self.valid_from > self.valid_to:
             raise ValidationError("Valid from cannot be later than valid to")
         if self.price_per_day is None:
-            raise ValidationError("Percentage is between 0 and 1") 
+            raise ValidationError("Percentage is between 0 and 1")
         elif self.price_per_day < 0:
             raise ValidationError("Price cannot be negative")
         if self.strictly_discounted and self.service_package is None:
-            raise ValidationError("Reference to service package is required if room is discounted")
+            raise ValidationError(
+                "Reference to service package is required if room is discounted")
 
 
 class HotelReservation(models.Model):

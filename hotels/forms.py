@@ -1,5 +1,5 @@
-from django.forms import ModelForm
-from .models import Hotel, HotelRoom, HotelService, HotelServicePackage
+from django.forms import ModelForm, DateInput
+from .models import Hotel, HotelRoom, HotelService, HotelServicePackage, HotelRoomPrice
 
 
 class HotelInfoForm(ModelForm):
@@ -46,3 +46,19 @@ class ServicePackageForm(ModelForm):
             'name',
             'rooms_discount'
         ]
+
+
+class RoomPriceForm(ModelForm):
+    class Meta:
+        model = HotelRoomPrice
+        fields = [
+            'valid_from',
+            'valid_to',
+            'price_per_day',
+            'strictly_discounted',
+            'service_package'
+        ]
+        widgets = {
+            'valid_from': DateInput(attrs={'type':'date'}),
+            'valid_to': DateInput(attrs={'type':'date'})
+        }

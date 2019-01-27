@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Edit Room Price</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container-fluid">
+                <div class="jumbotron">
+                    {% load crispy_forms_tags %}
+                    <form action="{% url 'hotels:edit_room_price' hotel.id room.id price.id %}" method="post">
+                        {% csrf_token %}
+                        {{form|crispy}}
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <div class="float-right">
+                            <a class="btn btn-default" href="{% url 'hotels:view_room_prices' hotel.id room.id %}" role="button">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
