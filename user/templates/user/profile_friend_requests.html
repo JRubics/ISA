@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<ul>
+    {% for profile in q_profiles %}
+    <div class="col-md-4">
+        <div class="card mb-4 box-shadow">
+            <div class="row justify-content-md-center">
+                <img class="card-img-top img-responsive center-block" alt="Thumbnail [100%x225]" style="height: 225px; width: 225px; display: block;"
+                    src="{{ profile.pic.url }}" data-holder-rendered="true">
+            </div>
+            <div class="card-body gradient text-center">
+                <h4 class="card-text">{{ profile.user.first_name }} {{ profile.user.last_name }}</h4>
+                <div class="row row-no-gutters" style="margin: 0 auto; display:inline-block">
+                    <form method="post" style="display:inline-block">
+                        {% csrf_token %}
+                        <input type="hidden" class="" value="{{ profile.user.id }}" name="usr">
+                        <input type="hidden" class="" value="accept" name="option">
+                        <button type="submit" class="btn btn-success">Accept</button>
+                    </form>
+                    <form method="post" style="display:inline-block"">
+                        {% csrf_token %}
+                        <input type="hidden" class="" value="{{ profile.user.id }}" name="usr">
+                        <input type="hidden" class="" value="decline" name="option">
+                        <button type="submit" class="btn btn-danger">Decline</button>
+                    </form>
+                </div>
+            </div>
+        </div><br><br>
+    </div>
+    {% endfor %}
+</ul>
+{% endblock content %}

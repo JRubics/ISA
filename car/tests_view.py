@@ -20,7 +20,7 @@ warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 class CarSeleniumTestCase(LiveServerTestCase):
     def setUp(self):
-      self.selenium = webdriver.Chrome()
+      self.selenium = webdriver.Firefox()
 
       self.user = User.objects.create(username='test', email='test@test.com',password='passtest', is_active=True)
       self.profile = Profile.objects.create(user=self.user, city='Novi Sad', phone_number='021333444', bonus=2)

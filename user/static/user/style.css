@@ -1,5 +1,5 @@
 body{
-    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+    background:  #3931af;
 }
 .emp-profile{
     padding: 3%;
@@ -11,9 +11,9 @@ body{
 .profile-img{
     text-align: center;
 }
-.profile-img img{
-    width: 70%;
-    height: 100%;
+.profile-img{
+    width: 250px;
+    height: 200px;
 }
 .profile-img .file {
     position: relative;
@@ -119,4 +119,5 @@ span.testimonials-post {
 .carousel-info span {
     display: block;
 }
+                                    
 
