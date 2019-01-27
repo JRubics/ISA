@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from avio.models import AvioCompany
+from django.core.exceptions import ValidationError
 
 
 class Profile(models.Model):
@@ -65,6 +66,13 @@ class UserRelationship(models.Model):
 
     class Meta:
         unique_together = ['user_1', 'user_2']
+
+    def clean(self):
+        if self.user_1.id > self.user_2.id:
+            raise ValidationError("Change order of users")
+
+    def __str__(self):
+        return (str(self.user_1) + " " + str(self.user_2) + " " + self.status)
 
     def sendRequest(sender, reciver):
         if sender.id < reciver.id:
