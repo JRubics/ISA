@@ -118,7 +118,7 @@ class Seat (models.Model):
     price_factor = models.FloatField(default=1)
 
     class Meta:
-        unique_together = ['seat_number', 'seat_type']
+        unique_together = ['seat_number', 'seat_type', 'flight']
 
 
 # model karte

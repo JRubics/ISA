@@ -96,11 +96,11 @@ class ProfileEdit(View):
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
+        form_profile = ProfileForm(request.POST, request.FILES, instance = request.user.profile)
         form_user = UserForm(request.POST, instance = request.user)
-        form_profile = ProfileForm(request.POST, instance = request.user.profile)
         if form_profile.is_valid() and form_user.is_valid():
             form_user.save()
-            form_profile.save() 
+            form_profile.save()
 
         return redirect('user:profile')
 

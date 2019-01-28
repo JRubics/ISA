@@ -13,7 +13,7 @@
 
     <div class="row">
         <!-- picture and browse -->
-        <form class="form" action="#" method="post" id="registrationForm">
+        <form class="form" action="{%url 'user:profile_edit'%}" method="post" id="registrationForm" enctype='multipart/form-data'>
             {% csrf_token %}
             <div class="col-sm-3">
                 <div class="text-center">
