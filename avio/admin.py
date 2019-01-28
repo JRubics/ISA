@@ -84,7 +84,7 @@ class SeatAdmin(admin.ModelAdmin):
             'number_of_seats': Count('id'),
         }
 
-        response.context_data['seats'] = qs.values('flight__avio_company__name', 'flight__departure_city__name', 'flight__arrival_city__name', 'flight__departure_date').annotate(**metrics).order_by('flight')
+        response.context_data['seats'] = qs.values('flight', 'flight__avio_company__name', 'flight__departure_city__name', 'flight__arrival_city__name', 'flight__departure_date').annotate(**metrics).order_by('flight')
         return response
 
 
