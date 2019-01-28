@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.exceptions import ValidationError
 
 
 # model zemlje
@@ -12,6 +13,8 @@ class Country (models.Model):
         return (self.name)
 
 # model grada
+
+
 class City (models.Model):
     name = models.CharField(max_length=30)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
@@ -20,6 +23,8 @@ class City (models.Model):
         return (self.name)
 
 # model avio kompanije
+
+
 class AvioCompany (models.Model):
     name = models.CharField(max_length=30)  # naziv avio kompanije
     promo_description = models.TextField()  # promotivan opis
@@ -67,6 +72,13 @@ class Flight (models.Model):
         str_date = str(self.departure_date)[:16]
         return (str(self.avio_company) + " - " + str(self.departure_city) + " -> " + str(self.arrival_city) + " - " + str_date)
 
+    def clean(self):
+        if self.arrival_date < self.departure_date:
+            raise ValidationError("Datas are not valid")
+
+        if self.departure_city != self.departure_airport.city or self.arrival_city != self.arrival_airport.city:
+            raise ValidationError("Airport and city must match")
+
 
 # model Presedanja
 class FlightLeg (models.Model):
@@ -82,6 +94,16 @@ class FlightLeg (models.Model):
         str_date = str(self.departure_date)[:16]
         return (str(self.flight) + " st. " + str(self.airport))
 
+    def clean(self):
+        if self.arrival_date > self.flight.arrival_date or self.arrival_date < self.flight.departure_date:
+            raise ValidationError("Datas must be between " + str(self.flight.departure_date) + " and " + str(self.flight.arrival_date))
+
+        if self.departure_date < self.flight.arrival_date or self.departure_date < self.flight.departure_date:
+            raise ValidationError("Datas must be between " + str(self.flight.departure_date) + " and " + str(self.flight.arrival_date))
+
+        if self.arrival_date > self.departure_date:
+            raise ValidationError("Datas are not valid")
+
 
 # model sedista
 class Seat (models.Model):
@@ -94,6 +116,9 @@ class Seat (models.Model):
                  ('F', 'First class seats'), ('E', 'Economy seats'), )
     seat_type = models.CharField(max_length=1, choices=SEAT_TYPE)
     price_factor = models.FloatField(default=1)
+
+    class Meta:
+        unique_together = ['seat_number', 'seat_type']
 
 
 # model karte

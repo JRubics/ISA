@@ -14,5 +14,9 @@ urlpatterns = [
     #filip dodao
     path('', views.home, name='home'),
     path('profile', views.profile, name='profile'),
-    path('profile/edit', views.profile_edit, name='profile_edit'),
+    path('profile/pass_change/', views.change_password, name='profile_pass_change'),
+    path('profile/edit/', views.ProfileEdit.as_view(), name='profile_edit'),
+    path('profile/people_list', views.ListProfiles.as_view(), name='profile_people_list'),
+    path('profile/friend_requests', views.ListFriendRequests.as_view(), name='profile_friend_requests'),
+    path('profile/unfriend', views.Unfriend.as_view(), name='profile_unfriend'),
 ]
