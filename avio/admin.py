@@ -2,6 +2,7 @@ from django.contrib import admin
 from avio.models import *
 from django import forms
 from django.apps import apps
+from django.db.models import Count
 
 
 class AvioCompanyAdmin (admin.ModelAdmin):
@@ -50,11 +51,14 @@ class FlightLegAdmin (admin.ModelAdmin):
         return qs
 
 
-class SeatAdmin (admin.ModelAdmin):
+class SeatA (admin.ModelAdmin):
+    list_display = ['flight', 'seat_status', 'seat_number', 'seat_type']
+    ordering = ('-seat_number',)
+    list_filter = ('flight', 'seat_type', 'seat_status')
+
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "flight" and not request.user.is_superuser:
-            kwargs["queryset"] = Flight.objects.filter(
-                avio_company=request.user.adminuser.avio_admin)
+            kwargs["queryset"] = Flight.objects.filter(avio_company=request.user.adminuser.avio_admin)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     def get_queryset(self, request):
@@ -68,11 +72,38 @@ class SeatAdmin (admin.ModelAdmin):
         return qs
 
 
+class SeatAdmin(admin.ModelAdmin):
+    change_list_template = "avio/admin_flight_seats_list.html"
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "flight" and not request.user.is_superuser:
+            kwargs["queryset"] = Flight.objects.filter(avio_company=request.user.adminuser.avio_admin)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def changelist_view(self, request, extra_context=None):
+        response = super().changelist_view(request, extra_context=extra_context,)
+
+        try:
+            qs = response.context_data['cl'].queryset
+        except (AttributeError, KeyError):
+            return response
+
+        metrics = {
+            'number_of_seats': Count('id'),
+        }
+
+        if not request.user.is_superuser:
+            gs = qs.filter(flight = request.user.adminuser.avio_admin.id)
+        response.context_data['seats'] = qs.values('flight', 'flight__avio_company__name', 'flight__departure_city__name', 'flight__arrival_city__name', 'flight__departure_date').annotate(**metrics).order_by('flight')
+        return response
+
+
 # Register your models here.
 admin.site.register(AvioCompany, AvioCompanyAdmin)
 admin.site.register(Flight, FlightAdmin)
 admin.site.register(FlightLeg, FlightLegAdmin)
-admin.site.register(Seat, SeatAdmin)
+admin.site.register(ManageSeats, SeatAdmin)
+admin.site.register(Seat, SeatA)
 admin.site.register(City)
 admin.site.register(Country)
 admin.site.register(Airport)

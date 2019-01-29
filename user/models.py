@@ -11,7 +11,7 @@ class Profile(models.Model):
     city = models.CharField(max_length=30)
     phone_number = models.CharField(max_length=30)
     bonus = models.PositiveIntegerField(default=0)
-    pic = models.FileField(null=True, default='/profile.png')
+    pic = models.FileField(upload_to='media/', default='/profile.png')
 
     def new(username, email, password, first_name, last_name, city, phone_number):
         user = User.objects.create_user(username=username,
