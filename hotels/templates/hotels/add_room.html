@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Add New Room</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container-fluid">
+                <div class="jumbotron">
+                    {% load crispy_forms_tags %}
+                    <form action="{% url 'hotels:add_hotel_room' hotel.id%}" method="post">
+                        {% csrf_token %}
+                        {{form|crispy}}
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <div class="float-right">
+                            <a class="btn btn-default" href="{% url 'hotels:admin_view_hotel' hotel.id%}" role="button">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

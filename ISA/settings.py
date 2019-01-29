@@ -30,6 +30,8 @@ ALLOWED_HOSTS = ["isa.theedgeofrage.com", "localhost", "127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
+    'crispy_forms',
+    'hotels',
     'user',
     'car',
     'avio',
@@ -42,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -125,10 +129,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = (os.path.join(BASE_DIR,'ISA/static'),os.path.join(BASE_DIR, 'static'),)#za compose
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'ISA/static'),os.path.join(BASE_DIR, 'static'),)#za compose
 
-LOGIN_URL='/user/login/'
-LOGIN_REDIRECT_URL='/user/home/'
+LOGIN_URL = '/user/login/'
+LOGIN_REDIRECT_URL = '/user/home/'
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
