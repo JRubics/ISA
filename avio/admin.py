@@ -51,26 +51,34 @@ class FlightLegAdmin (admin.ModelAdmin):
         return qs
 
 
-# class SeatAdmin (admin.ModelAdmin):
-#     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-#         if db_field.name == "flight" and not request.user.is_superuser:
-#             kwargs["queryset"] = Flight.objects.filter(
-#                 avio_company=request.user.adminuser.avio_admin)
-#         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+class SeatA (admin.ModelAdmin):
+    list_display = ['flight', 'seat_status', 'seat_number', 'seat_type']
+    ordering = ('-seat_number',)
+    list_filter = ('flight', 'seat_type', 'seat_status')
 
-#     def get_queryset(self, request):
-#         qs = super().get_queryset(request)
-#         if request.user.is_superuser:
-#             return qs
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "flight" and not request.user.is_superuser:
+            kwargs["queryset"] = Flight.objects.filter(avio_company=request.user.adminuser.avio_admin)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-#         for res in qs:
-#             if res.flight.id != request.user.adminuser.avio_admin.id:
-#                 qs.exclude(res)
-#         return qs
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+
+        for res in qs:
+            if res.flight.id != request.user.adminuser.avio_admin.id:
+                qs.exclude(res)
+        return qs
 
 
 class SeatAdmin(admin.ModelAdmin):
     change_list_template = "avio/admin_flight_seats_list.html"
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "flight" and not request.user.is_superuser:
+            kwargs["queryset"] = Flight.objects.filter(avio_company=request.user.adminuser.avio_admin)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     def changelist_view(self, request, extra_context=None):
         response = super().changelist_view(request, extra_context=extra_context,)
@@ -84,6 +92,8 @@ class SeatAdmin(admin.ModelAdmin):
             'number_of_seats': Count('id'),
         }
 
+        if not request.user.is_superuser:
+            gs = qs.filter(flight = request.user.adminuser.avio_admin.id)
         response.context_data['seats'] = qs.values('flight', 'flight__avio_company__name', 'flight__departure_city__name', 'flight__arrival_city__name', 'flight__departure_date').annotate(**metrics).order_by('flight')
         return response
 
@@ -92,7 +102,8 @@ class SeatAdmin(admin.ModelAdmin):
 admin.site.register(AvioCompany, AvioCompanyAdmin)
 admin.site.register(Flight, FlightAdmin)
 admin.site.register(FlightLeg, FlightLegAdmin)
-admin.site.register(Seat, SeatAdmin)
+admin.site.register(ManageSeats, SeatAdmin)
+admin.site.register(Seat, SeatA)
 admin.site.register(City)
 admin.site.register(Country)
 admin.site.register(Airport)

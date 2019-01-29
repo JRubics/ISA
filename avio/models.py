@@ -110,9 +110,9 @@ class Seat (models.Model):
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE)
     seat_number = models.IntegerField()
     SEAT_STATUS = (('T', 'Taken seats'), ('F', 'Free seat'),
-                   ('P', 'Promotion seat'), )
+                   ('P', 'Promotion seat'), ('O', 'Out of order'), ('R', 'Reserved seat'))
     seat_status = models.CharField(max_length=1, choices=SEAT_STATUS)
-    SEAT_TYPE = (('B', 'Business seats'), ('O', 'Out of order'),
+    SEAT_TYPE = (('B', 'Business seats'),
                  ('F', 'First class seats'), ('E', 'Economy seats'), )
     seat_type = models.CharField(max_length=1, choices=SEAT_TYPE)
     price_factor = models.FloatField(default=1)
@@ -120,6 +120,10 @@ class Seat (models.Model):
     class Meta:
         unique_together = ['seat_number', 'seat_type', 'flight']
 
+class ManageSeats (Seat):
+    class Meta:
+        proxy = True
+        verbose_name = 'Mange seate'
 
 # model karte
 class Ticket (models.Model):

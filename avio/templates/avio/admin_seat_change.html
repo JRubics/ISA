@@ -76,6 +76,7 @@
     seatSize = seatSize > maxSeatSize ? maxSeatSize : seatSize;
 
     const roundRect = (ctx, x, y, width, height, radius, fill, stroke, color, number) => {
+        ctx.setLineDash([])
         ctx.fillText(number, x + (width / 10), y + (height / 2));
         ctx.beginPath();
         ctx.moveTo(x + radius, y);
@@ -94,6 +95,11 @@
             ctx.strokeStyle = "red";
         } else if (color == "P") {
             ctx.strokeStyle = "orange";
+        } else if (color == "R") {
+            ctx.strokeStyle = "blue";
+        } else {
+            ctx.strokeStyle = "black";
+            ctx.setLineDash([12, 3, 3]);
         }
 
         if (stroke) {
