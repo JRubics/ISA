@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
-from .forms import HotelInfoForm, HotelServiceForm, RoomInfoForm, RoomPriceForm, ServicePackageForm
-from .models import Hotel, HotelRoom, HotelService, HotelServicePackage, HotelRoomPrice, ValidationError
+from .forms import HotelInfoForm, HotelServiceForm, RoomInfoForm, RoomPriceForm, ServicePackageForm, HSCHelpFormRooms, HSCHelpFormServices
+from .models import Hotel, HotelRoom, HotelService, HotelServicePackage, HotelRoomPrice, ValidationError, HotelShoppingCart
 from datetime import datetime, timedelta
 
 # import pdb; pdb.set_trace()
@@ -25,6 +25,31 @@ def edit_hotel_info(request, hotel_id):
             return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
     context = {'hotel': hotel, 'form': form}
     return render(request, 'hotels/edit_hotel_info.html', context)
+
+
+def view_hotels(request):
+    hotels = Hotel.objects.all()
+    context = {'hotels': hotels}
+    return render(request, 'hotels/view_hotels.html', context)
+
+
+def search_hotels(request):
+    hotels = Hotel.objects.all()
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        country = request.POST.get('country')
+        city = request.POST.get('city')
+        checkin = request.POST.get('checkin')
+        checkout = request.POST.get('checkout')        
+        if name:
+            hotels = hotels.filter(name__icontains=name)
+        if country:
+            hotels = hotels.filter(country__iexact=country)
+        if city:
+            hotels = hotels.filter(city__icontains=city)
+
+    context = {'hotels': hotels}
+    return render(request, 'hotels/view_hotels.html', context)
 
 # Hotel Room
 
@@ -165,8 +190,8 @@ def filtered_room_prices(request, hotel_id, room_id):
             'form_valid_to'), "%Y-%m-%d").date()
         if date_from is not None and date_to is not None:
             if date_from < date_to:
-                prices = HotelRoomPrice.objects.all().exclude(
-                    valid_to__lt=date_from).exclude(valid_from__gt=date_to)
+                prices = HotelRoomPrice.objects.filter(room_id=room.id)
+                prices = prices.exclude(valid_to__lt=date_from).exclude(valid_from__gt=date_to)
                 context = {'hotel': hotel, 'room': room, 'prices': prices,
                            'date_from': date_from, 'date_to': date_to}
     return render(request, 'hotels/view_room_prices.html', context)
@@ -174,15 +199,15 @@ def filtered_room_prices(request, hotel_id, room_id):
 
 def resolve_price_overlaps(price):
     # Overlapping:
-            # case 1: total insertion
+    # case 1: total insertion
     querry = HotelRoomPrice.objects.all().filter(
         valid_from__lte=price.valid_from, valid_to__gte=price.valid_to)
     if querry:
-        pr1 = querry.first()
-        pr2 = querry.first()
+        pr1 = querry.get()
+        pr2 = querry.get()
         pr2.id = None
-        pr1.valid_to = price.valid_from - timedelta(days=1)
-        pr2.valid_from = price.valid_to + timedelta(days=1)
+        pr1.valid_to = price.valid_from
+        pr2.valid_from = price.valid_to
         try:
             pr1.full_clean()
             pr1.save()
@@ -195,10 +220,10 @@ def resolve_price_overlaps(price):
             pass
     # case 2: left partial
     querry = HotelRoomPrice.objects.all().filter(
-        valid_from__gte=price.valid_from, valid_from__lte=price.valid_to)
+        valid_from__gte=price.valid_from, valid_from__lt=price.valid_to)
     if querry:
         pr1 = querry.first()
-        pr1.valid_from = price.valid_to + timedelta(days=1)
+        pr1.valid_from = price.valid_to
         try:
             pr1.full_clean()
             pr1.save()
@@ -206,10 +231,10 @@ def resolve_price_overlaps(price):
             pr1.delete()
     # case 3: right partial
     querry = HotelRoomPrice.objects.all().filter(
-        valid_to__gte=price.valid_from, valid_to__lte=price.valid_to)
+        valid_to__gt=price.valid_from, valid_to__lte=price.valid_to)
     if querry:
         pr1 = querry.first()
-        pr1.valid_to = price.valid_from - timedelta(days=1)
+        pr1.valid_to = price.valid_from
         try:
             pr1.full_clean()
             pr1.save()
@@ -261,3 +286,110 @@ def delete_room_price(request, hotel_id, room_id, price_id):
     price = get_object_or_404(HotelRoomPrice, pk=price_id)
     price.delete()
     return redirect('hotels:view_room_prices', hotel_id=hotel.id, room_id=room.id)
+
+# Hotel Reservation
+
+def reservation_step_1(request, hotel_id):
+    hotel = get_object_or_404(Hotel, pk=hotel_id)
+    if request.method == 'GET':
+        context = {'hotel': hotel}
+        return render(request, 'hotels/reservation_step_1.html', context)
+    if request.method == 'POST':
+        check_in = request.POST.get('checkin')
+        check_out = request.POST.get('checkout')
+        guest_num = request.POST.get('guest_num')
+        room_num = request.POST.get('room_num')
+        min_price = request.POST.get('min_price')
+        max_price = request.POST.get('max_price')
+
+        hsc = HotelShoppingCart()
+        if not (check_in and check_out and guest_num and room_num):
+            # error
+            pass
+        hsc.check_in = check_in
+        hsc.check_out = check_out
+        hsc.guest_number = guest_num
+        hsc.room_number = room_num
+        if min_price and max_price:
+            hsc.min_room_price = min_price
+            hsc.max_room_price = max_price
+        hsc.hotel = hotel
+
+        user = request.user
+        if hasattr(user, 'hotelshoppingcart'):
+            user.hotelshoppingcart.delete()
+        hsc.user = user
+
+        hsc.save()
+        
+        return redirect('hotels:reservation_step_2', hotel_id=hotel.id)
+        
+
+def reservation_step_2(request, hotel_id):
+    hotel = get_object_or_404(Hotel, pk=hotel_id)
+    user = request.user
+    hsc = user.hotelshoppingcart
+    if request.method == 'GET':
+        hscform = HSCHelpFormRooms()
+        hscform.fields['rooms'].queryset = HotelRoom.objects.filter(hotel_id=hotel_id)
+
+        rooms = HotelRoom.objects.filter(hotel_id=hotel.id)
+        # TODO: reserved exclusion
+        # TODO: other exclusions?
+        for room in rooms:
+            prices = HotelRoomPrice.objects.filter(room_id=room.id)
+            prices = prices.exclude(valid_to__lt=hsc.check_in).exclude(valid_from__gt=hsc.check_out)
+            total_price = 0
+            total_nights = 0
+            for price in prices:
+                if price.valid_from < hsc.check_in:
+                    price.valid_from = hsc.check_in
+                if price.valid_to > hsc.check_out:
+                    price.valid_to = hsc.check_out
+                nights = (price.valid_to - price.valid_from).days
+                total_nights += nights
+                total_price += price.price_per_day * nights
+            total_price += room.default_price_per_day * ((hsc.check_out - hsc.check_in).days - total_nights)
+            room.default_price_per_day = total_price
+
+        context = {'hotel': hotel, 'hsc': hsc, 'hscform': hscform, 'rooms': rooms}
+        return render(request, 'hotels/reservation_step_2.html', context)
+    elif request.method == 'POST':
+        hscform = HSCHelpFormRooms(request.POST)
+        if hscform.is_valid():
+            hsc.rooms.clear()
+            for room in hscform.cleaned_data['rooms'].all():
+                hsc.rooms.add(room)
+            hsc.save()
+            return redirect('hotels:reservation_step_3', hotel_id=hotel.id)
+
+
+def reservation_step_3(request, hotel_id):
+    hotel = get_object_or_404(Hotel, pk=hotel_id)
+    user = request.user
+    hsc = user.hotelshoppingcart
+    if request.method == 'GET':
+        hscform = HSCHelpFormServices()
+        hscform.fields['services'].queryset = HotelService.objects.filter(hotel_id=hotel_id)
+        services = HotelService.objects.filter(hotel_id=hotel_id)
+        context = {'hotel': hotel, 'hsc': hsc, 'hscform': hscform, 'services':services}
+        return render(request, 'hotels/reservation_step_3.html', context)
+    if request.method == 'POST':
+        hscform = HSCHelpFormServices(request.POST)
+        if hscform.is_valid():
+            hsc.services.clear()
+            for service in hscform.cleaned_data['services'].all():
+                hsc.services.add(service)
+            hsc.save()
+            return redirect('hotels:reservation_step_4', hotel_id=hotel.id)
+        context = {'hotel': hotel, 'hsc': hsc, 'hscform': hscform}
+        return render(request, 'hotels/reservation_step_3.html', context)
+
+
+def reservation_step_4(request, hotel_id):
+    hotel = get_object_or_404(Hotel, pk=hotel_id)
+    user = request.user
+    hsc = user.hotelshoppingcart
+    if request.method == 'GET':
+        context = {'hotel': hotel, 'hsc': hsc}
+        return render(request, 'hotels/reservation_step_4.html', context)
