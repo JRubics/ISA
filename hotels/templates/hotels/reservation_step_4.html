@@ -27,7 +27,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for room in hsc.rooms.all %}
+                    {% for room in rooms %}
                     <tr>
                         <td>{{room.number}}</td>
                         <td>{{room.name}}</td>
@@ -43,12 +43,22 @@
     </div>
     <div class="row">
         <div class="col">
-            <h3>Selected services</h2>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <strong>Room Total:</strong> {{total_nights}} Nights in {{rooms|length}} Rooms
+                    <div class="float-right"> = {{total_rooms}}</div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            {% if hsc.services.all %}
+            <h3>Selected services</h2>
+        </div>
+    </div>
+    {% if hsc.services.all %}
+    <div class="row">
+        <div class="col">
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -67,11 +77,46 @@
                     {% endfor %}
                 </tbody>
             </table>
-            {% else %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <strong>Total Services:</strong>
+                    <div class="float-right"> = {{total_services}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col">
             <div class="panel panel-default">
                 <div class="panel-body">No services selected</div>
             </div>
-            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    <div class="row">
+        <div class="col">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <strong>Grand Total:</strong>
+                    <div class="float-right"> = {{grand_total}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <form action="{% url 'hotels:reservation_step_4' hotel.id %}" method="post">
+                {% csrf_token %}
+                <a class="btn btn-secondary btn-lg" href="{% url 'hotels:reservation_step_3' hotel.id %}" role="button">Back</a>
+                <div class="float-right">
+                    <button type="submit" class="btn btn-primary btn-lg">Reserve Hotel</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

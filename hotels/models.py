@@ -2,7 +2,7 @@ from decimal import Decimal
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.db import models
+from django.db import models, transaction
 
 
 class Hotel(models.Model):
@@ -48,10 +48,10 @@ class HotelRoom(models.Model):
 
 
 class HotelService(models.Model):
-    PER_PERSON_PER_DAY = 'PPPD'
-    PER_ROOM_PER_DAY = 'PRPD'
-    PER_PERSON = 'PP'
-    PER_ROOM = 'PR'
+    PER_PERSON_PER_DAY = 'per person/day'
+    PER_ROOM_PER_DAY = 'per room/day'
+    PER_PERSON = 'per person'
+    PER_ROOM = 'per room'
     CHARGE_TYPES = (
         (PER_PERSON_PER_DAY, "per person/day"),
         (PER_PERSON, "per person"),
@@ -66,7 +66,7 @@ class HotelService(models.Model):
         validators=[MinValueValidator(0, "Price cannot be negative")]
     )
     type_of_charge = models.CharField(
-        max_length=4,
+        max_length=15,
         choices=CHARGE_TYPES,
         default=PER_PERSON_PER_DAY
     )
@@ -125,7 +125,7 @@ class HotelRoomPrice(models.Model):
         if self.valid_from > self.valid_to:
             raise ValidationError("Valid from cannot be later than valid to")
         if self.price_per_day is None:
-            raise ValidationError("Percentage is between 0 and 1")
+            raise ValidationError("Price cannot is missing")
         elif self.price_per_day < 0:
             raise ValidationError("Price cannot be negative")
         if self.strictly_discounted and self.service_package is None:
@@ -141,10 +141,29 @@ class HotelReservation(models.Model):
     services = models.ManyToManyField(HotelService)
     check_in = models.DateField()
     check_out = models.DateField()
+    rooms_charge = models.DecimalField(
+        decimal_places=2,
+        max_digits=10,
+        validators=[MinValueValidator(0, "Charge cannot be negative")]
+    )
+    services_charge = models.DecimalField(
+        decimal_places=2,
+        max_digits=10,
+        validators=[MinValueValidator(0, "Charge cannot be negative")]
+    )
 
     def clean(self):
         if self.check_in > self.check_out:
             raise ValidationError("Check-in cannot be later than check-out")
+        if self.rooms_charge < 0:
+            raise ValidationError("Charge cannot be negative")
+        if self.services_charge < 0:
+            raise ValidationError("Charge cannot be negative")
+
+    @classmethod
+    def reserve(cls, id, amount):
+        with transaction.atomic():
+            pass
 
 
 class HotelShoppingCart(models.Model):
@@ -166,6 +185,18 @@ class HotelShoppingCart(models.Model):
     max_room_price = models.DecimalField(
         decimal_places=2,
         max_digits=8,
+        null=True,
+        blank=True
+    )
+    rooms_charge = models.DecimalField(
+        decimal_places=2,
+        max_digits=10,
+        null=True,
+        blank=True
+    )
+    services_charge = models.DecimalField(
+        decimal_places=2,
+        max_digits=10,
         null=True,
         blank=True
     )

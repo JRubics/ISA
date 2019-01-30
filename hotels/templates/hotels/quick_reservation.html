@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <h2>Quick Reservation in Hotel {{hotel.name}}</h2>
+            <div class="float-right">
+                <button type="submit" class="btn btn-primary btn-lg">Book now</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h4>Discounted Rooms:</h2>
+        </div>
+    </div>
+    {% if rooms %}
+    {% for room in rooms %}
+    <div class="row">
+        <div class="col">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <h4>Room no {{room.number}}</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <strong>Previous price:</strong> {{room.defprice}}<br />
+                                <strong>Discounted price:</strong>:</strong> {{room.disprice}}<br />
+                            </div>
+                            <div class="col">
+                                <strong>Check in:</strong> {{room.check_in}}<br />
+                                <strong>Check out:</strong> {{room.check_out}}<br />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h5>Included services:</h5>
+                                <ul>
+                                {% if room.services %}
+                                {% for service in room.services %}
+                                    <li>{{service.name}}</li>
+                                {% endfor %}
+                                {% else %}
+                                    <li>No services included in price</li>
+                                {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <strong>Grand Total:</strong>
+                                <div class="float-right"> = {{price.total}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="row">
+        <div class="col">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p>There are no results for your search parameters in this hotel.</p>
+                    <div class="float-right"><a href="{% url 'hotels:view_hotels' %}" class="btn btn-primary">Back</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}
