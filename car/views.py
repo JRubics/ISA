@@ -145,6 +145,8 @@ def choose_service(request):
                         and street in service.address
                         and number in service.number]
     offices = BranchOffice.objects.all()
+    services = [service for service in services
+                        if service.id in [b.service.id for b in offices]]
     service_rates = {}
     for service in services:
       service_rates[service.id] = service.get_rate()
@@ -154,10 +156,12 @@ def choose_service(request):
     return render(request, 'car/service_list.html', context)
   else:
     services = Service.objects.all()
+    offices = BranchOffice.objects.all()
+    services = [service for service in services
+                        if service.id in [b.service.id for b in offices]]
     service_rates = {}
     for service in services:
       service_rates[service.id] = service.get_rate()
-    offices = BranchOffice.objects.all()
     context = {'services':services, 'offices':offices, 'service_rates':service_rates}
     return render(request, 'car/choose_service.html', context)
 
