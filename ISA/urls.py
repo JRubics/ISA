@@ -17,15 +17,16 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic.base import RedirectView
+from user import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('user.urls', namespace="user")),
     path('car/', include('car.urls', namespace="car")),
-
+    path('hotels/', include('hotels.urls', namespace="hotels")),
     path('avio/', include('avio.urls', namespace="avio")),
-
-
+    path('', views.index)
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
