@@ -1,0 +1,172 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static admin_modify %}
+
+{% block extrahead %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+{{ block.super }}
+<script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+<style>
+#header {
+    height: 60px;
+}
+#branding #site-name {
+    height: 40px;
+    line-height: 40px;
+}
+</style>
+{{ media }}
+{% endblock %}
+
+{% block extrastyle %}{{ block.super }}
+{% endblock %}
+
+{% block coltype %}colM{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <canvas id="canvas" style="width: 100%; height: 500px; margin: auto; background-color: #ffffff;"></canvas>
+
+    <div class="container-fluid">
+        <div class="row">
+            <form class="form" action="{%url 'avio:seats_change' id%}" method="post">
+            {% csrf_token %}
+                <h4>Add seats:</h4>
+                {{ form_seat }}
+                <input class="btn btn-lg input-success" type="submit" name="action" value="Add">
+            </form>
+        </div>
+        
+        <div class="row">
+            <form class="form" action="{%url 'avio:seats_change' id%}" method="post">
+            {% csrf_token %}
+                <h4>Update seat:</h4>
+                {{ seat_update_form }}
+                <input class="btn btn-lg input-success" type="submit" name="action" value="Update">
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    // uvezene promenljive
+    let number_b = "{{number_b}}";
+    let number_f = "{{number_f}}";
+    let number_e = "{{number_e}}";
+    let seats_e = {{ seats_e| safe }}; //nzm zasto baca da ne valja kad radi i tako kaze stack-overflow
+    let seats_f = {{ seats_f| safe }};
+    let seats_b = {{ seats_b| safe }};
+
+    // lociran canvas preko id
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // namestanje velicine canvasa bez ovoga se pogubi
+    const canvasWidth = canvas.scrollWidth;
+    const canvasHeight = canvas.scrollHeight;
+    canvas.width = canvas.scrollWidth;
+    canvas.height = canvas.scrollHeight;
+
+    // namestanje velicine sedista
+    let part_width = canvasWidth / 3;
+    const maxSeatSize = 75;
+    let colum_num = (Math.max(number_b, number_f, number_e)) / 4;
+    let seatSize = ((part_width - 10) / colum_num);
+    seatSize = seatSize > maxSeatSize ? maxSeatSize : seatSize;
+
+    const roundRect = (ctx, x, y, width, height, radius, fill, stroke, color, number) => {
+        ctx.setLineDash([])
+        ctx.fillText(number, x + (width / 10), y + (height / 2));
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
+        if (color == "F") {
+            ctx.strokeStyle = "green";
+        } else if (color == "T") {
+            ctx.strokeStyle = "red";
+        } else if (color == "P") {
+            ctx.strokeStyle = "orange";
+        } else if (color == "R") {
+            ctx.strokeStyle = "blue";
+        } else {
+            ctx.strokeStyle = "black";
+            ctx.setLineDash([12, 3, 3]);
+        }
+
+        if (stroke) {
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+        if (fill) {
+            ctx.fill();
+        }
+        ctx.strokeStyle = "black";
+    }
+
+    const draw = () => {
+        // levi deo sa economy sedistima
+        ctx.font = "italic 2em Fira Sans serif";
+        ctx.fillText('Economy', 0, 50);
+
+        for (let index = 0; index < number_e; index++) {
+            let x = part_width - 10 - Math.floor(index / 4) * seatSize - seatSize;
+            let y = 150 + index % 4 * seatSize
+            let color = seats_e[index][0];
+            let number = seats_e[index][1]
+            roundRect(ctx, x, y, seatSize - 10, seatSize - 10, 5, false, true, color, number);
+        }
+
+        // srednji deo za bussiness
+        ctx.beginPath();
+        ctx.setLineDash([12, 3, 3]);
+        ctx.moveTo(part_width, 10);
+        ctx.lineTo(part_width, canvasHeight - 10);
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        ctx.setLineDash([])
+
+        ctx.font = "italic 2em Fira Sans serif";
+        ctx.fillText('Bussiness', part_width + 40, 50);
+
+        for (let index = 0; index < number_b; index++) {
+            let x = part_width + 10 + Math.floor(index / 4) * seatSize;
+            let y = 150 + index % 4 * seatSize
+            let color = seats_b[number_b - index - 1][0];
+            let number = seats_b[number_b - index - 1][1]
+            roundRect(ctx, x, y, seatSize - 10, seatSize - 10, 5, false, true, color, number);
+        }
+
+        // desni deo za first class
+        ctx.beginPath();
+        ctx.setLineDash([12, 3, 3]);
+        ctx.moveTo(part_width * 2, 10);
+        ctx.lineTo(part_width * 2, canvasHeight - 10);
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        ctx.setLineDash([])
+
+        ctx.font = "italic 2em Fira Sans serif";
+        ctx.fillText('First Class', part_width * 2 + 40, 50);
+
+        for (let index = 0; index < number_f; index++) {
+            let x = part_width * 2 + 10 + Math.floor(index / 4) * seatSize;
+            let y = 150 + index % 4 * seatSize
+            let color = seats_f[number_f - index - 1][0];
+            let number = seats_f[number_f - index - 1][1]
+            roundRect(ctx, x, y, seatSize - 10, seatSize - 10, 5, false, true, color, number);
+        }
+    }
+
+    draw();
+</script>
+
+{% endblock %}

@@ -25,6 +25,7 @@ urlpatterns = [
     path('user/', include('user.urls', namespace="user")),
     path('car/', include('car.urls', namespace="car")),
     path('hotels/', include('hotels.urls', namespace="hotels")),
+    path('avio/', include('avio.urls', namespace="avio")),
     path('', views.index)
 ]
 

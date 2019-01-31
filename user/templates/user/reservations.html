@@ -11,6 +11,7 @@
           <th scope="col">Return office</th>
           <th scope="col">Return date</th>
           <th scope="col">Car</th>
+          <th scope="col">Full price</th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -18,11 +19,12 @@
         {% for reservation in reservations %}
           <tr>
             <td>{{reservation.office1.service}}</td>
-            <td>{{reservation.office1}}</td>
+            <td>{{reservation.office1.name}}</td>
             <td>{{reservation.date1|date:"M-d-Y"}}</td>
-            <td>{{reservation.office2}}</td>
+            <td>{{reservation.office2.name}}</td>
             <td>{{reservation.date2|date:"M-d-Y" }}</td>
-            <td>{{reservation.car}}</td>
+            <td>{{reservation.car.name}}</td>
+            <td>{{reservation.price}}</td>
             <td>
               {% if reservation.is_done and not reservation.is_rated %}
                 <a class="btn btn-default" href="{% url 'car:car_rate' reservation.id%}">rate</a>

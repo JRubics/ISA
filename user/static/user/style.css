@@ -1,5 +1,6 @@
 body{
     background:  #3931af;
+    overflow-x: hidden;
 }
 .emp-profile{
     padding: 3%;

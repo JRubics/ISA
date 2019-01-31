@@ -20,14 +20,14 @@ warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 class CarSeleniumTestCase(LiveServerTestCase):
     def setUp(self):
-      self.selenium = webdriver.Firefox()
+      self.selenium = webdriver.Chrome()
 
       self.user = User.objects.create(username='test', email='test@test.com',password='passtest', is_active=True)
       self.profile = Profile.objects.create(user=self.user, city='Novi Sad', phone_number='021333444', bonus=2)
       self.user.user_permissions.add(Permission.objects.get(name='Is car admin'))
       self.user.save()
 
-      self.service = Service(name='testService', promo_description='someDesc', country='SRB', city='Novi Sad', address='Street', number='123')
+      self.service = Service(name='testService', promo_description='someDesc', country='SRB', city='Novi Sad', address='Street', number='123', service_admin=self.user)
       self.service.save()
 
       self.car = Car(name='testCar', service=self.service, manufacturer='1', model='someModel', car_type='1', price=123.45, year=2001, seats=3)
@@ -47,44 +47,22 @@ class CarSeleniumTestCase(LiveServerTestCase):
     def tearDown(self):
       self.selenium.quit()
 
-    def test_car_home(self):
+    def test_car_service(self):
       selenium = self.selenium
-      selenium.get(self.live_server_url + "/car/home")
+      selenium.get(self.live_server_url + "/car/service")
       assert 'LOGIN' in selenium.page_source
 
-    def test_car_home_with_user(self):
-      selenium = self.selenium
-      force_login(self.user, selenium, self.live_server_url)
-      selenium.get(self.live_server_url + "/car/home")
-
-      assert 'car/home' in selenium.current_url
-
-    def test_car_new_service(self):
+    def test_car_service_with_user(self):
       selenium = self.selenium
       force_login(self.user, selenium, self.live_server_url)
       selenium.get(self.live_server_url + "/car/service")
 
-      selenium.find_element_by_name('name').send_keys('servicename')
-      selenium.find_element_by_name('country').send_keys('Serbia')
-      selenium.find_element_by_name('city').send_keys('Belgrade')
-      selenium.find_element_by_name('address').send_keys('Asd fgh')
-      selenium.find_element_by_name('number').send_keys('3')
-      selenium.find_element_by_name('promo_description').send_keys('promo text')
-
-      selenium.find_element_by_name('add_service').click()
-
-      assert 'car/home' in selenium.current_url
-      assert 'servicename' in selenium.page_source
-      assert 'Serbia' in selenium.page_source
-      assert 'Belgrade' in selenium.page_source
-      assert 'Asd fgh' in selenium.page_source
-      assert '3' in selenium.page_source
-      assert 'promo text' in selenium.page_source
+      assert 'car/service' in selenium.current_url
 
     def test_car_edit_service(self):
       selenium = self.selenium
       force_login(self.user, selenium, self.live_server_url)
-      selenium.get(self.live_server_url + "/car/service/" + str(self.service.id))
+      selenium.get(self.live_server_url + "/car/service")
 
       selenium.find_element_by_name('name').clear()
       selenium.find_element_by_name('name').send_keys('testService1')
@@ -218,7 +196,7 @@ class CarSeleniumTestCase(LiveServerTestCase):
     def test_car_taken(self):
       selenium = self.selenium
       force_login(self.user, selenium, self.live_server_url)
-      selenium.get(self.live_server_url + "/car/service/" + str(self.service.id))
+      selenium.get(self.live_server_url + "/car/service")
 
       assert len(selenium.find_elements_by_name('edit_car')) is 1
       assert len(selenium.find_elements_by_name('delete_car')) is 1
@@ -265,7 +243,7 @@ class CarSeleniumTestCase(LiveServerTestCase):
     def test_car_delete(self):
       selenium = self.selenium
       force_login(self.user, selenium, self.live_server_url)
-      selenium.get(self.live_server_url + "/car/service/" + str(self.service.id))
+      selenium.get(self.live_server_url + "/car/service")
 
       assert len(selenium.find_elements_by_name('delete_car')) is 1
 
@@ -280,7 +258,7 @@ class CarSeleniumTestCase(LiveServerTestCase):
     def test_car_delete_office(self):
       selenium = self.selenium
       force_login(self.user, selenium, self.live_server_url)
-      selenium.get(self.live_server_url + "/car/service/" + str(self.service.id))
+      selenium.get(self.live_server_url + "/car/service")
 
       assert len(selenium.find_elements_by_name('delete_office')) is 1
 
