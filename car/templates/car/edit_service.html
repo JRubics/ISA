@@ -2,7 +2,7 @@
 
 {% block content %}
   {% if service %}
-  <form action="{% url 'car:edit_service' service.id%}" method="post">
+  <form action="{% url 'car:edit_service'%}" method="post">
     {% csrf_token %}
       <div class="container">
         <div class="row">

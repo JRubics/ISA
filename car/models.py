@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime, timezone
 from django.conf import settings
+from django.contrib.auth.models import User
 
 class Service(models.Model):
     name = models.CharField(max_length=30)
@@ -9,6 +10,7 @@ class Service(models.Model):
     city = models.CharField(max_length=60)
     address = models.CharField(max_length=60)
     number = models.CharField(max_length=60)
+    service_admin = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     def __str__(self):
         return self.name
     def get_rate(self):

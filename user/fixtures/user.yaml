@@ -1,0 +1,39 @@
+- model: auth.user
+  pk: 1
+  fields:
+    username: jelena
+    password: pbkdf2_sha256$120000$SEW99m0OEtQH$jndrIaIPGf0w25wqfEtTz1lhU1mTaKtxyYFkNEVZHRA=
+    email: jelena@jelena.com
+    is_superuser: true
+    is_staff: true
+    is_active: true
+
+- model: auth.user
+  pk: 2
+  fields:
+    username: admin1
+    password: pbkdf2_sha256$120000$SEW99m0OEtQH$jndrIaIPGf0w25wqfEtTz1lhU1mTaKtxyYFkNEVZHRA=
+    email: admin1@service.com
+    is_superuser: true
+    is_staff: true
+    is_active: true
+
+- model: auth.user
+  pk: 3
+  fields:
+    username: admin2
+    password: pbkdf2_sha256$120000$SEW99m0OEtQH$jndrIaIPGf0w25wqfEtTz1lhU1mTaKtxyYFkNEVZHRA=
+    email: admin2@service.com
+    is_superuser: true
+    is_staff: true
+    is_active: true
+
+- model: auth.user
+  pk: 4
+  fields:
+    username: admin3
+    password: pbkdf2_sha256$120000$SEW99m0OEtQH$jndrIaIPGf0w25wqfEtTz1lhU1mTaKtxyYFkNEVZHRA=
+    email: admin3@service.com
+    is_superuser: true
+    is_staff: true
+    is_active: true

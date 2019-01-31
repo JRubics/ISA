@@ -13,18 +13,10 @@ from .models import CarRate
 from user.models import User
 
 
-
 @login_required()
 @permission_required('user.is_car_admin')
-def car_home(request):
-  services = Service.objects.all()
-  context = {'services':services}
-  return render(request, 'car/car_admin_home.html', context)
-
-@login_required()
-@permission_required('user.is_car_admin')
-def edit_service(request, id=None):
-  service = Service.objects.get(id=id)
+def edit_service(request):
+  service = Service.objects.get(id=request.user.service.id)
   if request.method == 'POST':
     service.name = request.POST['name']
     service.country = request.POST['country']
@@ -33,31 +25,15 @@ def edit_service(request, id=None):
     service.number = request.POST['number']
     service.promo_description = request.POST['promo_description']
     service.save()
-  cars = Car.objects.select_related().filter(service = id)
+  cars = Car.objects.select_related().filter(service = service.id)
   car_rates = {}
   for car in cars:
     car.is_reserved()
     car_rates[car.id] = car.get_rate()
   rate = service.get_rate()
-  offices = BranchOffice.objects.select_related().filter(service = id)
+  offices = BranchOffice.objects.select_related().filter(service = service.id)
   context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,'service':service, 'cars':cars, 'offices':offices, 'rate':rate, 'car_rates':car_rates}
   return render(request, 'car/edit_service.html',context)
-
-@login_required()
-@permission_required('user.is_car_admin')
-def add_service(request):
-  if request.method == 'POST':
-    service = Service(name = request.POST['name'],
-                          country = request.POST['country'],
-                          city = request.POST['city'],
-                          address = request.POST['address'],
-                          number = request.POST['number'],
-                          promo_description = request.POST['promo_description'])
-    service.save()
-    return redirect('/car/home')
-  else:
-    context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE}
-    return render(request, 'car/add_service.html', context)
 
 @login_required()
 @permission_required('user.is_car_admin')
@@ -73,7 +49,7 @@ def add_car(request, service_id=None):
               seats = request.POST['seats'],
               )
     car.save()
-    return redirect('/car/service/'+str(service_id))
+    return redirect('/car/service')
   else:
     context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE, 'service_id':service_id}
     return render(request, 'car/add_car.html', context)
@@ -96,7 +72,7 @@ def edit_car(request, id=None):
       car.on_sale = False
     car.save()
     context = {'car':car}
-    return redirect('/car/service/'+str(car.service.id))
+    return redirect('/car/service')
   else:
     car = Car.objects.get(id=id)
     context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,'car':car}
@@ -108,7 +84,7 @@ def delete_car(request, id=None):
   car = Car.objects.get(id=id)
   service = car.service
   car.delete()
-  return redirect('/car/service/'+str(service.id))
+  return redirect('/car/service')
 
 @login_required()
 @permission_required('user.is_car_admin')
@@ -122,7 +98,7 @@ def add_office(request, service_id=None):
                           number = request.POST['number']
                           )
     office.save()
-    return redirect('/car/service/'+str(service_id))
+    return redirect('/car/service')
   else:
     context = {'service_id':service_id}
     return render(request, 'car/add_office.html', context)
@@ -139,7 +115,7 @@ def edit_office(request, id=None):
     office.number = request.POST['number']
     office.save()
     context = {'office':office}
-    return redirect('/car/service/'+str(office.service.id))
+    return redirect('/car/service')
   else:
     office = BranchOffice.objects.get(id=id)
     context = {'office':office}
@@ -151,7 +127,7 @@ def delete_office(request, id=None):
   office = BranchOffice.objects.get(id=id)
   service = office.service
   office.delete()
-  return redirect('/car/service/'+str(service.id))
+  return redirect('/car/service')
 
 
 @login_required()
