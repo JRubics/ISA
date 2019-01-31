@@ -135,7 +135,7 @@
     office2: 1
     date1: 2013-03-18 13:19:37+00:00
     date2: 2013-03-18 13:19:37+00:00
-    user: 1
+    user: 5
 
 - model: car.reservation
   pk: 2
@@ -145,7 +145,7 @@
     office2: 4
     date1: 2019-01-10 13:19:37+00:00
     date2: 2019-01-11 13:19:37+00:00
-    user: 1
+    user: 5
 
 - model: car.reservation
   pk: 3
@@ -155,7 +155,7 @@
     office2: 4
     date1: 2020-08-10 13:19:37+00:00
     date2: 2020-09-18 13:19:37+00:00
-    user: 1
+    user: 5
 
 - model: car.carrate
   pk: 1
