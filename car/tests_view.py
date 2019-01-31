@@ -244,7 +244,7 @@ class CarSeleniumTestCase(LiveServerTestCase):
       selenium = self.selenium
       force_login(self.user, selenium, self.live_server_url)
       selenium.get(self.live_server_url + "/car/service")
-      
+
       assert len(selenium.find_elements_by_name('delete_car')) is 1
 
       self.car1 = Car(name='testCar2', service=self.service, manufacturer='1', model='someModel', car_type='1', price=123.45, year=2001, seats=3)
