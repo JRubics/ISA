@@ -179,6 +179,8 @@ def reservation(request):
     offices = BranchOffice.objects.select_related().filter(service = s_id)
     context = {'type':Car.TYPE,'service':service, 'offices':offices}
     return render(request, 'car/reservation.html', context)
+  else:
+    return redirect('/car/choose')
 
 @login_required()
 def choose_car(request, id):
@@ -209,6 +211,8 @@ def choose_car(request, id):
               'date1':date1, 'date2':date2, 'car_rates': car_rates,
               'car_prices_for_user':car_prices_for_user}
     return render(request, 'car/choose_car.html', context)
+  else:
+    return redirect('/car/choose')
 
 @login_required()
 def fast_choose_car(request):
@@ -234,6 +238,8 @@ def fast_choose_car(request):
               'date1':date1, 'date2':date2,
               'car_prices_for_user':car_prices_for_user}
     return render(request, 'car/fast_choose_car.html', context)
+  else:
+    return redirect('/car/choose')
 
 @login_required()
 def make_reservation(request, id):
@@ -252,6 +258,8 @@ def make_reservation(request, id):
                           user = User.objects.get(id=request.user.id))
     reservation.save()
     return redirect('/user/reservations')
+  else:
+    return redirect('/car/choose')
 
 @login_required()
 def make_fast_reservation(request, id):
@@ -270,6 +278,8 @@ def make_fast_reservation(request, id):
                           user = User.objects.get(id=request.user.id))
     reservation.save()
     return redirect('/user/reservations')
+  else:
+    return redirect('/car/choose')
 
 
 @login_required()
