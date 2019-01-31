@@ -24,8 +24,8 @@ def car_home(request):
 @login_required()
 @permission_required('user.is_car_admin')
 def edit_service(request, id=None):
+  service = Service.objects.get(id=id)
   if request.method == 'POST':
-    service = Service.objects.filter(id=id).first()
     service.name = request.POST['name']
     service.country = request.POST['country']
     service.city = request.POST['city']
@@ -33,7 +33,6 @@ def edit_service(request, id=None):
     service.number = request.POST['number']
     service.promo_description = request.POST['promo_description']
     service.save()
-  service = Service.objects.filter(id=id).first()
   cars = Car.objects.select_related().filter(service = id)
   car_rates = {}
   for car in cars:
@@ -65,7 +64,7 @@ def add_service(request):
 def add_car(request, service_id=None):
   if request.method == 'POST':
     car = Car(name = request.POST['name'],
-              service = Service.objects.filter(id=service_id).first(),
+              service = Service.objects.get(id=service_id),
               manufacturer = request.POST['manufacturer_select'],
               model = request.POST['model'],
               car_type = request.POST['type_select'],
@@ -83,7 +82,7 @@ def add_car(request, service_id=None):
 @permission_required('user.is_car_admin')
 def edit_car(request, id=None):
   if request.method == 'POST':
-    car = Car.objects.filter(id=id).first()
+    car = Car.objects.get(id=id)
     car.name = request.POST['name']
     car.manufacturer = request.POST['manufacturer_select']
     car.model = request.POST['model']
@@ -99,14 +98,14 @@ def edit_car(request, id=None):
     context = {'car':car}
     return redirect('/car/service/'+str(car.service.id))
   else:
-    car = Car.objects.filter(id=id).first()
+    car = Car.objects.get(id=id)
     context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,'car':car}
     return render(request, 'car/edit_car.html',context)
 
 @login_required()
 @permission_required('user.is_car_admin')
 def delete_car(request, id=None):
-  car = Car.objects.filter(id=id).first()
+  car = Car.objects.get(id=id)
   service = car.service
   car.delete()
   return redirect('/car/service/'+str(service.id))
@@ -116,7 +115,7 @@ def delete_car(request, id=None):
 def add_office(request, service_id=None):
   if request.method == 'POST':
     office = BranchOffice(name = request.POST['name'],
-                          service = Service.objects.filter(id=service_id).first(),
+                          service = Service.objects.get(id=service_id),
                           country = request.POST['country'],
                           city = request.POST['city'],
                           address = request.POST['address'],
@@ -132,7 +131,7 @@ def add_office(request, service_id=None):
 @permission_required('user.is_car_admin')
 def edit_office(request, id=None):
   if request.method == 'POST':
-    office = BranchOffice.objects.filter(id=id).first()
+    office = BranchOffice.objects.get(id=id)
     office.name = request.POST['name']
     office.country = request.POST['country']
     office.city = request.POST['city']
@@ -142,14 +141,14 @@ def edit_office(request, id=None):
     context = {'office':office}
     return redirect('/car/service/'+str(office.service.id))
   else:
-    office = BranchOffice.objects.filter(id=id).first()
+    office = BranchOffice.objects.get(id=id)
     context = {'office':office}
     return render(request, 'car/edit_office.html',context)
 
 @login_required()
 @permission_required('user.is_car_admin')
 def delete_office(request, id=None):
-  office = BranchOffice.objects.filter(id=id).first()
+  office = BranchOffice.objects.get(id=id)
   service = office.service
   office.delete()
   return redirect('/car/service/'+str(service.id))
@@ -195,7 +194,7 @@ def reservation(request):
       offices = BranchOffice.objects.all()
       context = {'services':services, 'offices':offices,}
       return render(request, 'car/choose_service.html', context)
-    service = Service.objects.filter(id=s_id).first()
+    service = Service.objects.get(id=s_id)
     cars = Car.objects.select_related().filter(service = s_id)
     offices = BranchOffice.objects.select_related().filter(service = s_id)
     context = {'type':Car.TYPE,'service':service, 'offices':offices}
@@ -264,31 +263,31 @@ def make_reservation(request, id):
     date1 = request.POST['date1']
     date2 = request.POST['date2']
     price = request.POST['price']
-    reservation = Reservation(car = Car.objects.filter(id=id).first(),
-                          office1 = BranchOffice.objects.filter(id=office1).first(),
-                          office2 = BranchOffice.objects.filter(id=office2).first(),
+    reservation = Reservation(car = Car.objects.get(id=id),
+                          office1 = BranchOffice.objects.get(id=office1),
+                          office2 = BranchOffice.objects.get(id=office2),
                           date1 = date1,
                           date2 = date2,
                           price = price,
-                          user = User.objects.filter(id=request.user.id).first())
+                          user = User.objects.get(id=request.user.id))
     reservation.save()
     return redirect('/user/reservations')
 
 @login_required()
 def make_fast_reservation(request, id):
   if request.method == 'POST':
-    service = Service.objects.filter(id=request.POST['service']).first()
+    service = Service.objects.get(id=request.POST['service'])
     date1 = request.POST['date1']
     date2 = request.POST['date2']
     price = request.POST['price']
-    office = BranchOffice.objects.filter(service=service.id).first()
-    reservation = Reservation(car = Car.objects.filter(id=id).first(),
+    office = BranchOffice.objects.get(service=service.id)
+    reservation = Reservation(car = Car.objects.get(id=id),
                           office1 = office,
                           office2 = office,
                           date1 = date1,
                           date2 = date2,
                           price = price,
-                          user = User.objects.filter(id=request.user.id).first())
+                          user = User.objects.get(id=request.user.id))
     reservation.save()
     return redirect('/user/reservations')
 
@@ -296,7 +295,7 @@ def make_fast_reservation(request, id):
 @login_required()
 def car_rate(request, id=None):
   if request.method == 'POST':
-    reservation = Reservation.objects.filter(id=id).first()
+    reservation = Reservation.objects.get(id=id)
     car_rate = request.POST['car_rate']
     service_rate = request.POST['service_rate']
     car_rate = CarRate(reservation = reservation,
@@ -305,20 +304,20 @@ def car_rate(request, id=None):
     car_rate.save()
     return redirect('/user/reservations')
   else:
-    reservation = Reservation.objects.filter(id=id).first()
+    reservation = Reservation.objects.get(id=id)
     context = {'reservation':reservation}
     return render(request, 'car/rate_car.html',context)
 
 @login_required()
 def cancel_reservation(request, id=None):
-  reservation = Reservation.objects.filter(id=id).first()
+  reservation = Reservation.objects.get(id=id)
   if reservation.can_be_closed:
     reservation.delete()
   return redirect('/user/reservations')
 
 @login_required()
 def graph(request, id=None):
-  service = Service.objects.filter(id=id).first()
+  service = Service.objects.get(id=id)
   reservations = Reservation.objects.all()
   reservations = [r for r in reservations if r.office1.service == service]
   r_year = [r for r in reservations if r.date1.replace(tzinfo=None) >= datetime.now() - timedelta(days=365) and r.date1.replace(tzinfo=None) <= datetime.now()]
