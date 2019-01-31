@@ -11,6 +11,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <style>
+        #map {
+            height: 360px;
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -80,7 +86,7 @@
                 </ul>
 
                 <form class="navbar-form navbar-left" role="search" method="get" action="#">
-                {% csrf_token %}
+                    {% csrf_token %}
                     <div class="form-group">
                         <input type="text" class="form-control" name="src" value="">
                     </div>

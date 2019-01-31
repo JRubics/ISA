@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from .forms import HotelInfoForm, HotelServiceForm, RoomInfoForm, RoomPriceForm, ServicePackageForm, HSCHelpFormRooms, HSCHelpFormServices
-from .models import Hotel, HotelRoom, HotelService, HotelServicePackage, HotelRoomPrice, ValidationError, HotelShoppingCart, HotelReservation
+from .models import Hotel, HotelRoom, HotelService, HotelServicePackage, HotelRoomPrice, ValidationError, HotelShoppingCart, HotelReservation, QuickReservationOption
 from datetime import datetime, timedelta
+from decimal import Decimal
 
 # import pdb; pdb.set_trace()
 
@@ -171,6 +172,15 @@ def search_hotels(request):
     return render(request, 'hotels/view_hotels.html', context)
 
 
+def view_hotel_unregistered(request, hotel_id):
+    hotel = get_object_or_404(Hotel, pk=hotel_id)
+    context = {'hotel': hotel}
+    return render(request, 'hotels/view_hotel_unregistered.html', context)
+
+def view_test(request):
+    return render(request, 'hotels/test.html')
+
+
 # Hotel Room
 
 
@@ -326,7 +336,10 @@ def resolve_price_overlaps(price):
     # Overlapping:
     # case 1: total insertion
     querry = HotelRoomPrice.objects.all().filter(
-        valid_from__lte=price.valid_from, valid_to__gte=price.valid_to)
+        room_id=price.room.id,
+        valid_from__lte=price.valid_from,
+        valid_to__gte=price.valid_to
+    )
     if querry:
         pr1 = querry.get()
         pr2 = querry.get()
@@ -345,7 +358,10 @@ def resolve_price_overlaps(price):
             pass
     # case 2: left partial
     querry = HotelRoomPrice.objects.all().filter(
-        valid_from__gte=price.valid_from, valid_from__lt=price.valid_to)
+        room_id=price.room.id,
+        valid_from__gte=price.valid_from,
+        valid_from__lt=price.valid_to
+    )
     if querry:
         pr1 = querry.first()
         pr1.valid_from = price.valid_to
@@ -356,7 +372,10 @@ def resolve_price_overlaps(price):
             pr1.delete()
     # case 3: right partial
     querry = HotelRoomPrice.objects.all().filter(
-        valid_to__gt=price.valid_from, valid_to__lte=price.valid_to)
+        room_id=price.room.id,
+        valid_to__gt=price.valid_from,
+        valid_to__lte=price.valid_to
+    )
     if querry:
         pr1 = querry.first()
         pr1.valid_to = price.valid_from
@@ -392,7 +411,7 @@ def edit_room_price(request, hotel_id, room_id, price_id):
     price = get_object_or_404(HotelRoomPrice, pk=price_id)
     if request.method == 'GET':
         form = RoomPriceForm(instance=price)
-        form.fields['service_package'].queryset = HotelService.objects.filter(
+        form.fields['service_package'].queryset = HotelServicePackage.objects.filter(
             hotel_id=hotel_id)
     elif request.method == 'POST':
         form = RoomPriceForm(request.POST, instance=price)
@@ -577,14 +596,79 @@ def reservation_step_4(request, hotel_id):
         return redirect('hotels:view_hotels')
 
 
-def filter_discounted_rooms(rooms):
+def filter_discounted_rooms_and_prepare(rooms, check_in, check_out):
     tmp = []
     for room in rooms:
-        pass
+        prices = HotelRoomPrice.objects.filter(room_id=room.id)
+        prices = prices.filter(valid_from__lte=check_in, valid_to__gte=check_out)
+        prices = prices.filter(strictly_discounted=True)
+        if prices.exists():
+            price = prices.get()
+            daynum = (check_out - check_in).days
+            room.defprice = price.price_per_day * daynum
+            service_package = price.service_package
+            room.disprice = price.price_per_day * daynum * (Decimal(100) - service_package.rooms_discount) / Decimal(100)
+            room.check_in = check_in
+            room.check_out = check_out
+            room.services = service_package.services.all()
+            room.total = room.disprice + get_total_services(room.services, daynum, room.capacity, 1)
+            tmp.append(room)
+    return tmp
 
 
 def quick_reservation(request, hotel_id):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
+    user = request.user
+    hsc = user.hotelshoppingcart
     if request.method == 'GET':
         rooms = hotel.hotelroom_set.all()
         rooms = list(rooms)
+        rooms = filter_avialable_rooms(rooms, hsc.check_in, hsc.check_out)
+        rooms = filter_discounted_rooms_and_prepare(rooms, hsc.check_in, hsc.check_out)
+        # TODO: izbaci sobe sa vecim kapacitetom od broja karata
+        for room in rooms:
+            qro = QuickReservationOption()
+            qro.shopping_cart = hsc
+            qro.rooms_charge = room.disprice
+            qro.services_charge = room.total - room.disprice
+            qro.room = get_object_or_404(HotelRoom, pk=room.id)
+            qro.save()
+            for service in room.services:
+                qro.services.add(service)
+            room.qro = qro.id
+        context = {'rooms': rooms, 'hotel': hotel}
+        return render(request, 'hotels/quick_reservation.html', context)
+    elif request.method == 'POST':
+        qro_id = request.POST.get('qroption')
+        qro = get_object_or_404(QuickReservationOption, pk=qro_id)
+        if hsc:
+            reservation = HotelReservation()
+            reservation.user = request.user
+            reservation.hotel = hotel
+            if not check_room_availability(qro.room, hsc.check_in, hsc.check_out):
+                messages.error(request, 'Error during reservation: Room has already been booked.')
+                context = {'rooms': rooms, 'hotel': hotel}
+                return redirect('hotels:quick_reservation', hotel_id=hotel.id)
+            reservation.check_in = hsc.check_in
+            reservation.check_out = hsc.check_out
+            reservation.rooms_charge = qro.rooms_charge
+            reservation.services_charge = qro.services_charge
+            import pdb; pdb.set_trace()
+            try:
+                reservation.full_clean()
+                reservation.save()
+            except ValidationError:
+                messages.error(request, 'Error during reservation')
+                context = {'hotel': hotel}
+                # TODO: reroute
+                return render(request, 'hotels/quick_reservation.html', context)
+            reservation.rooms.add(qro.room)
+            for service in qro.services.all():
+                reservation.services.add(service)
+            hsc.delete()
+            # TODO: reroute
+            return redirect('hotels:view_hotels')
+        else:
+            messages.error(request, 'Error during reservation. Please try again')
+            # TODO: reroute
+            return render(request, 'hotels/quick_reservation.html', context)

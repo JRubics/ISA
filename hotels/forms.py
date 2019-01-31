@@ -1,6 +1,5 @@
-from django.forms import ModelForm, DateInput
+from django.forms import Form, ModelForm, DateInput
 from .models import Hotel, HotelRoom, HotelService, HotelServicePackage, HotelRoomPrice, HotelShoppingCart
-
 
 class HotelInfoForm(ModelForm):
     class Meta:
@@ -78,3 +77,6 @@ class HSCHelpFormServices(ModelForm):
         fields = [
             'services'
         ]
+
+
+

@@ -21,8 +21,11 @@ urlpatterns = [
     path('<int:hotel_id>/rooms/<int:room_id>/prices/<int:price_id>/delete/', views.delete_room_price, name="delete_room_price"),
     path('all/', views.view_hotels, name="view_hotels"),
     path('search/', views.search_hotels, name="search_hotels"),
+    path('<int:hotel_id>/view', views.view_hotel_unregistered, name="view_hotel_unregistered"),
     path('<int:hotel_id>/reservation/step_1', views.reservation_step_1, name="reservation_step_1"),
     path('<int:hotel_id>/reservation/step_2', views.reservation_step_2, name="reservation_step_2"),
     path('<int:hotel_id>/reservation/step_3', views.reservation_step_3, name="reservation_step_3"),
     path('<int:hotel_id>/reservation/final', views.reservation_step_4, name="reservation_step_4"),
+    path('<int:hotel_id>/reservation/quick', views.quick_reservation, name="quick_reservation"),
+    path('test/', views.view_test, name="view_test"),
 ]

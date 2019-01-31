@@ -122,8 +122,8 @@ class HotelRoomPrice(models.Model):
         ordering = ['valid_from']
 
     def clean(self):
-        if self.valid_from > self.valid_to:
-            raise ValidationError("Valid from cannot be later than valid to")
+        if self.valid_from >= self.valid_to:
+            raise ValidationError("Valid to must be later than valid from")
         if self.price_per_day is None:
             raise ValidationError("Price cannot is missing")
         elif self.price_per_day < 0:
@@ -153,8 +153,8 @@ class HotelReservation(models.Model):
     )
 
     def clean(self):
-        if self.check_in > self.check_out:
-            raise ValidationError("Check-in cannot be later than check-out")
+        if self.check_in >= self.check_out:
+            raise ValidationError("Check-out date must be later than check-in")
         if self.rooms_charge < 0:
             raise ValidationError("Charge cannot be negative")
         if self.services_charge < 0:
@@ -199,4 +199,18 @@ class HotelShoppingCart(models.Model):
         max_digits=10,
         null=True,
         blank=True
+    )
+
+
+class QuickReservationOption(models.Model):
+    shopping_cart = models.ForeignKey(HotelShoppingCart, on_delete=models.CASCADE)
+    room = models.ForeignKey(HotelRoom, on_delete=models.CASCADE)
+    services = models.ManyToManyField(HotelService)
+    rooms_charge = models.DecimalField(
+        decimal_places=2,
+        max_digits=10,
+    )
+    services_charge = models.DecimalField(
+        decimal_places=2,
+        max_digits=10,
     )
