@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime, timezone
 from django.conf import settings
+from django.contrib.auth.models import User
 
 class Service(models.Model):
     name = models.CharField(max_length=30)
@@ -9,6 +10,7 @@ class Service(models.Model):
     city = models.CharField(max_length=60)
     address = models.CharField(max_length=60)
     number = models.CharField(max_length=60)
+    service_admin = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     def __str__(self):
         return self.name
     def get_rate(self):
@@ -118,9 +120,9 @@ class BranchOffice(models.Model):
         return self.name + " (" + self.service.name + ")"
 
 class Reservation(models.Model):
-    car = models.ForeignKey(Car, on_delete=models.CASCADE)
-    office1 = models.ForeignKey(BranchOffice, related_name='office1', on_delete=models.CASCADE)
-    office2 = models.ForeignKey(BranchOffice, related_name='office2', on_delete=models.CASCADE)
+    car = models.ForeignKey(Car, on_delete=models.DO_NOTHING)
+    office1 = models.ForeignKey(BranchOffice, related_name='office1', on_delete=models.DO_NOTHING)
+    office2 = models.ForeignKey(BranchOffice, related_name='office2', on_delete=models.DO_NOTHING)
     date1 = models.DateTimeField(default=datetime.now)
     date2 = models.DateTimeField(default=datetime.now)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
