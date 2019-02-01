@@ -15,11 +15,11 @@
             <input type="text" class="form-control mb-2 mr-sm-2" id="name" name="name">
             <label for="country" class="mr-sm-2">Country:</label>
             <input type="text" class="form-control mb-2 mr-sm-2" id="country" name="country">
-            <label for="country" class="mr-sm-2">City:</label>
+            <label for="city" class="mr-sm-2">City:</label>
             <input type="text" class="form-control mb-2 mr-sm-2" id="city" name="city">
-            <label for="country" class="mr-sm-2">Check-in date:</label>
+            <label for="checkin" class="mr-sm-2">Check-in date:</label>
             <input type="date" class="form-control mb-2 mr-sm-2" id="checkin" name="checkin">
-            <label for="country" class="mr-sm-2">Check-out date:</label>
+            <label for="checkout" class="mr-sm-2">Check-out date:</label>
             <input type="date" class="form-control mb-2 mr-sm-4" id="checkout" name="checkout">
             <button type="submit" class="btn btn-primary mb-2">Search</button>
         </form>
@@ -39,7 +39,7 @@
             <tbody>
                 {% for hotel in hotels %}
                 <tr>
-                    <td><a href="{% url 'hotels:reservation_step_1' hotel.id %}">{{hotel.name}}</a></td>
+                    <td><a href="{% url 'hotels:view_hotel_registered' hotel.id %}">{{hotel.name}}</a></td>
                     <td>{{hotel.country}}</td>
                     <td>{{hotel.city}}</td>
                     <td>{{hotel.address}} {{hotel.address_number}}</td>

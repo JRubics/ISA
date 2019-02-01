@@ -138,7 +138,10 @@ class HotelReservation(models.Model):
                              on_delete=models.CASCADE)
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
     rooms = models.ManyToManyField(HotelRoom)
-    services = models.ManyToManyField(HotelService)
+    services = models.ManyToManyField(
+        HotelService,
+        blank=True
+    )
     check_in = models.DateField()
     check_out = models.DateField()
     rooms_charge = models.DecimalField(
@@ -151,6 +154,7 @@ class HotelReservation(models.Model):
         max_digits=10,
         validators=[MinValueValidator(0, "Charge cannot be negative")]
     )
+    guest_number = models.PositiveIntegerField()
 
     def clean(self):
         if self.check_in >= self.check_out:

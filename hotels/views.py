@@ -1,9 +1,12 @@
+from datetime import datetime, timedelta, date
+from decimal import Decimal
+from calendar import monthrange
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from .forms import HotelInfoForm, HotelServiceForm, RoomInfoForm, RoomPriceForm, ServicePackageForm, HSCHelpFormRooms, HSCHelpFormServices
 from .models import Hotel, HotelRoom, HotelService, HotelServicePackage, HotelRoomPrice, ValidationError, HotelShoppingCart, HotelReservation, QuickReservationOption
-from datetime import datetime, timedelta
-from decimal import Decimal
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import permission_required
 
 # import pdb; pdb.set_trace()
 
@@ -127,12 +130,15 @@ def get_total_services(services, day_num, guest_num, room_num):
 
 # Hotel
 
+
+@login_required()
 def admin_view_hotel(request, hotel_id):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     context = {'hotel': hotel}
     return render(request, 'hotels/admin_view.html', context)
 
 
+@login_required()
 def edit_hotel_info(request, hotel_id):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     if request.method == 'GET':
@@ -177,13 +183,17 @@ def view_hotel_unregistered(request, hotel_id):
     context = {'hotel': hotel}
     return render(request, 'hotels/view_hotel_unregistered.html', context)
 
-def view_test(request):
-    return render(request, 'hotels/test.html')
+
+@login_required()
+def view_hotel_registered(request, hotel_id):
+    hotel = get_object_or_404(Hotel, pk=hotel_id)
+    context = {'hotel': hotel}
+    return render(request, 'hotels/view_hotel_registered.html', context)
 
 
 # Hotel Room
 
-
+@login_required()
 def add_hotel_room(request, hotel_id):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     if request.method == 'GET':
@@ -203,6 +213,7 @@ def add_hotel_room(request, hotel_id):
     return render(request, 'hotels/add_room.html', context)
 
 
+@login_required()
 def edit_hotel_room(request, hotel_id, room_id=None):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     room = get_object_or_404(HotelRoom, pk=room_id)
@@ -217,6 +228,7 @@ def edit_hotel_room(request, hotel_id, room_id=None):
     return render(request, 'hotels/edit_room.html', context)
 
 
+@login_required()
 def delete_hotel_room(request, hotel_id, room_id=None):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     room = get_object_or_404(HotelRoom, pk=room_id)
@@ -226,6 +238,7 @@ def delete_hotel_room(request, hotel_id, room_id=None):
 # Hotel Service
 
 
+@login_required()
 def add_hotel_service(request, hotel_id):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     if request.method == 'GET':
@@ -241,6 +254,7 @@ def add_hotel_service(request, hotel_id):
     return render(request, 'hotels/add_service.html', context)
 
 
+@login_required()
 def edit_hotel_service(request, hotel_id, service_id):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     service = get_object_or_404(HotelService, pk=service_id)
@@ -255,6 +269,7 @@ def edit_hotel_service(request, hotel_id, service_id):
     return render(request, 'hotels/edit_service.html', context)
 
 
+@login_required()
 def delete_hotel_service(request, hotel_id, service_id):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     service = get_object_or_404(HotelService, pk=service_id)
@@ -264,6 +279,7 @@ def delete_hotel_service(request, hotel_id, service_id):
 # Service Package
 
 
+@login_required()
 def add_service_package(request, hotel_id):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     if request.method == 'GET':
@@ -281,6 +297,7 @@ def add_service_package(request, hotel_id):
     return render(request, 'hotels/add_package.html', context)
 
 
+@login_required()
 def edit_service_package(request, hotel_id, package_id):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     package = get_object_or_404(HotelServicePackage, pk=package_id)
@@ -297,6 +314,7 @@ def edit_service_package(request, hotel_id, package_id):
     return render(request, 'hotels/edit_package.html', context)
 
 
+@login_required()
 def delete_service_package(request, hotel_id, package_id):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     package = get_object_or_404(HotelServicePackage, pk=package_id)
@@ -306,6 +324,7 @@ def delete_service_package(request, hotel_id, package_id):
 # Room Price
 
 
+@login_required()
 def view_room_prices(request, hotel_id, room_id):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     room = get_object_or_404(HotelRoom, pk=room_id)
@@ -313,6 +332,7 @@ def view_room_prices(request, hotel_id, room_id):
     return render(request, 'hotels/view_room_prices.html', context)
 
 
+@login_required()
 def filtered_room_prices(request, hotel_id, room_id):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     room = get_object_or_404(HotelRoom, pk=room_id)
@@ -386,6 +406,7 @@ def resolve_price_overlaps(price):
             pr1.delete()
 
 
+@login_required()
 def add_room_price(request, hotel_id, room_id):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     room = get_object_or_404(HotelRoom, pk=room_id)
@@ -405,6 +426,7 @@ def add_room_price(request, hotel_id, room_id):
     return render(request, 'hotels/add_price.html', context)
 
 
+@login_required()
 def edit_room_price(request, hotel_id, room_id, price_id):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     room = get_object_or_404(HotelRoom, pk=room_id)
@@ -424,6 +446,7 @@ def edit_room_price(request, hotel_id, room_id, price_id):
     return render(request, 'hotels/edit_price.html', context)
 
 
+@login_required()
 def delete_room_price(request, hotel_id, room_id, price_id):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     room = get_object_or_404(HotelRoom, pk=room_id)
@@ -434,6 +457,7 @@ def delete_room_price(request, hotel_id, room_id, price_id):
 # Hotel Reservation
 
 
+@login_required()
 def reservation_step_1(request, hotel_id):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     if request.method == 'GET':
@@ -490,6 +514,7 @@ def reservation_step_1(request, hotel_id):
         return redirect('hotels:reservation_step_2', hotel_id=hotel.id)
 
 
+@login_required()
 def reservation_step_2(request, hotel_id):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     user = request.user
@@ -523,6 +548,7 @@ def reservation_step_2(request, hotel_id):
             return redirect('hotels:reservation_step_3', hotel_id=hotel.id)
 
 
+@login_required()
 def reservation_step_3(request, hotel_id):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     user = request.user
@@ -547,6 +573,7 @@ def reservation_step_3(request, hotel_id):
         return render(request, 'hotels/reservation_step_3.html', context)
 
 
+@login_required()
 def reservation_step_4(request, hotel_id):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     user = request.user
@@ -580,6 +607,7 @@ def reservation_step_4(request, hotel_id):
         reservation.check_out = hsc.check_out
         reservation.rooms_charge = hsc.rooms_charge
         reservation.services_charge = hsc.services_charge
+        reservation.guest_number = hsc.guest_number
         try:
             reservation.full_clean()
             reservation.save()
@@ -593,6 +621,7 @@ def reservation_step_4(request, hotel_id):
             reservation.services.add(service)
         reservation.save()
         hsc.delete()
+        # TODO: reroute
         return redirect('hotels:view_hotels')
 
 
@@ -600,22 +629,26 @@ def filter_discounted_rooms_and_prepare(rooms, check_in, check_out):
     tmp = []
     for room in rooms:
         prices = HotelRoomPrice.objects.filter(room_id=room.id)
-        prices = prices.filter(valid_from__lte=check_in, valid_to__gte=check_out)
+        prices = prices.filter(valid_from__lte=check_in,
+                               valid_to__gte=check_out)
         prices = prices.filter(strictly_discounted=True)
         if prices.exists():
             price = prices.get()
             daynum = (check_out - check_in).days
             room.defprice = price.price_per_day * daynum
             service_package = price.service_package
-            room.disprice = price.price_per_day * daynum * (Decimal(100) - service_package.rooms_discount) / Decimal(100)
+            room.disprice = price.price_per_day * daynum * \
+                (Decimal(100) - service_package.rooms_discount) / Decimal(100)
             room.check_in = check_in
             room.check_out = check_out
             room.services = service_package.services.all()
-            room.total = room.disprice + get_total_services(room.services, daynum, room.capacity, 1)
+            room.total = room.disprice + \
+                get_total_services(room.services, daynum, room.capacity, 1)
             tmp.append(room)
     return tmp
 
 
+@login_required()
 def quick_reservation(request, hotel_id):
     hotel = get_object_or_404(Hotel, pk=hotel_id)
     user = request.user
@@ -624,7 +657,8 @@ def quick_reservation(request, hotel_id):
         rooms = hotel.hotelroom_set.all()
         rooms = list(rooms)
         rooms = filter_avialable_rooms(rooms, hsc.check_in, hsc.check_out)
-        rooms = filter_discounted_rooms_and_prepare(rooms, hsc.check_in, hsc.check_out)
+        rooms = filter_discounted_rooms_and_prepare(
+            rooms, hsc.check_in, hsc.check_out)
         # TODO: izbaci sobe sa vecim kapacitetom od broja karata
         for room in rooms:
             qro = QuickReservationOption()
@@ -646,14 +680,17 @@ def quick_reservation(request, hotel_id):
             reservation.user = request.user
             reservation.hotel = hotel
             if not check_room_availability(qro.room, hsc.check_in, hsc.check_out):
-                messages.error(request, 'Error during reservation: Room has already been booked.')
+                messages.error(
+                    request, 'Error during reservation: Room has already been booked.')
                 context = {'rooms': rooms, 'hotel': hotel}
                 return redirect('hotels:quick_reservation', hotel_id=hotel.id)
             reservation.check_in = hsc.check_in
             reservation.check_out = hsc.check_out
             reservation.rooms_charge = qro.rooms_charge
             reservation.services_charge = qro.services_charge
-            import pdb; pdb.set_trace()
+            reservation.guest_number = hsc.guest_number
+            import pdb
+            pdb.set_trace()
             try:
                 reservation.full_clean()
                 reservation.save()
@@ -669,6 +706,128 @@ def quick_reservation(request, hotel_id):
             # TODO: reroute
             return redirect('hotels:view_hotels')
         else:
-            messages.error(request, 'Error during reservation. Please try again')
+            messages.error(
+                request, 'Error during reservation. Please try again')
             # TODO: reroute
             return render(request, 'hotels/quick_reservation.html', context)
+
+
+# Statistic
+
+
+def calculate_number_of_visitors_per_day(resers, begin_date, end_date):
+    tmp = []
+    i = begin_date
+    while i <= end_date:
+        day_num = 0
+        curr_res = resers.filter(check_in__lte=i, check_out__gte=i)
+        if curr_res.exists():
+            for res in curr_res.all():
+                day_num += res.guest_number
+        tmp.append(day_num)
+        i = i + timedelta(days=1)
+    return tmp
+
+
+def calculate_number_of_visitors_per_week(resers, year):
+    tmp = []
+    (dow, x) = monthrange(year, 1)
+    begin_date = date(year, 1, 1)
+    end_date = begin_date + timedelta(days=(6-dow))
+    cur_res = resers.filter(
+        check_in__lte=end_date,
+        check_out__gte=begin_date
+    )
+    glup = 0
+    if cur_res.exists():
+        for res in cur_res.all():
+            glup += res.guest_number
+    tmp.append(glup)
+    begin_date = end_date + timedelta(days=1)
+    end_date = end_date + timedelta(days=7)
+    for i in range(2, 52):
+        cur_res = resers.filter(
+            check_in__lte=end_date,
+            check_out__gte=begin_date
+        )
+        glup = 0
+        if cur_res.exists():
+            for res in cur_res.all():
+                glup += res.guest_number
+        begin_date = begin_date + timedelta(days=7)
+        end_date = end_date + timedelta(days=7)
+        tmp.append(glup)
+    return tmp
+
+
+def calculate_number_of_visitors_per_month(resers, year):
+    tmp = []
+    for i in range(1, 13):
+        (x, month_end) = monthrange(year, i)
+        cur_res = resers.filter(
+            check_in__lte=date(year, i, month_end),
+            check_out__gte=date(year, i, 1)
+        )
+        glup = 0
+        if cur_res.exists():
+            for res in cur_res.all():
+                glup += res.guest_number
+        tmp.append(glup)
+    return tmp
+
+
+@login_required()
+def visitor_number(request, hotel_id):
+    hotel = get_object_or_404(Hotel, pk=hotel_id)
+    year = date.today().year
+    begin_date = date(year, 1, 1)
+    end_date = date(year, 12, 31)
+    resers = HotelReservation.objects.filter(
+        hotel_id=hotel.id
+    ).order_by('check_in')
+    rset_days = calculate_number_of_visitors_per_day(
+        resers, begin_date, end_date)
+    rset_weeks = calculate_number_of_visitors_per_week(resers, year)
+    rset_months = calculate_number_of_visitors_per_month(resers, year)
+    context = {
+        'hotel': hotel,
+        'rset_days': rset_days,
+        'rset_weeks': rset_weeks,
+        'rset_months': rset_months
+    }
+    return render(request, 'hotels/hotel_stats_guests.html', context)
+
+
+def calculate_earnings(hotel, begin_date, end_date):
+    resers = HotelReservation.objects.filter(
+        hotel_id=hotel.id,
+        check_out__gte=begin_date,
+        check_out__lte=end_date
+    )
+    tmp = 0
+    if resers.exists():
+        for res in resers.all():
+            tmp += res.rooms_charge + res.services_charge
+    return tmp
+
+
+@login_required()
+def earnings_statistic(request, hotel_id):
+    hotel = get_object_or_404(Hotel, pk=hotel_id)
+    if request.method == 'GET':
+        context = {'hotel': hotel}
+        return render(request, 'hotels/hotel_stats_earnings.html', context)
+    elif request.method == 'POST':
+        begin_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        if begin_date is None or end_date is None:
+            messages.error(request, 'Both dates required')
+            context = {'hotel': hotel}
+            return render(request, 'hotels/hotel_stats_earnings.html', context)
+        if begin_date > end_date:
+            messages.error(request, 'Both dates required')
+            context = {'hotel': hotel}
+            return render(request, 'hotels/hotel_stats_earnings.html', context)
+        total_earnings = calculate_earnings(hotel, begin_date, end_date)
+        context = {'hotel': hotel, 'total_earnings': total_earnings}
+        return render(request, 'hotels/hotel_stats_earnings.html', context)

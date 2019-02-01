@@ -79,7 +79,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <p>There are no results for your search parameters in this hotel.</p>
-                    <div class="float-right"><a href="{% url 'hotels:view_hotels' %}" class="btn btn-primary">Back</a></div>
+                    <div class="float-right"><a href="{% url 'hotels:view_hotel_registered' hotel.id %}" class="btn btn-primary">Back</a></div>
                 </div>
             </div>
         </div>

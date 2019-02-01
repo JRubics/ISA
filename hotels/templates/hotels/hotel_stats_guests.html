@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2><a href="{% url 'hotels:admin_view_hotel' hotel.id %}">Hotel {{hotel.name}}</a> Guest Statistics</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div id="months"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div id="weeks"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div id="days"></div>
+        </div>
+    </div>
+</div>
+<script>
+    Highcharts.chart('months', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Hotel guest number by month'
+        },
+        xAxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        yAxis: {
+            title: {
+                text: 'Number of Guests'
+            }
+        },
+        series: [{
+            name: 'Number of Guests',
+            data: {{ rset_months }},
+            color: 'purple'
+        }]
+    });
+
+    Highcharts.chart('weeks', {
+        title: {
+            text: 'Hotel guest number by week'
+        },
+        plotOptions: {
+            series: {
+                label: {
+                    connectorAllowed: false
+                },
+                pointStart: 1
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Number of Guests'
+            }
+        },
+        series: [{
+            name: 'Number of Guests',
+            data: {{ rset_weeks }},
+            color: 'purple'
+        }]
+    });
+    
+    Highcharts.chart('days', {
+        title: {
+            text: 'Hotel guest number by day'
+        },
+        plotOptions: {
+            series: {
+                label: {
+                    connectorAllowed: false
+                },
+                pointStart: 1
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Number of Guests'
+            }
+        },
+        series: [{
+            name: 'Number of Guests',
+            data: {{rset_days}},
+            color: 'purple'
+        }]
+    });
+
+</script>
+{% endblock content %}

@@ -8,14 +8,29 @@
             <div id="map"></div>
         </div>
         <div class="col">
-            <label>Name:</label> {{hotel.name}}<br />
-            <label>Rating:</label> <!-- Rating --><br />
-            <label>Address:</label> {{hotel.address}} {{hotel.address_number}}, {{hotel.city}}, {{hotel.country}}<br />
-            <a class="btn btn-primary" href="{% url 'hotels:edit_hotel_info' hotel.id%}" role="button">Edit</a>
-            <h4>Descritpion</h4>
-            <div class="panel panel-default">
-                <div class="panel-body">{{hotel.description}}</div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col">
+                        <label>Name:</label> {{hotel.name}}<br />
+                        <label>Rating:</label> <!-- Rating --><br />
+                        <label>Address:</label> {{hotel.address}} {{hotel.address_number}}, {{hotel.city}}, {{hotel.country}}<br />
+                        <a class="btn btn-primary" href="{% url 'hotels:edit_hotel_info' hotel.id%}" role="button">Edit</a>
+                        <h4>Descritpion</h4>
+                        <div class="panel panel-default">
+                            <div class="panel-body">{{hotel.description}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <a class="btn btn-primary btn-lg" href="{% url 'hotels:visitor_number' hotel.id %}" role="button">Look at Visitors</a>
+                        <div class="float-right">
+                            <a class="btn btn-primary btn-lg" href="{% url 'hotels:earnings_statistic' hotel.id %}" role="button">Look at Earnings</a>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
     <div class="container-fluid">
@@ -194,6 +209,6 @@
             });
         }
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDg23RkLY5c1huGTj6VWmBNnNedzDbp4Zc&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAs3ycqXIpzB9Clcc9E4nb8Tsoxppz400A&callback=initMap"></script>
 </div>
 {% endblock content %}

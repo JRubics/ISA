@@ -8,11 +8,25 @@
             <div id="map"></div>
         </div>
         <div class="col-lg-4">
-            <label>Rating:</label> <!-- Rating --><br />
-            <label>Address:</label> {{hotel.address}} {{hotel.address_number}}, {{hotel.city}}, {{hotel.country}}<br />
-            <h4>Descritpion</h4>
-            <div class="panel panel-default">
-                <div class="panel-body">{{hotel.description}}</div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col">
+                        <label>Rating:</label> <!-- Rating --><br />
+                        <label>Address:</label> {{hotel.address}} {{hotel.address_number}}, {{hotel.city}}, {{hotel.country}}<br />
+                        <h4>Descritpion</h4>
+                        <div class="panel panel-default">
+                            <div class="panel-body">{{hotel.description}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <a class="btn btn-primary btn-lg" href="{% url 'hotels:reservation_step_1' hotel.id %}" role="button">Book Hotel</a>
+                        <div class="float-right">
+                            <a class="btn btn-primary btn-lg" href="{% url 'hotels:quick_reservation' hotel.id %}" role="button">Quick Booking</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
