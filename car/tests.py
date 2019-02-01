@@ -130,3 +130,6 @@ class CarTestCase(TestCase):
 
     def test_car_reservation_is_rated_false(self):
       self.assertEqual(self.reservation2.is_rated(self.user.id), False)
+
+    def test_car_reservation_is_rated_false2(self):
+      self.assertEqual(self.reservation2.is_rated(5), False)
