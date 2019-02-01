@@ -2,6 +2,95 @@
 {% block content %}
 {% load crispy_forms_tags %}
 
-{{ id }}
+<canvas id="canvas" style="width: 100%; height: 500px; margin: auto; background-color: #ece1db;"></canvas>
 
+
+<form action="#" method="post">
+    {% csrf_token %}
+    {% for form in form%}
+
+
+    {{ form }}
+
+
+
+
+    <br>
+
+    {% endfor %}
+    <button type="submit" class="btn btn-success">Buy</button>
+</form>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    // uvezene promenljive
+    let seats = {{ seats| safe }};
+    let num_of_seats = seats.length;
+
+    // lociran canvas preko id
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // namestanje velicine canvasa bez ovoga se pogubi
+    const canvasWidth = canvas.scrollWidth;
+    const canvasHeight = canvas.scrollHeight;
+    canvas.width = canvas.scrollWidth;
+    canvas.height = canvas.scrollHeight;
+
+    // namestanje velicine sedista
+    seatSize = 65;
+
+    const roundRect = (ctx, x, y, width, height, radius, fill, stroke, color, number) => {
+        ctx.setLineDash([])
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
+        if (color == "F") {
+            ctx.fillStyle = "#90EE90";
+        } else {
+            ctx.fillStyle = "red";
+        }
+
+        if (stroke) {
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+        if (fill) {
+            ctx.fill();
+        }
+        ctx.strokeStyle = "black";
+        ctx.fillStyle = "black";
+        ctx.font = "italic 2em Fira Sans serif";
+        ctx.fillText(number, x + (width / 10), y + (height / 2));
+    }
+
+    const draw = () => {
+        ctx.font = "italic 2em Fira Sans serif";
+        ctx.fillText("{{seat_type}}" + " Class", 50, 50);
+
+        for (let index = 0; index < num_of_seats; index++) {
+            let x = 100 + 10 + Math.floor(index / 4) * seatSize;
+            let space = index % 4 >= 2 ? 50 : 0;
+            let y = 100 + (index % 4 * seatSize) + space;
+            let color = seats[num_of_seats - index - 1][0];
+            let number = seats[num_of_seats - index - 1][1];
+            roundRect(ctx, x, y, seatSize - 10, seatSize - 10, 5, true, true, color, number);
+        }
+    }
+    draw();
+</script>
 {% endblock content %}

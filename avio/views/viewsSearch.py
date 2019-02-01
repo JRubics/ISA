@@ -1,13 +1,17 @@
 from django.views.generic.list import ListView
 from django.views.generic.edit import View
+from django.views.generic import TemplateView
 from django.shortcuts import redirect, render
 from avio.models import Flight, Ticket, Seat, FlightLeg
+from user.models import Profile, UserRelationship
 from django import forms
 import datetime
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 import datetime
 from django.db.models import F, ExpressionWrapper, fields
+import json
+from django.contrib import messages 
 
 
 class RefineSearchForm(forms.ModelForm):
@@ -73,6 +77,7 @@ class AvioSearchResults(View):
 
         request.session['ret'] = ret_ids
         request.session['num_seats'] = num_seats
+        request.session['seat_type'] = t_seats
         return render(request, 'avio/avio_search_results.html', {'ret':ret, 'num_seats':num_seats, 'search_form':search_form})
 
 
@@ -137,10 +142,104 @@ class FastReservation(ListView):
         return self.get(request, id)
         
 
-class AvioReservation(View):
-    def get(self, request, *args, **kwargs):
+class AvioReservation(TemplateView):
+    template_name = 'avio/avio_reservation.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(AvioReservation, self).get_context_data(**kwargs)
+        request = self.request
         id = self.kwargs.get('flight_id')
-        return render(request, 'avio/avio_reservation.html', {'id':id})
+        fligth = Flight.objects.get(pk=id)
+        seat_type = request.session['seat_type']
+        querry = Seat.objects.filter(flight = id)
+        seats = querry.filter(seat_type = seat_type[0]).order_by('seat_number').values_list('seat_status', 'seat_number')
+        context['flight'] = fligth
+        context['num_seats'] = request.session['num_seats']
+        context['seat_type'] = seat_type
+        context['seats'] = json.dumps(list(seats))
+        context['s'] = querry.filter(seat_type = seat_type[0]).order_by('seat_number')
+
+        forms = []
+        for x in range(int(request.session['num_seats'])):
+            f = DateReservationForm(request.user, context['s'], prefix=x)
+            if x == 0:
+                f.fields['person'].disabled = True
+                f.fields['passport'].required = True
+                f.fields['first_name'].initial = request.user.first_name
+                f.fields['last_name'].initial = request.user.last_name
+
+            forms.append(f)
+
+        context['form'] = forms
+        return context
+
+
+    def post(self, request, *args, **kwargs):
+        forms = []
+        ctx = self.get_context_data()
+        valid = True
+        for x in range(int(request.session['num_seats'])):
+            form = DateReservationForm(request.user, ctx['s'],request.POST,  prefix=x)
+            if not form.is_valid():
+                messages.error(request, "You must choose a firend or give info for a Person " + str(x))
+                valid = False
+
+            forms.append(form)
+        
+        # deo da proveri da nisu isti brojevi sedista i isti ljudi selektovani
+        seen_seat = set()
+        sean_friend = set()
+        for f in forms:
+            s = f['seats'].value()
+            fri = f['person'].value()
+            if s in seen_seat and s != "":
+                messages.error(request, "Seats must be different")
+                valid = False
+                break
+            elif fri in sean_friend and fri != "":
+                messages.error(request, "Persons must be different")
+                valid = False
+                break
+            else:
+                seen_seat.add(s)
+                sean_friend.add(fri)
+
+        if not valid:
+            ctx['form'] = forms
+            return render(request, self.template_name, ctx)
+
+        
+
+        return redirect('user:profile_unfriend')
+
+
+class DateReservationForm(forms.Form):
+    person = forms.ModelChoiceField(queryset=Profile.objects.all(), required=False)
+    seats = forms.ModelChoiceField(queryset=Seat.objects.all(), required=False)
+    passport = forms.CharField(label='passport', max_length=15, required=False)
+    first_name = forms.CharField(label='first_name', max_length=15, required=False)
+    last_name = forms.CharField(label='last_name', max_length=15, required=False)
+
+    def __init__(self, user, seats, *args, **kwargs):
+        super(DateReservationForm, self).__init__(*args, **kwargs)
+        q1 = UserRelationship.objects.filter(user_1 = user, status = 'FF').values_list('user_2', flat=True)
+        q2 = UserRelationship.objects.filter(user_2 = user, status = 'FF').values_list('user_1', flat=True)
+        profiles = Profile.objects.all().filter(user__id__in=q1) | Profile.objects.all().filter(user__id__in=q2)
+        self.fields['person'] = forms.ModelChoiceField(queryset=profiles, required=False)
+
+        self.fields['seats'] = forms.ModelChoiceField(queryset=seats, required=True)
+
+
+    def is_valid(self):
+        valid = super(DateReservationForm, self).is_valid()
+        if not valid:
+            return valid
+ 
+        if self['person'].value() == '' or self['person'].value() == None:
+            if self['passport'].value() == '' or self['first_name'].value() == '' or self['last_name'].value() == '':
+                return False
+
+        return True
 
 
 

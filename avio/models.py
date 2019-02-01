@@ -127,6 +127,9 @@ class Seat (models.Model):
     class Meta:
         unique_together = ['seat_number', 'seat_type', 'flight']
 
+    def __str__(self):
+        return (str(self.seat_number) + " " + str(self.seat_type))
+
 class ManageSeats (Seat):
     class Meta:
         proxy = True

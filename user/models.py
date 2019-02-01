@@ -42,7 +42,7 @@ class Profile(models.Model):
             return None
 
     def __str__(self):
-        return (str(self.user.username) + " " + str(self.user.id))
+        return (str(self.user.first_name) + " " + str(self.user.last_name) + " " + str(self.user.email))
 
 
 class AdminUser(models.Model):
