@@ -20,8 +20,10 @@ class Service(models.Model):
             counter = 0
             for reservation in reservations:
                 if CarRate.objects.filter(reservation=reservation.id).exists():
-                    rate = rate + CarRate.objects.filter(reservation=reservation.id).first().service_rate
-                    counter = counter + 1
+                    rates = CarRate.objects.filter(reservation=reservation.id).all()
+                    for r in rates:
+                        rate = rate + r.service_rate
+                        counter = counter + 1
             if counter != 0:
                 return rate / counter
             else:
@@ -99,8 +101,10 @@ class Car(models.Model):
             counter = 0
             for reservation in reservations:
                 if CarRate.objects.filter(reservation=reservation.id).exists():
-                    rate = rate + CarRate.objects.filter(reservation=reservation.id).first().car_rate
-                    counter = counter + 1
+                    rates = CarRate.objects.filter(reservation=reservation.id).all()
+                    for r in rates:
+                        rate = rate + r.car_rate
+                        counter = counter + 1
             if counter != 0:
                 return rate / counter
             else:
@@ -146,4 +150,4 @@ class CarRate(models.Model):
    service_rate = models.PositiveIntegerField()
    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
    def __str__(self):
-        return "car - " + str(self.car_rate) + ", service - " + str(self.service_rate) + ", rez - " + str(self.reservation)
+        return "car - " + str(self.car_rate) + ", service - " + str(self.service_rate) + ", rez - " + str(self.reservation) + ", user - " + str(self.user)
