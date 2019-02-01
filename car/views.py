@@ -290,7 +290,8 @@ def car_rate(request, id=None):
     service_rate = request.POST['service_rate']
     car_rate = CarRate(reservation = reservation,
                       car_rate = car_rate,
-                      service_rate = service_rate)
+                      service_rate = service_rate,
+                      user=request.user)
     car_rate.save()
     return redirect('/user/reservations')
   else:
