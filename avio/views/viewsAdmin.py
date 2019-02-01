@@ -45,7 +45,7 @@ def seat_change(request, id):
             if add_seats.is_valid():
                 seat_type = add_seats['seat_type'].value()
                 number = int(add_seats['number'].value())
-                max_seat_number = Seat.objects.filter(seat_type=seat_type).aggregate(max = Max('seat_number'))['max']
+                max_seat_number = Seat.objects.filter(seat_type=seat_type, flight = id).aggregate(max = Max('seat_number'))['max']
                 if max_seat_number == None:
                     max_seat_number = 1
                 else:

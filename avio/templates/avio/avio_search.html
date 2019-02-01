@@ -14,7 +14,8 @@
 <br>
 
 <div class='container-fluid'>
-    <form action="" method='post'>
+    <form action="{% url 'avio:search_results_avio' %}" method='get'>
+    {% csrf_token %}
         <div class="row">
             <div class="col col-md-8 p-0 m-0">
                 <div class="row align-text-bottom">
