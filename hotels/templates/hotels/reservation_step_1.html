@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Hotel {{hotel.name}} Reservation</h2>
+            <h4>Step 1</h4>
+        </div>
+    </div>
+    <form action="{% url 'hotels:reservation_step_1' hotel.id %}" method="POST">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col">
+            <label>Check-in date:</label>
+            <input type="date" class="form-control" name="checkin" required/>
+        </div>
+        <div class="col">
+            <label>Check-out date:</label>
+            <input type="date" class="form-control" name="checkout" required/>
+        </div>    
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Number of guests:</label>
+            <input type="number" class="form-control" name="guest_num" min="1" step="1" required />
+        </div>
+        <div class="col">
+            <label>Number of rooms:</label>
+            <input type="number" class="form-control" name="room_num" min="1" step="1" required />
+        </div>    
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Minimum price for all days:</label>
+            <input type="number" class="form-control" name="min_price" min="0" step="0.01" />
+        </div>
+        <div class="col">
+            <label>Maximum price for all days:</label>
+            <input type="number" class="form-control" name="max_price" min="0" step="0.01" />
+        </div>    
+    </div>
+    <br />
+    <div class="row">
+        <div class="col">
+            <span class="pull-right"><button type="submit" class="btn btn-primary btn-lg">Next</button></span>
+            <a href="{% url 'hotels:view_hotels' %}" class="btn btn-secondary btn-lg">Back</a>
+        </div>
+    </div>
+    </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2>Search for Hotels</h2>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <form class="form-inline" action="{% url 'hotels:search_hotels' %}" method="POST">
+            {% csrf_token %}
+            <label for="name" class="mr-sm-2">Hotel Name:</label>
+            <input type="text" class="form-control mb-2 mr-sm-2" id="name" name="name">
+            <label for="country" class="mr-sm-2">Country:</label>
+            <input type="text" class="form-control mb-2 mr-sm-2" id="country" name="country">
+            <label for="city" class="mr-sm-2">City:</label>
+            <input type="text" class="form-control mb-2 mr-sm-2" id="city" name="city">
+            <label for="checkin" class="mr-sm-2">Check-in date:</label>
+            <input type="date" class="form-control mb-2 mr-sm-2" id="checkin" name="checkin">
+            <label for="checkout" class="mr-sm-2">Check-out date:</label>
+            <input type="date" class="form-control mb-2 mr-sm-4" id="checkout" name="checkout">
+            <button type="submit" class="btn btn-primary mb-2">Search</button>
+        </form>
+    </div>
+    <br />
+    <div class="row">
+        <table class="table table-stripped table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Country</th>
+                    <th>City</th>
+                    <th>Address</th>
+                    <th>Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hotel in hotels %}
+                <tr>
+                    <td><a href="{% url 'hotels:view_hotel_registered' hotel.id %}">{{hotel.name}}</a></td>
+                    <td>{{hotel.country}}</td>
+                    <td>{{hotel.city}}</td>
+                    <td>{{hotel.address}} {{hotel.address_number}}</td>
+                    <td></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

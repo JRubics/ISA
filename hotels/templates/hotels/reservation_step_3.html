@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Hotel {{hotel.name}} Reservation</h2>
+            <h4>Step 3</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2>Select services</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            {% if services %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Type of Charge</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for service in hotel.hotelservice_set.all %}
+                    <tr>
+                        <td>{{service.name}}</td>
+                        <td>{{service.price}}</td>
+                        <td>{{service.type_of_charge}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="panel panel-default">
+                <div class="panel-body">No services available at hotel. Please click next.</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {% load crispy_forms_tags %}
+            <form action="#" method="post">
+                {% csrf_token %}
+                {{hscform|crispy}}
+                <a class="btn btn-secondary btn-lg" href="{% url 'hotels:reservation_step_2' hotel.id %}" role="button">Back</a>
+                <div class="float-right">
+                    <button type="submit" class="btn btn-primary btn-lg">Next</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
