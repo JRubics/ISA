@@ -831,3 +831,22 @@ def earnings_statistic(request, hotel_id):
         total_earnings = calculate_earnings(hotel, begin_date, end_date)
         context = {'hotel': hotel, 'total_earnings': total_earnings}
         return render(request, 'hotels/hotel_stats_earnings.html', context)
+
+
+
+@login_required()
+def hotel_rate(request, id=None):
+    if request.method == 'POST':
+        # reservation = Reservation.objects.get(id=id)
+        # car_rate = request.POST['car_rate']
+        # service_rate = request.POST['service_rate']
+        # car_rate = CarRate(reservation = reservation,
+        #                 car_rate = car_rate,
+        #                 service_rate = service_rate,
+        #                 user=request.user)
+        # car_rate.save()
+        return redirect('/user/reservations')
+    else:
+        reservation = HotelReservation.objects.get(id=id)
+        context = {'reservation':reservation}
+        return render(request, 'hotels/rate_hotel.html',context)

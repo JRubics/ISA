@@ -37,15 +37,21 @@
               <td>{{reservation.check_out|date:"M-d-Y" }}</td>
               <td>{{reservation.guest_number}}</td>
               <td>{{reservation.rooms_charge|add:reservation.services_charge}}</td>
-              <!-- <td>
-                {% if reservation.is_done and not reservation.is_rated %}
-                  <a class="btn btn-default" href="{% url 'car:car_rate' reservation.id%}">rate</a>
-                {% elif reservation.is_rated %}
-                  rated
+              <td>
+                {% if reservation.is_done %}
+                    {% for key, value in is_hotel_rated.items %}
+                      {% if reservation.id == key %}
+                        {% if value == True %}
+                          rated
+                        {% else %}
+                          <a class="btn btn-default" href="{% url 'hotels:hotel_rate' reservation.id%}">rate</a>
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %}
                 {% elif reservation.can_be_closed%}
-                  <a class="btn btn-default" href="{% url 'car:cancel_reservation' reservation.id%}">cancel</a>
+                  cancel
                 {% endif %}
-              </td> -->
+              </td>
             </tr>
           {% endfor %}
         </tbody>
@@ -78,7 +84,7 @@
               <td>{{reservation.price}}</td>
               <td>
                 {% if reservation.is_done %}
-                  {% for key, value in is_rated.items %}
+                  {% for key, value in is_car_rated.items %}
                     {% if reservation.id == key %}
                       {% if value == True %}
                         rated

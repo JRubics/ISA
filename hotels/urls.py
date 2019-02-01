@@ -30,4 +30,5 @@ urlpatterns = [
     path('<int:hotel_id>/reservation/step_3', views.reservation_step_3, name="reservation_step_3"),
     path('<int:hotel_id>/reservation/final', views.reservation_step_4, name="reservation_step_4"),
     path('<int:hotel_id>/reservation/quick', views.quick_reservation, name="quick_reservation"),
+    path('rate/<id>', views.hotel_rate, name='hotel_rate'),
 ]

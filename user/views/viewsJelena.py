@@ -90,15 +90,20 @@ def index(request):
 @login_required()
 def reservations(request):
     car_reservation_list = CarReservation.objects.filter(user=request.user.id)
-    is_rated = {}
+    is_car_rated = {}
     for reservation in car_reservation_list:
-        is_rated[reservation.id] = reservation.is_rated(request.user.id)
+        is_car_rated[reservation.id] = reservation.is_rated(request.user.id)
+
     hotel_reservation_list = HotelReservation.objects.filter(user=request.user.id)
+    is_hotel_rated = {}
+    for reservation in hotel_reservation_list:
+        is_hotel_rated[reservation.id] = reservation.is_rated(request.user.id)
     hotel_rooms = HotelRoom.objects.all()
     hotel_services = HotelService.objects.all()
     context = {'car_reservations': car_reservation_list,
+               'is_car_rated': is_car_rated,
                'hotel_reservations': hotel_reservation_list,
                'hotel_rooms': hotel_rooms,
                'hotel_services': hotel_services,
-               'is_rated': is_rated}
+               'is_hotel_rated': is_hotel_rated}
     return render(request, 'user/reservations.html', context)

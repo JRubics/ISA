@@ -281,7 +281,6 @@ def make_fast_reservation(request, id):
   else:
     return redirect('/car/choose')
 
-
 @login_required()
 def car_rate(request, id=None):
   if request.method == 'POST':
