@@ -1,166 +1,214 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Hotel {{hotel.id}}</h2>
+<h2>Hotel {{hotel.name}}</h2>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-2">
-            <!-- Stock Image -->
+        <div class="col">
+            <div id="map"></div>
         </div>
-        <div class="col-lg-4">
-            <label>Name:</label> {{hotel.name}}<br />
-            <label>Rating:</label> <!-- Rating --><br />
-            <label>Address:</label> {{hotel.address}} {{hotel.address_number}}, {{hotel.city}}, {{hotel.country}}<br />
-            <a class="btn btn-primary" href="{% url 'hotels:edit_hotel_info' hotel.id%}" role="button">Edit</a>
-        </div>
-        <div class="col-lg-6">
-            <!-- Google map -->
-        </div>
-    </div>
-    <div class="row">
-        <h4>Descritpion</h4>
-        <div class="panel panel-default">
-            <div class="panel-body">{{hotel.description}}</div>
-        </div>
-    </div>
-</div>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3>
-                Rooms
-                <a class="btn btn-success" href="{% url 'hotels:add_hotel_room' hotel.id%}" role="button">
-                    <span class="glyphicon glyphicon-plus-sign"></span> Add Room
-                </a>
-            </h3>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12">
-            {% if hotel.hotelroom_set.all %}
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Room No</th>
-                        <th>Type</th>
-                        <th>Floor Number</th>
-                        <th>Capacity</th>
-                        <th>Balcony</th>
-                        <th>Default Price</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for room in hotel.hotelroom_set.all %}
-                    <tr>
-                        <td>{{room.number}}</td>
-                        <td>{{room.name}}</td>
-                        <td>{{room.floor_number}}</td>
-                        <td>{{room.capacity}}</td>
-                        <td>{{room.has_balcony|yesno:"Yes,No,N/A"}}</td>
-                        <td>{{room.default_price_per_day}}</td>
-                        <td>
-                            <a class="btn btn-primary" href="{% url 'hotels:edit_hotel_room' hotel.id room.id %}" role="button">Edit</a>
-                            <a class="btn btn-success" href="{% url 'hotels:view_room_prices' hotel.id room.id %}" role="button">Prices</a>
-                            <a class="btn btn-danger" href="{% url 'hotels:delete_hotel_room' hotel.id room.id %}" role="button">Delete</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% else %}
-            <div class="panel panel-default">
-                <div class="panel-body">No rooms have been added</div>
+        <div class="col">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col">
+                        <label>Name:</label> {{hotel.name}}<br />
+                        <label>Rating:</label> <!-- Rating --><br />
+                        <label>Address:</label> {{hotel.address}} {{hotel.address_number}}, {{hotel.city}}, {{hotel.country}}<br />
+                        <a class="btn btn-primary" href="{% url 'hotels:edit_hotel_info' hotel.id%}" role="button">Edit</a>
+                        <h4>Descritpion</h4>
+                        <div class="panel panel-default">
+                            <div class="panel-body">{{hotel.description}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <a class="btn btn-primary btn-lg" href="{% url 'hotels:visitor_number' hotel.id %}" role="button">Look at Visitors</a>
+                        <div class="float-right">
+                            <a class="btn btn-primary btn-lg" href="{% url 'hotels:earnings_statistic' hotel.id %}" role="button">Look at Earnings</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            {% endif %}
-        </div>
-    </div>
-</div>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3>
-                Services
-                <a class="btn btn-success" href="{% url 'hotels:add_hotel_service' hotel.id%}" role="button">
-                    <span class="glyphicon glyphicon-plus-sign"></span> Add Service
-                </a>
-            </h3>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            {% if hotel.hotelservice_set.all %}
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Type of Charge</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for service in hotel.hotelservice_set.all %}
-                    <tr>
-                        <td>{{service.name}}</td>
-                        <td>{{service.price}}</td>
-                        <td>{{service.type_of_charge}}</td>
-                        <td><a class="btn btn-primary" href="{% url 'hotels:edit_hotel_service' hotel.id service.id %}" role="button">Edit</a>
-                            <a class="btn btn-danger" href="{% url 'hotels:delete_hotel_service' hotel.id service.id %}" role="button">Delete</a></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% else %}
-            <div class="panel panel-default">
-                <div class="panel-body">No services have been added</div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>
+                    Rooms
+                    <a class="btn btn-success" href="{% url 'hotels:add_hotel_room' hotel.id%}" role="button">
+                        <span class="glyphicon glyphicon-plus-sign"></span> Add Room
+                    </a>
+                </h3>
             </div>
-            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                {% if hotel.hotelroom_set.all %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Room No</th>
+                            <th>Type</th>
+                            <th>Floor Number</th>
+                            <th>Capacity</th>
+                            <th>Balcony</th>
+                            <th>Default Price</th>
+                            <th>Rating</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for room in hotel.hotelroom_set.all %}
+                        <tr>
+                            <td>{{room.number}}</td>
+                            <td>{{room.name}}</td>
+                            <td>{{room.floor_number}}</td>
+                            <td>{{room.capacity}}</td>
+                            <td>{{room.has_balcony|yesno:"Yes,No,N/A"}}</td>
+                            <td>{{room.default_price_per_day}}</td>
+                            <td>
+                                <!--Rating-->
+                            </td>
+                            <td>
+                                <a class="btn btn-primary" href="{% url 'hotels:edit_hotel_room' hotel.id room.id %}"
+                                    role="button">Edit</a>
+                                <a class="btn btn-success" href="{% url 'hotels:view_room_prices' hotel.id room.id %}"
+                                    role="button">Prices</a>
+                                <a class="btn btn-danger" href="{% url 'hotels:delete_hotel_room' hotel.id room.id %}"
+                                    role="button">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="panel panel-default">
+                    <div class="panel-body">No rooms have been added</div>
+                </div>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3>
-                Service Packages
-                <a class="btn btn-success" href="{% url 'hotels:add_service_package' hotel.id%}" role="button">
-                    <span class="glyphicon glyphicon-plus-sign"></span> Add Package
-                </a>
-            </h3>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12">
-            {% if hotel.hotelservicepackage_set.all %}
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Discount</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for package in hotel.hotelservicepackage_set.all %}
-                    <tr>
-                        <td>{{package.name}}</td>
-                        <td>{{package.rooms_discount}}%</td>
-                        <td><a class="btn btn-primary" href="{% url 'hotels:edit_service_package' hotel.id package.id %}" role="button">Edit</a>
-                            <a class="btn btn-danger" href="{% url 'hotels:delete_service_package' hotel.id package.id %}" role="button">Delete</a></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% else %}
-            <div class="panel panel-default">
-                <div class="panel-body">No packages have been added</div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>
+                    Services
+                    <a class="btn btn-success" href="{% url 'hotels:add_hotel_service' hotel.id%}" role="button">
+                        <span class="glyphicon glyphicon-plus-sign"></span> Add Service
+                    </a>
+                </h3>
             </div>
-            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                {% if hotel.hotelservice_set.all %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Type of Charge</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for service in hotel.hotelservice_set.all %}
+                        <tr>
+                            <td>{{service.name}}</td>
+                            <td>{{service.price}}</td>
+                            <td>{{service.type_of_charge}}</td>
+                            <td><a class="btn btn-primary" href="{% url 'hotels:edit_hotel_service' hotel.id service.id %}"
+                                    role="button">Edit</a>
+                                <a class="btn btn-danger" href="{% url 'hotels:delete_hotel_service' hotel.id service.id %}"
+                                    role="button">Delete</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="panel panel-default">
+                    <div class="panel-body">No services have been added</div>
+                </div>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>
+                    Service Packages
+                    <a class="btn btn-success" href="{% url 'hotels:add_service_package' hotel.id%}" role="button">
+                        <span class="glyphicon glyphicon-plus-sign"></span> Add Package
+                    </a>
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                {% if hotel.hotelservicepackage_set.all %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Discount</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for package in hotel.hotelservicepackage_set.all %}
+                        <tr>
+                            <td>{{package.name}}</td>
+                            <td>{{package.rooms_discount}}%</td>
+                            <td><a class="btn btn-primary" href="{% url 'hotels:edit_service_package' hotel.id package.id %}"
+                                    role="button">Edit</a>
+                                <a class="btn btn-danger" href="{% url 'hotels:delete_service_package' hotel.id package.id %}"
+                                    role="button">Delete</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="panel panel-default">
+                    <div class="panel-body">No packages have been added</div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: { lat: -34.397, lng: 150.644 }
+            });
+            var geocoder = new google.maps.Geocoder();
+
+            geocodeAddress(geocoder, map);
+        }
+
+        function geocodeAddress(geocoder, resultsMap) {
+            var address = '{{hotel.address}} {{hotel.address_number}}, {{hotel.city}}, {{hotel.country}}';
+            geocoder.geocode({ 'address': address }, function (results, status) {
+                if (status === 'OK') {
+                    resultsMap.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        map: resultsMap,
+                        position: results[0].geometry.location
+                    });
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAs3ycqXIpzB9Clcc9E4nb8Tsoxppz400A&callback=initMap"></script>
 </div>
 {% endblock content %}

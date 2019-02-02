@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Hotel {{hotel.name}} Reservation</h2>
+            <h4>Final Step</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h3>Selected rooms</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Room No</th>
+                        <th>Type</th>
+                        <th>Floor Number</th>
+                        <th>Capacity</th>
+                        <th>Balcony</th>
+                        <th>Default Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for room in rooms %}
+                    <tr>
+                        <td>{{room.number}}</td>
+                        <td>{{room.name}}</td>
+                        <td>{{room.floor_number}}</td>
+                        <td>{{room.capacity}}</td>
+                        <td>{{room.has_balcony|yesno:"Yes,No,N/A"}}</td>
+                        <td>{{room.default_price_per_day}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <strong>Room Total:</strong> {{total_nights}} Nights in {{rooms|length}} Rooms
+                    <div class="float-right"> = {{total_rooms}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h3>Selected services</h2>
+        </div>
+    </div>
+    {% if hsc.services.all %}
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Type of Charge</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for service in hsc.services.all %}
+                    <tr>
+                        <td>{{service.name}}</td>
+                        <td>{{service.price}}</td>
+                        <td>{{service.type_of_charge}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <strong>Total Services:</strong>
+                    <div class="float-right"> = {{total_services}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col">
+            <div class="panel panel-default">
+                <div class="panel-body">No services selected</div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="row">
+        <div class="col">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <strong>Grand Total:</strong>
+                    <div class="float-right"> = {{grand_total}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <form action="{% url 'hotels:reservation_step_4' hotel.id %}" method="post">
+                {% csrf_token %}
+                <a class="btn btn-secondary btn-lg" href="{% url 'hotels:reservation_step_3' hotel.id %}" role="button">Back</a>
+                <div class="float-right">
+                    <button type="submit" class="btn btn-primary btn-lg">Reserve Hotel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

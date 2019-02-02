@@ -7,5 +7,4 @@
   <div>permissions: {{ user.user_permissions }}</div>
 
   <a class="btn btn-primary" href="{% url 'user:logout_submit'%}">{% csrf_token %}logout</a>
-  <a class="btn btn-primary" href="{% url 'car:car_home'%}">{% csrf_token %}car</a>
 {% endblock content %}

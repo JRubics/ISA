@@ -83,6 +83,8 @@ def logout_submit(request):
 def home(request):
     return render(request, 'user/home_page.html')
 
+def index(request):
+    return render(request, 'user/index.html')
 
 @login_required()
 def reservations(request):

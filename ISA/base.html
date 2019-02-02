@@ -9,8 +9,17 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.src.js"></script>
 
+
     {% block base_head %}
     {% endblock base_head %}
+
+    <style>
+        #map {
+            height: 360px;
+            width: 100%;
+        }
+    </style>
+
 </head>
 
 <body style="overflow-x: hidden;">
@@ -68,7 +77,7 @@
                         </a>
                     </li>
                     <li class="">
-                        <a href="{% url 'user:home' %}">
+                        <a href="{% url 'hotels:view_hotels' %}">
                             <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp; Book A Place
                         </a>
                     </li>
@@ -80,9 +89,11 @@
                 </ul>
 
                 <form class="navbar-form navbar-left" role="search" method="get" action="#">
+
                 {% csrf_token %}
                 {% block search %}                
                 {% endblock search %}
+
                 </form>
 
                 <ul class="nav navbar-nav navbar-right">
