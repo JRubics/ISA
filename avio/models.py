@@ -151,3 +151,10 @@ class Ticket (models.Model):
     def clean(self):
         if self.flight != self.seat.flight:
             raise ValidationError("Seat is not form that flight")
+
+
+class ProfitSummary(Ticket):
+    class Meta:
+        proxy = True
+        verbose_name = 'Avio company profit summary'
+        verbose_name_plural = 'Avio company profit summary'
