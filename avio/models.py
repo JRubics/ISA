@@ -137,7 +137,7 @@ class ManageSeats (Seat):
 
 # model karte
 class Ticket (models.Model):
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank = True)
     first_name = models.CharField(max_length=30, null=True)
     last_name = models.CharField(max_length=30, null=True)
     passport = models.CharField(max_length=15, null=True)

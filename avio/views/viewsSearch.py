@@ -157,7 +157,7 @@ class AvioReservation(TemplateView):
         context['num_seats'] = request.session['num_seats']
         context['seat_type'] = seat_type
         context['seats'] = json.dumps(list(seats))
-        context['s'] = querry.filter(seat_type = seat_type[0]).order_by('seat_number')
+        context['s'] = querry.filter(seat_type = seat_type[0], seat_status = "F").order_by('seat_number')
 
         forms = []
         for x in range(int(request.session['num_seats'])):
@@ -208,7 +208,23 @@ class AvioReservation(TemplateView):
             ctx['form'] = forms
             return render(request, self.template_name, ctx)
 
-        
+        flight = ctx['flight']
+        if_request_user = True
+        for f in forms:
+            seat = Seat.objects.get(pk = f['seats'].value())
+            seat.seat_status = "T"
+            if f['person'].value() != "" and f['person'].value() != None:
+                person = Profile.objects.get(pk = f['person'].value())
+                Ticket.objects.create(user = person.user, first_name = person.user.first_name, last_name = person.user.last_name, time =  datetime.datetime.now(), price = flight.base_price * seat.price_factor, flight = flight, seat = seat, status = "R")
+                #slanje mejla
+                send_mail('Travel Invitation',str(request.user.profile) + " has invited you to travel to " + str(flight) + ". Log in to your account to view the reservation",'isa2018bfj@google.com',[person.uset.email],fail_silently=False,)
+            else:
+                ticket = Ticket.objects.create(passport = f['passport'].value(),first_name = f['first_name'].value(), last_name = f['last_name'].value(), time =  datetime.datetime.now(), price = flight.base_price * seat.price_factor, flight = flight, seat = seat, status = "B")
+                if if_request_user:
+                    if_request_user = False
+                    ticket.user = request.user
+                    ticket.save()
+            seat.save()
 
         return redirect('user:profile_unfriend')
 
