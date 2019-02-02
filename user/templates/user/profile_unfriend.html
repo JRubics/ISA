@@ -12,7 +12,7 @@
                 <form method="post">
                     {% csrf_token %}
                     <input type="hidden" class="" value="{{ profile.user.id }}" name="usr">
-                    <input type="submit" class="btn is-invalid" value="Unfriend" name="my_btn">
+                    <input type="submit" class="btn btn-warning" value="Unfriend" name="my_btn">
                 </form>
             </div>
         </div><br><br>

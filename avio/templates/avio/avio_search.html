@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<style>
+    body {
+    background-image: url("http://technonewstrend.co/wp-content/uploads/2018/07/wallpaper-tumblr-pc-awesome-yukle-1200x851-travel-background-tumblr-pc-most-beautiful-of-wallpaper-tumblr-pc.jpg");
+    overflow-x: hidden;
+}
+</style>
+
+<br>
+<br>
+<br>
+
+<div class='container-fluid'>
+    <form action="{% url 'avio:search_results_avio' %}" method='get'>
+    {% csrf_token %}
+        <div class="row">
+            <div class="col col-md-8 p-0 m-0">
+                <div class="row align-text-bottom">
+                    <div class="col">
+                        <!-- <h5 class="" style="margin-bottom:0;">Trip type: </h5> -->
+                        {{ form.trip_type|as_crispy_field }}
+                    </div>
+
+                    <div class="col">
+                        <!-- <h5 class="" style="margin-bottom:0;">Number of passengers: </h5> -->
+                        {{ form.passenger_numbers|as_crispy_field }}
+                    </div>
+
+                    <div class="col">
+                        <!-- <h5 class="" style="margin-bottom:0;">Seat type: </h5> -->
+                        {{ form.seat|as_crispy_field }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col col-md-10 p-0 m-0">
+                <div class="row m-0">
+                    <div class="col p-0">
+                        <!-- <h4 class="" style="margin-bottom:0;">From: </h4> -->
+                        <!-- <input class="form-control" /> -->
+                        {{ form.departure_city|as_crispy_field }}
+                    </div>
+
+                    <div class="col p-0">
+                        <!-- <h4 class="" style="margin-bottom:0;">To: </h4>
+                        <input class="form-control" /> -->
+                        {{ form.arrival_city|as_crispy_field }}
+                    </div>
+
+                    <div class="col p-0">
+                        <!-- <h4 class="" style="margin-bottom:0;">Depart: </h4>
+                        <input class="form-control" /> -->
+                        {{ form.departure_date|as_crispy_field }}
+                    </div>
+
+                    <div class="col p-0">
+                        <!-- <h4 class="" style="margin-bottom:0;">Return: </h4>
+                        <input class="form-control" /> -->
+                        {{ form.arrival_date|as_crispy_field }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col col-md-10 p-0 m-0">
+                <div class="col-md-11"></div>
+                <button class="btn btn-success p-3 pull-right" type="submit">Search Flight</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<br>
+<br>
+<br>
+
+{% endblock content %}

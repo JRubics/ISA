@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+
+{% block base_head %}
+    {% load crispy_forms_tags %}
+{% endblock base_head %}
+
+
+{% block avio_search %}
+    <div class="col text-center">
+        <form action="##" method="post">
+        {% csrf_token %}
+            {% for form in search_form %}
+                {{ form|as_crispy_field  }}
+            {% endfor %}
+            <br>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+{% endblock avio_search %}
+
+
+{% block content %}
+
+{% for fly, stops in ret %}
+
+<div class="container-fluid">
+    <div class="row text-center">
+        <div class="departure col">
+            <br>
+            <h4> From: </h4>
+            <h3>
+                <span>{{ fly.departure_airport }}</span>
+                <br>
+                <span>{{ fly.departure_date }}</span>
+                <br>
+            </h3>
+        </div>
+        <div class="duratiom col">
+            <br>
+            <h3>{{ stops }} - Duration: {{ fly.duration }}</h3>
+            <img src="http://bayviewinn.com/wp-content/uploads/2016/07/airplane.png" style="width:100px; height: 100px;">
+        </div>
+
+        <div class="departure col">
+            <br>
+            <h4> To: </h4>
+            <h3>
+                <span>{{ fly.arrival_airport }}</span>
+                <br>
+                <span>{{ fly.arrival_date }}</span>
+                <br>
+            </h3>
+        </div>
+
+        <div class="fly-reservation col">
+            <br>
+            <h4>{{ fly.avio_company }}</h4>
+            <h4>From: {{ fly.base_price }} eur</h4>
+            <form action="{% url 'avio:avio_reservation' fly.id%}" method="get">
+            {% csrf_token %}
+                {{ form }}
+                <button type="submit" class="btn btn-success">Buy</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<hr>
+{% endfor %}
+
+
+
+
+{% endblock content %}

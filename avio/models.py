@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 
 
 # model zemlje
@@ -28,6 +29,9 @@ class City (models.Model):
 class AvioCompany (models.Model):
     name = models.CharField(max_length=30)  # naziv avio kompanije
     promo_description = models.TextField()  # promotivan opis
+    cabine_luggage_description = models.CharField(max_length=130, null=True)
+    luggage = models.CharField(max_length=130, null=True)
+    additional_services = models.CharField(max_length=130, null=True)
 
     # address
     city = models.ForeignKey(City, on_delete=models.DO_NOTHING)
@@ -67,6 +71,9 @@ class Flight (models.Model):
         City, related_name='arrival_city', on_delete=models.DO_NOTHING)
     distance = models.IntegerField()
     base_price = models.IntegerField()
+
+    def duration(self):
+        return self.arrival_date - self.departure_date
 
     def __str__(self):
         str_date = str(self.departure_date)[:16]
@@ -120,6 +127,9 @@ class Seat (models.Model):
     class Meta:
         unique_together = ['seat_number', 'seat_type', 'flight']
 
+    def __str__(self):
+        return (str(self.seat_number) + " " + str(self.seat_type))
+
 class ManageSeats (Seat):
     class Meta:
         proxy = True
@@ -127,8 +137,17 @@ class ManageSeats (Seat):
 
 # model karte
 class Ticket (models.Model):
-    flight = models.ForeignKey(Flight, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank = True)
+    first_name = models.CharField(max_length=30, null=True)
+    last_name = models.CharField(max_length=30, null=True)
+    passport = models.CharField(max_length=15, null=True)
+    time = models.DateTimeField('time of ticket creation', null=True)
+    price = models.FloatField(null=True)
     seat = models.ForeignKey(Seat, on_delete=models.DO_NOTHING)
-    time = models.DateTimeField('time of ticket creation')
-    TYPE = (('B', 'Bought ticket'), ('R', 'Reserved ticket'))
+    flight = models.ForeignKey(Flight, on_delete=models.DO_NOTHING)
+    TYPE = (('B', 'Bought ticket'), ('R', 'Reserved ticket'), ('P', 'Promotion ticket'))
     status = models.CharField(max_length=1, choices=TYPE)
+
+    def clean(self):
+        if self.flight != self.seat.flight:
+            raise ValidationError("Seat is not form that flight")

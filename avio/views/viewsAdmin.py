@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, permission_required
-from avio.models import Seat, Flight
+from avio.models import Seat, Flight, Ticket
 from django import forms
 from django.db.models import Max
 from django.contrib import messages
@@ -45,7 +45,7 @@ def seat_change(request, id):
             if add_seats.is_valid():
                 seat_type = add_seats['seat_type'].value()
                 number = int(add_seats['number'].value())
-                max_seat_number = Seat.objects.filter(seat_type=seat_type).aggregate(max = Max('seat_number'))['max']
+                max_seat_number = Seat.objects.filter(seat_type=seat_type, flight = id).aggregate(max = Max('seat_number'))['max']
                 if max_seat_number == None:
                     max_seat_number = 1
                 else:
@@ -62,7 +62,17 @@ def seat_change(request, id):
             seat_status = update_seat['seat_status'].value()
             number = int(update_seat['seat_number'].value())
             try:
+                this_flight = Flight.objects.get(pk=id)
                 obj = Seat.objects.get(flight = id, seat_type = seat_type, seat_number = number)
+                
+                # ako se menja iz promocije u nesto drugo obrisi kartu sa promocijom
+                if obj.seat_status == "P":
+                    Ticket.objects.filter(flight=this_flight, seat=obj).delete()
+                
+                #  ako se sediste menja u promociju napravi kartu sa promocijom
+                if seat_status == "P":
+                    Ticket.objects.create(flight=this_flight, seat=obj, status="P")
+                
                 obj.seat_status = seat_status
                 obj.save()
             except Seat.DoesNotExist:
