@@ -100,11 +100,15 @@ def home(request):
     hotel_services = HotelService.objects.all()
 
     tickets = Ticket.objects.filter(user=request.user, status = "B")
+    is_flight_rated = {}
+    for reservation in tickets:
+        is_flight_rated[reservation.id] = reservation.is_rated(request.user.id)
     context = {'car_reservations': car_reservation_list,
                'is_car_rated': is_car_rated,
                'hotel_reservations': hotel_reservation_list,
                'hotel_rooms': hotel_rooms,
                'hotel_services': hotel_services,
                'is_hotel_rated': is_hotel_rated,
-               'tickets':tickets}
+               'tickets':tickets,
+               'is_flight_rated':is_flight_rated}
     return render(request, 'user/home_page.html', context)

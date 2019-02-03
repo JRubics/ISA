@@ -31,7 +31,21 @@
               <td>{{reservation.time}}</td>
               <td>{{reservation.price}}</td>
               <td>{{reservation.seat}}</td>
-              <td>{{reservation.is_done}}</td>
+              <td>
+                {% if reservation.is_done %}
+                  {% for key, value in is_flight_rated.items %}
+                    {% if reservation.id == key %}
+                      {% if value == True %}
+                        rated
+                      {% else %}
+                        <a class="btn btn-default" href="{% url 'car:car_rate' reservation.id%}">rate</a>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% elif reservation.can_be_closed%}
+                  <a class="btn btn-default" href="{% url 'car:cancel_reservation' reservation.id%}">cancel</a>
+                {% endif %}
+              </td>
             </tr>
           {% endfor %}
         </tbody>

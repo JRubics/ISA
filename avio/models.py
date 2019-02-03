@@ -3,6 +3,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from datetime import datetime, timezone
+from django.conf import settings
 
 
 # model zemlje
@@ -153,10 +154,25 @@ class Ticket (models.Model):
         if self.flight != self.seat.flight:
             raise ValidationError("Seat is not form that flight")
 
+    def can_be_closed(self):
+        date1 = self.flight.departure_date.replace(tzinfo=None)
+        date2 = datetime.now().replace(tzinfo=None)
+        return abs((date2 - date1).days) >= 2
+
     def is_done(self):
         date1 = self.flight.arrival_date.replace(tzinfo=None)
         date2 = datetime.now().replace(tzinfo=None)
         return date1 < date2
+
+    def is_rated(self, user):
+        return FlightRate.objects.filter(ticket=self.id, user=user).exists()
+
+
+class FlightRate(models.Model):
+   ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+   flight_rate = models.PositiveIntegerField()
+   company_rate = models.PositiveIntegerField()
+   user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
 class ProfitSummary(Ticket):
