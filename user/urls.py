@@ -19,4 +19,5 @@ urlpatterns = [
     path('profile/people_list', views.ListProfiles.as_view(), name='profile_people_list'),
     path('profile/friend_requests', views.ListFriendRequests.as_view(), name='profile_friend_requests'),
     path('profile/unfriend', views.Unfriend.as_view(), name='profile_unfriend'),
+    path('profile/invitations', views.Invitation.as_view(), name='profile_initations'),
 ]

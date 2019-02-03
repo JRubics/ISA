@@ -138,7 +138,10 @@ class FastReservation(ListView):
         return context 
 
     def post(self, request, *args, **kwargs):
-        Ticket.objects.filter(pk=request.POST.get('buy')).update(user = request.user, first_name = request.user.first_name, last_name = request.user.last_name, passport = request.POST.get('passport'), time = datetime.datetime.now(), status = 'B')   
+        ticket = Ticket.objects.filter(pk=request.POST.get('buy')).update(user = request.user, first_name = request.user.first_name, last_name = request.user.last_name, passport = request.POST.get('passport'), time = datetime.datetime.now(), status = 'B')   
+        seat = ticket.seat
+        seat.seat_status = "T"
+        seat.save()
         return self.get(request, id)
         
 
@@ -212,13 +215,14 @@ class AvioReservation(TemplateView):
         if_request_user = True
         for f in forms:
             seat = Seat.objects.get(pk = f['seats'].value())
-            seat.seat_status = "T"
             if f['person'].value() != "" and f['person'].value() != None:
+                seat.seat_status = "R"
                 person = Profile.objects.get(pk = f['person'].value())
                 Ticket.objects.create(user = person.user, first_name = person.user.first_name, last_name = person.user.last_name, time =  datetime.datetime.now(), price = flight.base_price * seat.price_factor, flight = flight, seat = seat, status = "R")
                 #slanje mejla
                 send_mail('Travel Invitation',str(request.user.profile) + " has invited you to travel to " + str(flight) + ". Log in to your account to view the reservation",'isa2018bfj@google.com',[person.uset.email],fail_silently=False,)
             else:
+                seat.seat_status = "T"
                 ticket = Ticket.objects.create(passport = f['passport'].value(),first_name = f['first_name'].value(), last_name = f['last_name'].value(), time =  datetime.datetime.now(), price = flight.base_price * seat.price_factor, flight = flight, seat = seat, status = "B")
                 if if_request_user:
                     if_request_user = False

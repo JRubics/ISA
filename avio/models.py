@@ -133,7 +133,7 @@ class Seat (models.Model):
 class ManageSeats (Seat):
     class Meta:
         proxy = True
-        verbose_name = 'Mange seate'
+        verbose_name = 'Mange seats'
 
 # model karte
 class Ticket (models.Model):
@@ -151,3 +151,10 @@ class Ticket (models.Model):
     def clean(self):
         if self.flight != self.seat.flight:
             raise ValidationError("Seat is not form that flight")
+
+
+class ProfitSummary(Ticket):
+    class Meta:
+        proxy = True
+        verbose_name = 'Avio company profit summary'
+        verbose_name_plural = 'Avio company profit summary'

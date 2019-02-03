@@ -1,0 +1,188 @@
+{% extends "admin/change_list.html" %}
+
+
+{% block content_title %}
+<h1> Profit Summary </h1>
+{% endblock %}
+
+{% load humanize %}
+
+{% load avio_extras %}
+
+{% block result_list %}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+<div class="results">
+    <table>
+
+        <thead>
+            <tr>
+                <th>
+                    <div class="text">
+                        <a href="#">Flight</a>
+                    </div>
+                </th>
+                <th>
+                    <div class="text">
+                        <a href="#">Number of Tickets Sold</a>
+                    </div>
+                </th>
+                <th>
+                    <div class="text">
+                        <a href="#">Total Flight Profit</a>
+                    </div>
+                </th>
+                <th>
+                    <div class="text">
+                        <a href="#">
+                            <strong>% Of Total Profit</strong>
+                        </a>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for flight,row in flight_summary %}
+            <tr class="{% cycle 'row1' 'row2' %}">
+                <td> {{ flight }} </td>
+                <td> {{ row.total | intcomma }} </td>
+                <td> {{ row.total_sales | default:0 | intcomma }}$ </td>
+                <td>
+                    <strong>
+                        {{ row.total_sales|percentage:summary_total.total_sales}}
+                    </strong>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+        <tr style="font-weight:bold; border-top:2px solid #DDDDDD;">
+            <td> Total </td>
+            <td> {{ summary_total.total | intcomma }} </td>
+            <td> {{ summary_total.total_sales | default:0 }}$ </td>
+            <td> 100% </td>
+        </tr>
+
+    </table>
+
+    <h2> Profit over time </h2>
+
+    <canvas id="myChart" style="width:100%; height: 400px;"></canvas>
+    {% if week %}
+    <canvas id="myChartWeek" style="width:100%; height: 400px;"></canvas>
+    {% endif %}
+
+</div>
+
+<script>
+    let ctx = document.getElementById("myChart").getContext('2d');
+    let label_list = {{ label_list| safe }};
+    let val_list = {{ val_list| safe }};
+    let tic_list = {{ tic_list| safe }};
+    let myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: label_list,
+            datasets: [{
+                label: 'Sold tickets',
+                data: tic_list,
+                yAxisID: 'B',
+                fill: false,
+                lineTension: 0,
+                borderColor: 'rgba(0, 255, 0, 1)',
+                borderWidth: 3,
+                type: 'line',
+            }, 
+            {
+                label: 'Profit $',
+                data: val_list,
+                yAxisID: 'A',
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.3)',
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                ],
+                borderWidth: 1,
+                type: 'line',
+            },
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    id: 'A',
+                    ticks: {
+                        beginAtZero: true
+                    }
+                },
+                {
+                    id: 'B',
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+
+{% if week %}
+    <script>
+    ctx = document.getElementById("myChartWeek").getContext('2d');
+    label_list = {{ week_label_list| safe }};
+    val_list = {{ week_val_list| safe }};
+    tic_list = {{ week_tic_list| safe }};
+    myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: label_list,
+            datasets: [{
+                label: 'Sold tickets',
+                data: tic_list,
+                yAxisID: 'B',
+                fill: false,
+                lineTension: 0,
+                borderColor: 'rgba(0, 255, 0, 1)',
+                borderWidth: 3,
+                type: 'line',
+            }, 
+            {
+                label: 'Profit $',
+                data: val_list,
+                yAxisID: 'A',
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.3)',
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                ],
+                borderWidth: 1,
+                type: 'line',
+            },
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    id: 'A',
+                    ticks: {
+                        beginAtZero: true
+                    }
+                },
+                {
+                    id: 'B',
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+    </script>
+{% endif %}
+
+
+{% endblock %}
+
+{% block pagination %}{% endblock %}
