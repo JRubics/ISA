@@ -199,6 +199,25 @@ def get_next_in_date_hierarchy(request, date_hierarchy):
 
     return 'month'
 
+class TicketAdmin(admin.ModelAdmin):
+    list_display = ['flight', 'status', 'seat', 'first_name', 'last_name']
+    list_filter = ('flight', 'status',)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "flight" and not request.user.is_superuser:
+            kwargs["queryset"] = Flight.objects.filter(avio_company=request.user.adminuser.avio_admin)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+
+        for res in qs:
+            if res.flight.id != request.user.adminuser.avio_admin.id:
+                qs.exclude(res)
+        return qs
+
 
 # Register your models here.
 admin.site.register(AvioCompany, AvioCompanyAdmin)
@@ -210,7 +229,7 @@ admin.site.register(ProfitSummary, SaleSummaryAdmin)
 admin.site.register(City)
 admin.site.register(Country)
 admin.site.register(Airport)
-admin.site.register(Ticket)
+admin.site.register(Ticket, TicketAdmin)
 
 
 

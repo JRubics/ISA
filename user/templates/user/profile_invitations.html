@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+{% for invitation in object_list %}
+
+<div class="container-fluid">
+    <div class="row text-center">
+        <div class="departure col">
+            <br>
+            <h4> From: </h4>
+            <h3>
+                <span>{{ invitation.flight.departure_airport }}</span>
+                <br>
+                <span>{{ invitation.flight.departure_date }}</span>
+                <br>
+            </h3>
+        </div>
+        <div class="duratiom col">
+            <br>
+            <h3>Duration: {{ invitation.flight.duration }} seat: {{ invitation.seat.seat_number }}{{ invitation.seat.seat_type }}</h3>
+            <img src="http://bayviewinn.com/wp-content/uploads/2016/07/airplane.png" style="width:100px; height: 100px;">
+        </div>
+
+        <div class="departure col">
+            <br>
+            <h4> To: </h4>
+            <h3>
+                <span>{{ invitation.flight.arrival_airport }}</span>
+                <br>
+                <span>{{ invitation.flight.arrival_date }}</span>
+                <br>
+            </h3>
+        </div>
+
+        <div class="invitation-reservation col">
+            <br>
+            <h3>{{ invitation.price }} eur</h3>
+            <div class="row m-0 p-0">
+                <form action="" method="post" class="form-inline" style="width:100%">
+                    {% csrf_token %}
+                    {{ form }}
+                    <button type="submit" class="btn btn-success pull-right" name="btn" value="{{ invitation.id }}">Confirm</button>
+                </form>
+
+                <div class="col">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger pull-right" name="btn" value="decline{{ invitation.id }}">Decline</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+{% endfor %}
+
+
+{% endblock content %}

@@ -1,6 +1,7 @@
 from django.views import generic
 from django import forms
 from user.models import Profile, UserRelationship
+from avio.models import Ticket, Flight, Seat
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
@@ -8,6 +9,7 @@ from django.views.generic.edit import View
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
+import datetime
 
 
 class ListProfiles(generic.ListView):
@@ -119,5 +121,38 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
     return render(request, 'user/profile_pass_change.html', {'form': form})
 
+class PassportForm(forms.Form):
+    passport = forms.CharField(label='passport', max_length=15, )
 
 
+class Invitation(generic.ListView):
+    template_name = 'user/profile_invitations.html'
+
+    def get_queryset(self):
+        return Ticket.objects.filter(user = self.request.user, status = "R")
+
+    def get_context_data(self, **kwargs):
+        context = super(Invitation, self).get_context_data(**kwargs)
+        context['form'] = PassportForm()
+        return context 
+
+    def post(self, request):
+        choice = request.POST.get('btn')
+        if choice.startswith("decline"):
+            choice = choice.replace('decline', '')
+            ticket = Ticket.objects.get(pk = int(choice))
+            seat = ticket.seat
+            seat.seat_status = "F"
+            seat.save()
+            ticket.delete()
+        else:
+            ticket = Ticket.objects.get(pk = int(choice))
+            ticket.passport = request.POST.get('passport')
+            ticket.time = datetime.datetime.now()
+            ticket.status = "B"
+            seat = ticket.seat
+            seat.seat_status = "T"
+            seat.save()
+            ticket.save()
+
+        return self.get(request)
