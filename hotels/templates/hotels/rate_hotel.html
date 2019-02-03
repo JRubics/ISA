@@ -1,1 +1,49 @@
-RATE HOTEL PAGE
+{% extends 'base.html' %}
+
+{% block content %}
+  {% if reservation %}
+    <br>
+    <br>
+    <form action="{% url 'hotels:hotel_rate' reservation.id%}" method="post">
+      {% csrf_token %}
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-2">
+            <label>Hotel:</label>
+            <br>
+            <input type="number" name="hotel_rate" required=true value="5" max="5" min="0">
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-4">
+            <label>Rooms:</label>
+            <br>
+            {% for room in rooms %}
+              <div class="row">
+                <div class="col-md-4">
+                  <label>Room no {{room.number}}</label><br>
+                </div>
+                <div class="col-md-8w">
+                  <input type="number" name="room_rate{{room.number}}" required=true value="5" max="5" min="0">
+                </div>
+                <br>
+                <br>
+              </div>
+            {% endfor %}
+          </div>
+          <div class="col-md-1"></div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-5"></div>
+          <div class="col-md-2" style="text-align: center">
+            <button type="submit" value="rate_hotel" name="rate_hotel" onclick="" class="btn btn-primary">Rate</button>
+          </div>
+          <div class="col-md-5"></div>
+        </div>
+      </div>
+    </form>
+  {% else %}
+    <p>Car doesn't exist.</p>
+  {% endif %}
+{% endblock content %}

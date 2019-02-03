@@ -283,8 +283,8 @@ def make_fast_reservation(request, id):
 
 @login_required()
 def car_rate(request, id=None):
+  reservation = Reservation.objects.get(id=id)
   if request.method == 'POST':
-    reservation = Reservation.objects.get(id=id)
     car_rate = request.POST['car_rate']
     service_rate = request.POST['service_rate']
     car_rate = CarRate(reservation = reservation,
@@ -294,7 +294,6 @@ def car_rate(request, id=None):
     car_rate.save()
     return redirect('/user/reservations')
   else:
-    reservation = Reservation.objects.get(id=id)
     context = {'reservation':reservation}
     return render(request, 'car/rate_car.html',context)
 
