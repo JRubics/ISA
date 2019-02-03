@@ -5,31 +5,102 @@
   <br>
   <div class="col-md-2"></div>
     <div class="col-md-8">
-      <div id="container" style="text-align:center;"></div>
+      <div id="container" style="text-align:center;">
+        <div class="row">
+          <div class="col">
+            <div id="month"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div id="weeks"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div id="days"></div>
+          </div>
+        </div>
+      </div>
         <script>
-          Highcharts.chart('container', {
+          Highcharts.chart('month', {
               chart: {
                   type: 'column'
               },
               title: {
-                  text: 'Rentals'
+                text: 'Car reservations by month'
               },
-              xAxis: {
-                  categories: ['day', 'week', 'month', 'year']
+              plotOptions: {
+                  series: {
+                      label: {
+                          connectorAllowed: false
+                      },
+                      pointStart: 1
+                  }
+              },
+              yAxis: {
+                  title: {
+                      text: 'Number of Cars'
+                  }
               },
               series: [{
-                  name: 'Number of reservations',
-                  data: {{ res_num }},
+                  name: 'Number of Cars',
+                  data: {{rset_months}},
                   color: 'purple'
+              }]
+          });
+          Highcharts.chart('weeks', {
+              chart: {
+                  type: 'column'
               },
-              {
-                  name: 'Income (x 100e)',
-                  data: {{ income }}
-              }
-            ]
+              title: {
+                text: 'Car reservations by week'
+              },
+              plotOptions: {
+                  series: {
+                      label: {
+                          connectorAllowed: false
+                      },
+                      pointStart: 1
+                  }
+              },
+              yAxis: {
+                  title: {
+                      text: 'Number of Cars'
+                  }
+              },
+              series: [{
+                  name: 'Number of Cars',
+                  data: {{rset_weeks}},
+              }]
+          });
+          Highcharts.chart('days', {
+              chart: {
+                  type: 'column'
+              },
+              title: {
+                text: 'Car reservations by day'
+              },
+              plotOptions: {
+                  series: {
+                      label: {
+                          connectorAllowed: false
+                      },
+                      pointStart: 1
+                  }
+              },
+              yAxis: {
+                  title: {
+                      text: 'Number of Cars'
+                  }
+              },
+              series: [{
+                  name: 'Number of Cars',
+                  data: {{rset_days}},
+                  color: 'orange'
+              }]
           });
         </script>
-        <a class="btn btn-default" onClick="javascript:history.go(-1);">back</a>
       </div>
     </div>
   <div class="col-md-3"></div>
