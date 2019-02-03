@@ -4,7 +4,7 @@ from calendar import monthrange
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from .forms import HotelInfoForm, HotelServiceForm, RoomInfoForm, RoomPriceForm, ServicePackageForm, HSCHelpFormRooms, HSCHelpFormServices
-from .models import Hotel, HotelRoom, HotelService, HotelServicePackage, HotelRoomPrice, ValidationError, HotelShoppingCart, HotelReservation, QuickReservationOption
+from .models import Hotel, HotelRoom, HotelService, HotelServicePackage, HotelRoomPrice, ValidationError, HotelShoppingCart, HotelReservation, QuickReservationOption, HotelRate, RoomRate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 
@@ -831,3 +831,27 @@ def earnings_statistic(request, hotel_id):
         total_earnings = calculate_earnings(hotel, begin_date, end_date)
         context = {'hotel': hotel, 'total_earnings': total_earnings}
         return render(request, 'hotels/hotel_stats_earnings.html', context)
+
+
+
+@login_required()
+def hotel_rate(request, id=None):
+    reservation = HotelReservation.objects.get(id=id)
+    rooms = reservation.rooms.all()
+    if request.method == 'POST':
+        hotel_rate = request.POST['hotel_rate']
+        hotel_rate = HotelRate(reservation = reservation,
+                        hotel_rate = hotel_rate,
+                        user=request.user)
+        hotel_rate.save()
+        for room in rooms:
+            room_rate = request.POST['room_rate' + str(room.number)]
+            room_rate = RoomRate(reservation = reservation,
+                        room_id = room.id,
+                        room_rate = room_rate,
+                        user=request.user)
+            room_rate.save()
+        return redirect('/user/reservations')
+    else:
+        context = {'reservation':reservation, 'rooms':rooms }
+        return render(request, 'hotels/rate_hotel.html',context)

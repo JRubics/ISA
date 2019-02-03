@@ -10,7 +10,7 @@
           <div class="col-md-3">
             <h1>{{service.name}}</h1>
           </div>
-          <div class="col-md-2"> <h2>rate: {{rate}}</h2></div>
+          <div class="col-md-2"> <h2>rate: {{service.get_rate}}</h2></div>
           <div style="text-align: center"><br><a class="btn btn-default" href="{% url 'car:graph' service.id%}">Incomes</a></div>
         </div>
         <div class="row">
@@ -118,13 +118,7 @@
             <td>{{car.price}}</td>
             <td>{{car.year}}</td>
             <td>{{car.seats}}</td>
-            <td>
-              {% for key, value in car_rates.items %}
-                {% if car.id == key %}
-                  {{value}}
-                 {% endif %}
-              {% endfor %}
-            </td>
+            <td>{{car.get_rate}}</td>
             <td>{% if car.on_sale %} yes {% else %} no {% endif %}</td>
             {% if car.is_taken %}
               <td>yes</td>

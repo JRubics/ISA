@@ -50,7 +50,7 @@
                     <td>{{room.floor_number}}</td>
                     <td>{{room.capacity}} persons</td>
                     <td>{{room.has_balcony|yesno:"Yes,No,N/A"}}</td>
-                    <td></td>
+                    <td>{{room.get_rate}}</td>
                     <td>{{room.default_price_per_day}}</td>
                 </tr>
                 {% endfor %}

@@ -12,7 +12,7 @@
                 <div class="row">
                     <div class="col">
                         <label>Name:</label> {{hotel.name}}<br />
-                        <label>Rating:</label> <!-- Rating --><br />
+                        <label>Rating:</label> {{hotel.get_rate}}<br />
                         <label>Address:</label> {{hotel.address}} {{hotel.address_number}}, {{hotel.city}}, {{hotel.country}}<br />
                         <a class="btn btn-primary" href="{% url 'hotels:edit_hotel_info' hotel.id%}" role="button">Edit</a>
                         <h4>Descritpion</h4>
@@ -69,9 +69,7 @@
                             <td>{{room.capacity}}</td>
                             <td>{{room.has_balcony|yesno:"Yes,No,N/A"}}</td>
                             <td>{{room.default_price_per_day}}</td>
-                            <td>
-                                <!--Rating-->
-                            </td>
+                            <td>{{room.get_rate}}</td>
                             <td>
                                 <a class="btn btn-primary" href="{% url 'hotels:edit_hotel_room' hotel.id room.id %}"
                                     role="button">Edit</a>

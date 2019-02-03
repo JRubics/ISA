@@ -35,9 +35,9 @@ class CarTestCase(TestCase):
       self.reservation2 = Reservation(car = self.car, office1 = self.office, office2 = self.office, date1 = (datetime.now() - timedelta(days=10)).replace(tzinfo=None), date2 = (datetime.now() - timedelta(days=9)).replace(tzinfo=None), user = self.user)
       self.reservation1.save()
 
-      self.rate1 = CarRate(reservation = self.reservation, car_rate = 3, service_rate = 4)
+      self.rate1 = CarRate(reservation = self.reservation, car_rate = 3, service_rate = 4, user = self.user)
       self.rate1.save()
-      self.rate2 = CarRate(reservation = self.reservation1, car_rate = 4, service_rate = 2)
+      self.rate2 = CarRate(reservation = self.reservation1, car_rate = 4, service_rate = 2, user = self.user)
       self.rate2.save()
 
     def test_service_in_database(self):
@@ -126,7 +126,10 @@ class CarTestCase(TestCase):
       self.assertEqual(self.reservation.can_be_closed(), False)
 
     def test_car_reservation_is_rated(self):
-      self.assertEqual(self.reservation.is_rated(), True)
+      self.assertEqual(self.reservation.is_rated(self.user.id), True)
 
     def test_car_reservation_is_rated_false(self):
-      self.assertEqual(self.reservation2.is_rated(), False)
+      self.assertEqual(self.reservation2.is_rated(self.user.id), False)
+
+    def test_car_reservation_is_rated_false2(self):
+      self.assertEqual(self.reservation2.is_rated(5), False)

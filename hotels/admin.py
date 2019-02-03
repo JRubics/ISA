@@ -7,6 +7,8 @@ from .models import HotelService
 from .models import HotelServicePackage
 from .models import HotelShoppingCart
 from .models import QuickReservationOption
+from .models import HotelRate
+from .models import RoomRate
 
 admin.site.register(Hotel)
 admin.site.register(HotelReservation)
@@ -16,4 +18,6 @@ admin.site.register(HotelService)
 admin.site.register(HotelServicePackage)
 admin.site.register(HotelShoppingCart)
 admin.site.register(QuickReservationOption)
+admin.site.register(HotelRate)
+admin.site.register(RoomRate)
 

@@ -3,6 +3,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
+from datetime import date
 
 
 class Hotel(models.Model):
@@ -15,6 +16,24 @@ class Hotel(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_rate(self):
+        reservations = HotelReservation.objects.filter(hotel=self.id).all()
+        if reservations:
+            rate = 0
+            counter = 0
+            for reservation in reservations:
+                if HotelRate.objects.filter(reservation=reservation.id).exists():
+                    rates = HotelRate.objects.filter(reservation=reservation.id).all()
+                    for r in rates:
+                        rate = rate + r.hotel_rate
+                        counter = counter + 1
+            if counter != 0:
+                return rate / counter
+            else:
+                return 0
+        else:
+            return 0
 
 
 class HotelRoom(models.Model):
@@ -42,6 +61,24 @@ class HotelRoom(models.Model):
             raise ValidationError("Price cannot be negative")
         if self.capacity < 1:
             raise ValidationError("Capacity minimum is 1 person")
+
+    def get_rate(self):
+        reservations = HotelReservation.objects.all()
+        if reservations:
+            rate = 0
+            counter = 0
+            for reservation in reservations:
+                if RoomRate.objects.filter(reservation=reservation.id).exists():
+                    rates = RoomRate.objects.filter(reservation=reservation.id, room=self.id).all()
+                    for r in rates:
+                        rate = rate + r.room_rate
+                        counter = counter + 1
+            if counter != 0:
+                return rate / counter
+            else:
+                return 0
+        else:
+            return 0
 
     def __str__(self):
         return 'Hotel ' + self.hotel.__str__() + ' | Room no ' + str(self.number)
@@ -164,6 +201,17 @@ class HotelReservation(models.Model):
         if self.services_charge < 0:
             raise ValidationError("Charge cannot be negative")
 
+    def is_done(self):
+        date1 = self.check_out
+        date2 = date.today()
+        return date1 < date2
+    def can_be_closed(self):
+        date1 = self.check_in
+        date2 = date.today()
+        return abs((date2 - date1).days) >= 2
+    def is_rated(self, user):
+        return HotelRate.objects.filter(reservation=self.id, user=user).exists() and RoomRate.objects.filter(reservation=self.id, user=user).exists()
+
     @classmethod
     def reserve(cls, id, amount):
         with transaction.atomic():
@@ -218,3 +266,18 @@ class QuickReservationOption(models.Model):
         decimal_places=2,
         max_digits=10,
     )
+
+class HotelRate(models.Model):
+    reservation = models.ForeignKey(HotelReservation, on_delete=models.CASCADE)
+    hotel_rate = models.PositiveIntegerField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    def __str__(self):
+        return "hotel - " + str(self.hotel_rate) + ", rez - " + str(self.reservation) + ", user - " + str(self.user)
+
+class RoomRate(models.Model):
+    reservation = models.ForeignKey(HotelReservation, on_delete=models.CASCADE)
+    room = models.ForeignKey(HotelRoom, on_delete=models.CASCADE)
+    room_rate = models.PositiveIntegerField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    def __str__(self):
+        return "room - " + str(self.room) + " - " + str(self.room_rate) + ", rez - " + str(self.reservation) + ", user - " + str(self.user)
