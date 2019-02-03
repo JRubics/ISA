@@ -8,7 +8,7 @@
             <div id="map"></div>
         </div>
         <div class="col-lg-4">
-            <label>Rating:</label> <!-- Rating --><br />
+            <label>Rating:</label> <{{hotel.get_rate}}<br />
             <label>Address:</label> {{hotel.address}} {{hotel.address_number}}, {{hotel.city}}, {{hotel.country}}<br />
             <h4>Descritpion</h4>
             <div class="panel panel-default">
@@ -47,9 +47,7 @@
                         <td>{{room.capacity}}</td>
                         <td>{{room.has_balcony|yesno:"Yes,No,N/A"}}</td>
                         <td>{{room.default_price_per_day}}</td>
-                        <td>
-                            <!--Rating-->
-                        </td>
+                        <td>{{room.get_rate}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

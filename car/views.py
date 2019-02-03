@@ -26,13 +26,10 @@ def edit_service(request):
     service.promo_description = request.POST['promo_description']
     service.save()
   cars = Car.objects.select_related().filter(service = service.id)
-  car_rates = {}
   for car in cars:
     car.is_reserved()
-    car_rates[car.id] = car.get_rate()
-  rate = service.get_rate()
   offices = BranchOffice.objects.select_related().filter(service = service.id)
-  context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,'service':service, 'cars':cars, 'offices':offices, 'rate':rate, 'car_rates':car_rates}
+  context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,'service':service, 'cars':cars, 'offices':offices}
   return render(request, 'car/edit_service.html',context)
 
 @login_required()
@@ -147,22 +144,15 @@ def choose_service(request):
     offices = BranchOffice.objects.all()
     services = [service for service in services
                         if service.id in [b.service.id for b in offices]]
-    service_rates = {}
-    for service in services:
-      service_rates[service.id] = service.get_rate()
     context = {'services':services, 'name':name, 'country':country,
-            'city':city, 'street':street, 'number':number, 'offices':offices,
-            'service_rates':service_rates}
+            'city':city, 'street':street, 'number':number, 'offices':offices}
     return render(request, 'car/service_list.html', context)
   else:
     services = Service.objects.all()
     offices = BranchOffice.objects.all()
     services = [service for service in services
                         if service.id in [b.service.id for b in offices]]
-    service_rates = {}
-    for service in services:
-      service_rates[service.id] = service.get_rate()
-    context = {'services':services, 'offices':offices, 'service_rates':service_rates}
+    context = {'services':services, 'offices':offices}
     return render(request, 'car/choose_service.html', context)
 
 @login_required()
@@ -199,16 +189,14 @@ def choose_car(request, id):
     d1 = datetime.strptime(date1, '%Y-%m-%d')
     d2 = datetime.strptime(date2, '%Y-%m-%d')
     days = abs((d2-d1).days)
-    car_rates = {}
     car_prices_for_user = {}
     for car in cars:
       car.is_car_taken(d1, d2)
-      car_rates[car.id] = car.get_rate()
       car_prices_for_user[car.id] = car.price * days * Decimal((100-request.user.profile.bonus) * 0.01)
     cars = [c for c in cars if c.is_taken == 0 and c.on_sale == 0]
     context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,
               'cars':cars,'office1':office1, 'office2':office2,
-              'date1':date1, 'date2':date2, 'car_rates': car_rates,
+              'date1':date1, 'date2':date2,
               'car_prices_for_user':car_prices_for_user}
     return render(request, 'car/choose_car.html', context)
   else:
@@ -225,11 +213,9 @@ def fast_choose_car(request):
     d1 = datetime.strptime(date1, '%Y-%m-%d')
     d2 = datetime.strptime(date2, '%Y-%m-%d')
     days = abs((d2-d1).days)
-    car_rates = {}
     car_prices_for_user = {}
     for car in cars:
       car.is_car_taken(d1, d2)
-      car_rates[car.id] = car.get_rate()
       car_prices_for_user[car.id] = car.price * days * Decimal((100-request.user.profile.bonus - 5) * 0.01)
     cars = [c for c in cars if c.is_taken == 0 and c.on_sale == 1 and c.service.country == country and c.service.city == city]
     print(cars)

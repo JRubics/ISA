@@ -50,11 +50,7 @@
               {% endfor %}
             </td>
             <td>
-              {% for key, value in car_rates.items %}
-                {% if car.id == key %}
-                  {{value}}
-                 {% endif %}
-              {% endfor %}
+              {{car.get_rate}}
             </td>
             <td>
               <form action="{% url 'car:make_reservation' car.id%}" method="post">

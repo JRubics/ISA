@@ -63,11 +63,7 @@
                         {% endif %}
                       {% endfor %}
                       Ocena:
-                      {% for key, value in service_rates.items %}
-                        {% if service.id == key %}
-                          {{value}}
-                        {% endif %}
-                      {% endfor %}
+                      {{service.get_rate}}
                     </option>
                   {%endfor%}
               </select>

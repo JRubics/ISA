@@ -17,6 +17,24 @@ class Hotel(models.Model):
     def __str__(self):
         return self.name
 
+    def get_rate(self):
+        reservations = HotelReservation.objects.filter(hotel=self.id).all()
+        if reservations:
+            rate = 0
+            counter = 0
+            for reservation in reservations:
+                if HotelRate.objects.filter(reservation=reservation.id).exists():
+                    rates = HotelRate.objects.filter(reservation=reservation.id).all()
+                    for r in rates:
+                        rate = rate + r.hotel_rate
+                        counter = counter + 1
+            if counter != 0:
+                return rate / counter
+            else:
+                return 0
+        else:
+            return 0
+
 
 class HotelRoom(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
@@ -43,6 +61,24 @@ class HotelRoom(models.Model):
             raise ValidationError("Price cannot be negative")
         if self.capacity < 1:
             raise ValidationError("Capacity minimum is 1 person")
+
+    def get_rate(self):
+        reservations = HotelReservation.objects.all()
+        if reservations:
+            rate = 0
+            counter = 0
+            for reservation in reservations:
+                if RoomRate.objects.filter(reservation=reservation.id).exists():
+                    rates = RoomRate.objects.filter(reservation=reservation.id, room=self.id).all()
+                    for r in rates:
+                        rate = rate + r.room_rate
+                        counter = counter + 1
+            if counter != 0:
+                return rate / counter
+            else:
+                return 0
+        else:
+            return 0
 
     def __str__(self):
         return 'Hotel ' + self.hotel.__str__() + ' | Room no ' + str(self.number)
