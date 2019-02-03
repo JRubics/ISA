@@ -133,7 +133,7 @@ class Seat (models.Model):
 class ManageSeats (Seat):
     class Meta:
         proxy = True
-        verbose_name = 'Mange seate'
+        verbose_name = 'Mange seats'
 
 # model karte
 class Ticket (models.Model):
