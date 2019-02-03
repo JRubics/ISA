@@ -326,8 +326,8 @@ def calculate_number_of_cars_per_month(resers):
 
 
 @login_required()
-def graph(request, id=None):
-  service = Service.objects.get(id=id)
+def graph(request):
+  service = Service.objects.get(id=request.user.service.id)
   reservations = Reservation.objects.all().order_by('date1')
   reservations = [r for r in reservations if r.office1.service == service]
   rset_days = calculate_number_of_cars_per_period(reservations, 1)
