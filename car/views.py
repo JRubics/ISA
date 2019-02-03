@@ -339,3 +339,28 @@ def graph(request):
     'rset_months': rset_months
   }
   return render(request, 'car/graph.html', context)
+
+
+@login_required()
+def incomes(request):
+  service = Service.objects.get(id=request.user.service.id)
+  income = -1
+  if request.method == 'POST':
+    income = 0
+    reservations = Reservation.objects.all().order_by('date1')
+    reservations = [r for r in reservations if r.office1.service == service]
+    date1 = request.POST['date1']
+    date2 = request.POST['date2']
+    d1 = datetime.strptime(date1, '%Y-%m-%d').replace(tzinfo=None)
+    d2 = datetime.strptime(date2, '%Y-%m-%d').replace(tzinfo=None)
+    days = (d2-d1).days
+    if days < 0:
+      return render(request, 'car/date_warning.html')
+    for r in reservations:
+      if r.date1.replace(tzinfo=None) >= d1 and r.date2.replace(tzinfo=None) <= d2:
+        income = income + r.price
+  context = {
+    'service':service,
+    'income':income
+  }
+  return render(request, 'car/incomes.html', context)
