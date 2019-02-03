@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+from datetime import datetime, timezone
 
 
 # model zemlje
@@ -151,6 +152,11 @@ class Ticket (models.Model):
     def clean(self):
         if self.flight != self.seat.flight:
             raise ValidationError("Seat is not form that flight")
+
+    def is_done(self):
+        date1 = self.flight.arrival_date.replace(tzinfo=None)
+        date2 = datetime.now().replace(tzinfo=None)
+        return date1 < date2
 
 
 class ProfitSummary(Ticket):

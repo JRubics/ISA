@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from user.models import Profile
 from car.models import Reservation as CarReservation
 from hotels.models import HotelReservation, HotelRoom, HotelService
+from avio.models import Ticket
 from django.core.mail import send_mail
 from django.contrib.auth.models import Permission
 from car.models import Car
@@ -80,15 +81,12 @@ def logout_submit(request):
     return redirect(settings.LOGIN_REDIRECT_URL)
 
 
-@login_required()
-def home(request):
-    return render(request, 'user/home_page.html')
-
 def index(request):
     return render(request, 'user/index.html')
 
+
 @login_required()
-def reservations(request):
+def home(request):
     car_reservation_list = CarReservation.objects.filter(user=request.user.id)
     is_car_rated = {}
     for reservation in car_reservation_list:
@@ -100,10 +98,13 @@ def reservations(request):
         is_hotel_rated[reservation.id] = reservation.is_rated(request.user.id)
     hotel_rooms = HotelRoom.objects.all()
     hotel_services = HotelService.objects.all()
+
+    tickets = Ticket.objects.filter(user=request.user, status = "B")
     context = {'car_reservations': car_reservation_list,
                'is_car_rated': is_car_rated,
                'hotel_reservations': hotel_reservation_list,
                'hotel_rooms': hotel_rooms,
                'hotel_services': hotel_services,
-               'is_hotel_rated': is_hotel_rated}
-    return render(request, 'user/reservations.html', context)
+               'is_hotel_rated': is_hotel_rated,
+               'tickets':tickets}
+    return render(request, 'user/home_page.html', context)

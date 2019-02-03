@@ -10,7 +10,6 @@ urlpatterns = [
     path('logout/', views.logout_submit, name='logout_submit'),
     path('confirmation/', views.confirmation, name='confirmation'),
     path('confirm/<username>/', views.confirm, name='confirm'),
-    path('reservations', views.reservations, name='reservations'),
 
     #filip dodao
     path('profile', views.profile, name='profile'),
