@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% if service %}
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-6"><h1>Input beginning and end date:</h1></div>
+      <div class="col-md-2"></div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <form class="form-inline" action="{% url 'car:incomes'%}" method="POST">
+            {% csrf_token %}
+            <label for="start_date" class="mr-sm-2">Start date:</label>
+            <input type="date" class="form-control mb-2 mr-sm-2" id="date1" name="date1" required>
+            <label for="end_date" class="mr-sm-2">End date:</label>
+            <input type="date" class="form-control mb-2 mr-sm-4" id="date2" name="date2" required>
+            <button type="submit" class="btn btn-primary mb-2">Calculate</button>
+        </form>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+    <br>
+    {% if income != -1 %}
+      <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6"><h1>Income: {{income}}</h1></div>
+        <div class="col-md-2"></div>
+      </div>
+  {% endif %}
+  {% else %}
+    <p>Service doesn't exist.</p>
+  {% endif %}
+{% endblock content %}

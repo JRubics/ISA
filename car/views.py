@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from decimal import Decimal
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from .models import Service
 from .models import Car
 from .models import BranchOffice
@@ -188,7 +188,9 @@ def choose_car(request, id):
     date2 = request.POST['date2']
     d1 = datetime.strptime(date1, '%Y-%m-%d')
     d2 = datetime.strptime(date2, '%Y-%m-%d')
-    days = abs((d2-d1).days)
+    days = (d2-d1).days
+    if days < 0:
+      return render(request, 'car/date_warning.html')
     car_prices_for_user = {}
     for car in cars:
       car.is_car_taken(d1, d2)
@@ -212,7 +214,9 @@ def fast_choose_car(request):
     date2 = request.POST['date2']
     d1 = datetime.strptime(date1, '%Y-%m-%d')
     d2 = datetime.strptime(date2, '%Y-%m-%d')
-    days = abs((d2-d1).days)
+    days = (d2-d1).days
+    if days < 0:
+      return render(request, 'car/date_warning.html')
     car_prices_for_user = {}
     for car in cars:
       car.is_car_taken(d1, d2)
@@ -290,26 +294,73 @@ def cancel_reservation(request, id=None):
     reservation.delete()
   return redirect('/user/reservations')
 
+
+def calculate_number_of_cars_per_period(resers, period):
+  year = date.today().year
+  begin_date = date(year, 1, 1)
+  end_date = date(year, 12, 31)
+  tmp = []
+  i = begin_date
+  while i <= end_date:
+    car_num = 0
+    curr_res =[x for x in resers if i <= x.date1.date() and i + timedelta(days=period) > x.date1.date()]
+    if curr_res:
+      for res in curr_res:
+        car_num += 1
+    tmp.append(car_num)
+    i = i + timedelta(days=period)
+  return tmp
+
+
+def calculate_number_of_cars_per_month(resers):
+  tmp = []
+  year = date.today().year
+  for i in range(1,13):
+    car_num = 0
+    curr_res =[x for x in resers if i == x.date1.date().month and x.date1.date().year == year]
+    if curr_res:
+      for res in curr_res:
+        car_num += 1
+    tmp.append(car_num)
+  return tmp
+
+
 @login_required()
-def graph(request, id=None):
-  service = Service.objects.get(id=id)
-  reservations = Reservation.objects.all()
+def graph(request):
+  service = Service.objects.get(id=request.user.service.id)
+  reservations = Reservation.objects.all().order_by('date1')
   reservations = [r for r in reservations if r.office1.service == service]
-  r_year = [r for r in reservations if r.date1.replace(tzinfo=None) >= datetime.now() - timedelta(days=365) and r.date1.replace(tzinfo=None) <= datetime.now()]
-  r_month = [r for r in reservations if r.date1.replace(tzinfo=None) >= datetime.now() - timedelta(days=30) and r.date1.replace(tzinfo=None) <= datetime.now()]
-  r_week = [r for r in reservations if r.date1.replace(tzinfo=None) >= datetime.now() - timedelta(days=7) and r.date1.replace(tzinfo=None) <= datetime.now()]
-  r_day = [r for r in reservations if r.date1.replace(tzinfo=None) >= datetime.now() - timedelta(days=1) and r.date1.replace(tzinfo=None) <= datetime.now()]
-  res_num = [len(r_day), len(r_week), len(r_month), len(r_year)]
-  print([len(r_day), len(r_week), len(r_month), len(r_year)])
-  day_income = 0
-  day_income = sum([r.price for r in r_day]) / 100
-  week_income = 0
-  week_income = sum([r.price for r in r_week]) / 100
-  month_income = 0
-  month_income = sum([r.price for r in r_month]) / 100
-  year_income = 0
-  year_income = sum([r.price for r in r_year]) / 100
-  print([day_income,week_income,month_income,year_income])
-  print(type(2.2))
-  income = [float(day_income),float(week_income),float(month_income),float(year_income)]
-  return render(request, 'car/graph.html', {'res_num': res_num, 'income':income})
+  rset_days = calculate_number_of_cars_per_period(reservations, 1)
+  rset_weeks = calculate_number_of_cars_per_period(reservations, 7)
+  rset_months = calculate_number_of_cars_per_month(reservations)
+  context = {
+    'rset_days': rset_days,
+    'rset_weeks': rset_weeks,
+    'rset_months': rset_months
+  }
+  return render(request, 'car/graph.html', context)
+
+
+@login_required()
+def incomes(request):
+  service = Service.objects.get(id=request.user.service.id)
+  income = -1
+  if request.method == 'POST':
+    income = 0
+    reservations = Reservation.objects.all().order_by('date1')
+    reservations = [r for r in reservations if r.office1.service == service]
+    date1 = request.POST['date1']
+    date2 = request.POST['date2']
+    d1 = datetime.strptime(date1, '%Y-%m-%d').replace(tzinfo=None)
+    d2 = datetime.strptime(date2, '%Y-%m-%d').replace(tzinfo=None)
+    days = (d2-d1).days
+    if days < 0:
+      return render(request, 'car/date_warning.html')
+    for r in reservations:
+      if r.date1.replace(tzinfo=None) >= d1 and r.date2.replace(tzinfo=None) <= d2:
+        income = income + r.price
+  context = {
+    'service':service,
+    'income':income
+  }
+  return render(request, 'car/incomes.html', context)
