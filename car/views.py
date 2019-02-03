@@ -188,7 +188,9 @@ def choose_car(request, id):
     date2 = request.POST['date2']
     d1 = datetime.strptime(date1, '%Y-%m-%d')
     d2 = datetime.strptime(date2, '%Y-%m-%d')
-    days = abs((d2-d1).days)
+    days = (d2-d1).days
+    if days < 0:
+      return render(request, 'car/date_warning.html')
     car_prices_for_user = {}
     for car in cars:
       car.is_car_taken(d1, d2)
@@ -212,7 +214,9 @@ def fast_choose_car(request):
     date2 = request.POST['date2']
     d1 = datetime.strptime(date1, '%Y-%m-%d')
     d2 = datetime.strptime(date2, '%Y-%m-%d')
-    days = abs((d2-d1).days)
+    days = (d2-d1).days
+    if days < 0:
+      return render(request, 'car/date_warning.html')
     car_prices_for_user = {}
     for car in cars:
       car.is_car_taken(d1, d2)
