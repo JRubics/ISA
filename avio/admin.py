@@ -230,6 +230,7 @@ admin.site.register(City)
 admin.site.register(Country)
 admin.site.register(Airport)
 admin.site.register(Ticket, TicketAdmin)
+admin.site.register(PackageReservation)
 
 
 

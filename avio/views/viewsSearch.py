@@ -2,7 +2,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import View
 from django.views.generic import TemplateView
 from django.shortcuts import redirect, render
-from avio.models import Flight, Ticket, Seat, FlightLeg
+from avio.models import Flight, Ticket, Seat, FlightLeg, PackageReservation
 from user.models import Profile, UserRelationship
 from django import forms
 import datetime
@@ -39,13 +39,13 @@ class AirportForm(forms.ModelForm):
     SEAT_TYPE = (("Economy", "Economy"), ("Business", "Business"), ("First class", "First class"))
     seat = forms.ChoiceField(choices=SEAT_TYPE)
     passenger_numbers = forms.IntegerField(min_value=1)
-    arrival_date = date_available = forms.DateField(widget=DateInput(), initial='2000-01-01')
 
     class Meta:
         model = Flight
         fields = ['departure_airport', 'arrival_airport', 'departure_date', 'arrival_date', 'departure_city', 'arrival_city']
-        labels = {"departure_airport": "From", "departure_city": "From", "arrival_airport": "To", "arrival_city": "To", "departure_date": "Depart", "arrival_date": "Return",}
         widgets = {'departure_date': DateInput(), 'arrival_date': DateInput(),}
+        labels = {"departure_airport": "From", "departure_city": "From", "arrival_airport": "To", "arrival_city": "To", "departure_date": "Depart", "arrival_date": "Return",}
+        
 
 
 class AvioSearch(View):
@@ -55,7 +55,8 @@ class AvioSearch(View):
 
 
 class AvioSearchResults(View):
-    def get(self, request, *args, **kwargs):    
+    def get(self, request, *args, **kwargs): 
+        request.session['date_to'] = request.GET["arrival_date"]
         depart_date = request.GET["departure_date"]
         depart_city = request.GET["departure_city"]
         arr_city = request.GET["arrival_city"]
@@ -213,21 +214,33 @@ class AvioReservation(TemplateView):
 
         flight = ctx['flight']
         if_request_user = True
+
+        new_package_reservation = PackageReservation.objects.create(master_user = request.user, date_from = flight.arrival_date, date_to = request.session['date_to'])
         for f in forms:
             seat = Seat.objects.get(pk = f['seats'].value())
             if f['person'].value() != "" and f['person'].value() != None:
                 seat.seat_status = "R"
                 person = Profile.objects.get(pk = f['person'].value())
-                Ticket.objects.create(user = person.user, first_name = person.user.first_name, last_name = person.user.last_name, time =  datetime.datetime.now(), price = flight.base_price * seat.price_factor, flight = flight, seat = seat, status = "R")
+                Ticket.objects.create(package_reservation = new_package_reservation, user = person.user, first_name = person.user.first_name, last_name = person.user.last_name, time =  datetime.datetime.now(), price = flight.base_price * seat.price_factor, flight = flight, seat = seat, status = "R")
                 #slanje mejla
                 send_mail('Travel Invitation',str(request.user.profile) + " has invited you to travel to " + str(flight) + ". Log in to your account to view the reservation",'isa2018bfj@google.com',[person.uset.email],fail_silently=False,)
+
+                if flight.distance > 1000 and person.bonus < 10:
+                    person.bonus = person.bonus + 1
+                    person.save()
             else:
                 seat.seat_status = "T"
                 ticket = Ticket.objects.create(passport = f['passport'].value(),first_name = f['first_name'].value(), last_name = f['last_name'].value(), time =  datetime.datetime.now(), price = flight.base_price * seat.price_factor, flight = flight, seat = seat, status = "B")
                 if if_request_user:
                     if_request_user = False
+                    ticket.package_reservation = new_package_reservation
                     ticket.user = request.user
                     ticket.save()
+
+                    person = request.user.person
+                    if flight.distance > 1000 and person.bonus < 10:
+                        person.bonus = person.bonus + 1
+                        person.save()
             seat.save()
 
         return redirect('user:profile_unfriend')
