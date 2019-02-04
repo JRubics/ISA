@@ -247,7 +247,7 @@ def make_reservation(request, id):
                           price = price,
                           user = User.objects.get(id=request.user.id))
     reservation.save()
-    return redirect('/user/reservations')
+    return redirect('/user/home')
   else:
     return redirect('/car/choose')
 
@@ -267,7 +267,7 @@ def make_fast_reservation(request, id):
                           price = price,
                           user = User.objects.get(id=request.user.id))
     reservation.save()
-    return redirect('/user/reservations')
+    return redirect('/user/home')
   else:
     return redirect('/car/choose')
 
@@ -282,7 +282,7 @@ def car_rate(request, id=None):
                       service_rate = service_rate,
                       user=request.user)
     car_rate.save()
-    return redirect('/user/reservations')
+    return redirect('/user/home')
   else:
     context = {'reservation':reservation}
     return render(request, 'car/rate_car.html',context)
@@ -292,7 +292,7 @@ def cancel_reservation(request, id=None):
   reservation = Reservation.objects.get(id=id)
   if reservation.can_be_closed:
     reservation.delete()
-  return redirect('/user/reservations')
+  return redirect('/user/home')
 
 
 def calculate_number_of_cars_per_period(resers, period):

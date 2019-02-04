@@ -38,12 +38,12 @@
                       {% if value == True %}
                         rated
                       {% else %}
-                        <a class="btn btn-default" href="{% url 'car:car_rate' reservation.id%}">rate</a>
+                        <a class="btn btn-default" href="{% url 'avio:flight_rate' reservation.id%}">rate</a>
                       {% endif %}
                     {% endif %}
                   {% endfor %}
                 {% elif reservation.can_be_closed%}
-                  <a class="btn btn-default" href="{% url 'car:cancel_reservation' reservation.id%}">cancel</a>
+                  CANCEL filipe dodaj dugme
                 {% endif %}
               </td>
             </tr>
