@@ -135,8 +135,16 @@ class ManageSeats (Seat):
         proxy = True
         verbose_name = 'Mange seats'
 
+
+class PackageReservation(models.Model):
+    master_user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    date_from = models.DateTimeField('start of flight')
+    date_to = models.DateTimeField('end of trip')
+
+
 # model karte
 class Ticket (models.Model):
+    package_reservation = models.ForeignKey(PackageReservation, on_delete=models.DO_NOTHING, null=True, blank = True)
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank = True)
     first_name = models.CharField(max_length=30, null=True)
     last_name = models.CharField(max_length=30, null=True)
@@ -158,3 +166,8 @@ class ProfitSummary(Ticket):
         proxy = True
         verbose_name = 'Avio company profit summary'
         verbose_name_plural = 'Avio company profit summary'
+
+
+
+
+
