@@ -239,7 +239,13 @@ def make_reservation(request, id):
     date1 = request.POST['date1']
     date2 = request.POST['date2']
     price = request.POST['price']
-    reservation = Reservation(car = Car.objects.get(id=id),
+    car = Car.objects.get(id=id)
+    d1 = datetime.strptime(date1, '%Y-%m-%d')
+    d2 = datetime.strptime(date2, '%Y-%m-%d')
+    car.is_car_taken(d1, d2)
+    if car.is_taken:
+      return redirect('/car/choose')
+    reservation = Reservation(car = car,
                           office1 = BranchOffice.objects.get(id=office1),
                           office2 = BranchOffice.objects.get(id=office2),
                           date1 = date1,
@@ -258,8 +264,14 @@ def make_fast_reservation(request, id):
     date1 = request.POST['date1']
     date2 = request.POST['date2']
     price = request.POST['price']
-    office = BranchOffice.objects.get(service=service.id)
-    reservation = Reservation(car = Car.objects.get(id=id),
+    office = BranchOffice.objects.filter(service=service.id).first()
+    car = Car.objects.get(id=id)
+    d1 = datetime.strptime(date1, '%Y-%m-%d')
+    d2 = datetime.strptime(date2, '%Y-%m-%d')
+    car.is_car_taken(d1, d2)
+    if car.is_taken:
+      return redirect('/car/choose')
+    reservation = Reservation(car = car,
                           office1 = office,
                           office2 = office,
                           date1 = date1,

@@ -208,7 +208,7 @@ class HotelReservation(models.Model):
     def can_be_closed(self):
         date1 = self.check_in
         date2 = date.today()
-        return abs((date2 - date1).days) >= 2
+        return (date1 - date2).days >= 2
     def is_rated(self, user):
         return HotelRate.objects.filter(reservation=self.id, user=user).exists() and RoomRate.objects.filter(reservation=self.id, user=user).exists()
 
