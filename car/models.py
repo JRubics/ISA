@@ -124,9 +124,9 @@ class BranchOffice(models.Model):
         return self.name + " (" + self.service.name + ")"
 
 class Reservation(models.Model):
-    car = models.ForeignKey(Car, on_delete=models.DO_NOTHING)
-    office1 = models.ForeignKey(BranchOffice, related_name='office1', on_delete=models.DO_NOTHING)
-    office2 = models.ForeignKey(BranchOffice, related_name='office2', on_delete=models.DO_NOTHING)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+    office1 = models.ForeignKey(BranchOffice, related_name='office1', on_delete=models.CASCADE)
+    office2 = models.ForeignKey(BranchOffice, related_name='office2', on_delete=models.CASCADE)
     date1 = models.DateTimeField(default=datetime.now)
     date2 = models.DateTimeField(default=datetime.now)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
