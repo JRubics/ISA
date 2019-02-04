@@ -165,11 +165,6 @@
         <div class="col-md-1"> {% block avio_search %}
             {% endblock avio_search %}</div>
         <div class="col-md-10">
-            {% if messages %}
-            {% for message in messages %}
-            ERROR: {{ message }}
-            {% endfor %}
-            {% endif %}
             {% block content %}
             {% endblock content %}
         </div>

@@ -185,7 +185,7 @@ class Ticket (models.Model):
     def can_be_closed(self):
         date1 = self.flight.departure_date.replace(tzinfo=None)
         date2 = datetime.now().replace(tzinfo=None)
-        return abs((date2 - date1).days) >= 2
+        return (date1 - date2).seconds / 3600 >= 3
 
     def is_done(self):
         date1 = self.flight.arrival_date.replace(tzinfo=None)

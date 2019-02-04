@@ -28,7 +28,7 @@ class CarTestCase(TestCase):
       self.office = BranchOffice(name='testOffice', service=self.service, country='SRB', city='Novi Sad', address='Street 2', number='6')
       self.office.save()
 
-      self.reservation = Reservation(car = self.car, office1 = self.office, office2 = self.office, date1 = (datetime.now() + timedelta(days=1)).replace(tzinfo=None), date2 = (datetime.now() + timedelta(days=2)).replace(tzinfo=None), user = self.user)
+      self.reservation = Reservation(car = self.car, office1 = self.office, office2 = self.office, date1 = (datetime.now() + timedelta(days=3)).replace(tzinfo=None), date2 = (datetime.now() + timedelta(days=4)).replace(tzinfo=None), user = self.user)
       self.reservation.save()
       self.reservation1 = Reservation(car = self.car, office1 = self.office, office2 = self.office, date1 = (datetime.now() - timedelta(days=8)).replace(tzinfo=None), date2 = (datetime.now() - timedelta(days=6)).replace(tzinfo=None), user = self.user)
       self.reservation1.save()
@@ -88,7 +88,7 @@ class CarTestCase(TestCase):
       self.assertEqual(self.car.is_taken, 1)
 
     def test_car_is_car_taken4(self):
-      self.car.is_car_taken(datetime.now(), datetime.now() + timedelta(days=1))
+      self.car.is_car_taken(datetime.now(), datetime.now() + timedelta(days=4))
       self.assertEqual(self.car.is_taken, 1)
 
     def test_car_is_car_taken5(self):
@@ -96,7 +96,7 @@ class CarTestCase(TestCase):
       self.assertEqual(self.car.is_taken, 1)
 
     def test_car_is_car_taken6(self):
-      self.car.is_car_taken(datetime.now() + timedelta(days=3), datetime.now() + timedelta(days=4))
+      self.car.is_car_taken(datetime.now() + timedelta(days=5), datetime.now() + timedelta(days=6))
       self.assertEqual(self.car.is_taken, 0)
 
     def test_car_is_reserved1(self):
@@ -104,7 +104,7 @@ class CarTestCase(TestCase):
       self.assertEqual(self.car.is_taken, 1)
 
     def test_car_is_reserved2(self):
-      self.car.is_reserved(datetime.now() + timedelta(days=3))
+      self.car.is_reserved(datetime.now() + timedelta(days=7))
       self.assertEqual(self.car.is_taken, 0)
 
     def test_car_rate(self):
@@ -119,11 +119,11 @@ class CarTestCase(TestCase):
     def test_car_reservation_not_done(self):
       self.assertEqual(self.reservation.is_done(), False)
 
-    def test_car_reservation_can_be_closed(self):
-      self.assertEqual(self.reservation1.can_be_closed(), True)
-
     def test_car_reservation_can_be_closed_false(self):
-      self.assertEqual(self.reservation.can_be_closed(), False)
+      self.assertEqual(self.reservation1.can_be_closed(), False)
+
+    def test_car_reservation_can_be_closed(self):
+      self.assertEqual(self.reservation.can_be_closed(), True)
 
     def test_car_reservation_is_rated(self):
       self.assertEqual(self.reservation.is_rated(self.user.id), True)

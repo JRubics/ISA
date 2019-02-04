@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% if messages %}
+{% for message in messages %}
+ERROR: {{ message }}
+{% endfor %}
+{% endif %}
   <div class="btn-group btn-group-lg" role="group" aria-label="jeelna">
       <a type="button" class="btn btn-default" href="{%url 'user:profile_initations'%}">Trip Invitations</a>
       <a type="button" class="btn btn-default" href="{%url 'user:profile_people_list'%}">Friend List</a>
