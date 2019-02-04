@@ -44,6 +44,26 @@ class AvioCompany (models.Model):
     def __str__(self):  # metoda za ispis podataka
         return (self.name)
 
+    def get_rate(self):
+        print("aaaaaaaaaa")
+        reservations = Ticket.objects.all()
+        print(reservations)
+        reservations = [r for r in reservations if r.flight.avio_company.id == self.id]
+        if reservations:
+            rate = 0
+            counter = 0
+            for reservation in reservations:
+                if FlightRate.objects.filter(ticket=reservation.id).exists():
+                    rates = FlightRate.objects.filter(ticket=reservation.id).all()
+                    for r in rates:
+                        rate = rate + r.flight_rate + r.company_rate
+                        counter = counter + 2
+            if counter != 0:
+                return rate / counter
+            else:
+                return 0
+        else:
+            return 0
 
 # model aerodroma
 class Airport (models.Model):
