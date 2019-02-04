@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% if messages %}
+{% for message in messages %}
+ERROR: {{ message }}
+{% endfor %}
+{% endif %}
   <form action="{% url 'user:registration_submit' %}" method="post">
     {% csrf_token %}
     <div>username:</div>

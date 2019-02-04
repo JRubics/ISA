@@ -17,6 +17,11 @@
       document.getElementById("Radios1").checked = false;
     }
     </script>
+  {% if messages %}
+  {% for message in messages %}
+  ERROR: {{ message }}
+  {% endfor %}
+  {% endif %}
   {%if services%}
     <div class="col-md-2"></div>
     <div class="col-md-8">
