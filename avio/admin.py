@@ -6,6 +6,7 @@ from django.db.models import Count, Sum, Min, Max
 import json
 from django.db.models.functions import Trunc
 from django.db.models import DateTimeField
+from .models import FlightRate
 
 
 class AvioCompanyAdmin (admin.ModelAdmin):
@@ -230,6 +231,7 @@ admin.site.register(City)
 admin.site.register(Country)
 admin.site.register(Airport)
 admin.site.register(Ticket, TicketAdmin)
+admin.site.register(FlightRate)
 admin.site.register(PackageReservation)
 
 

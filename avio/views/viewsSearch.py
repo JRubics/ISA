@@ -2,7 +2,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import View
 from django.views.generic import TemplateView
 from django.shortcuts import redirect, render
-from avio.models import Flight, Ticket, Seat, FlightLeg, PackageReservation
+from avio.models import Flight, Ticket, Seat, FlightLeg, FlightRate, PackageReservation
 from user.models import Profile, UserRelationship
 from django import forms
 import datetime
@@ -274,6 +274,21 @@ class DateReservationForm(forms.Form):
 
         return True
 
+@login_required()
+def flight_rate(request, id=None):
+  reservation = Ticket.objects.get(id=id)
+  if request.method == 'POST':
+    flight_rate = request.POST['flight_rate']
+    company_rate = request.POST['company_rate']
+    flight_rate = FlightRate(ticket = reservation,
+                      flight_rate = flight_rate,
+                      company_rate = company_rate,
+                      user=request.user)
+    flight_rate.save()
+    return redirect('/user/home')
+  else:
+    context = {'reservation':reservation}
+    return render(request, 'avio/rate_flight.html',context)
 
 
 

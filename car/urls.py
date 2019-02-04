@@ -17,7 +17,7 @@ urlpatterns = [
     path('reservation/<id>', views.make_reservation, name='make_reservation'),
     path('reservation/fast/<id>', views.make_fast_reservation, name='make_fast_reservation'),
     path('rate/<id>', views.car_rate, name='car_rate'),
-    path('rate/cancel/<id>', views.cancel_reservation, name='cancel_reservation'),
+    path('cancel/<id>', views.cancel_reservation, name='cancel_reservation'),
     path('graph', views.graph, name='graph'),
     path('incomes', views.incomes, name='incomes'),
 ]

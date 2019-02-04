@@ -2,6 +2,8 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+from datetime import datetime, timezone
+from django.conf import settings
 
 
 # model zemlje
@@ -42,6 +44,26 @@ class AvioCompany (models.Model):
     def __str__(self):  # metoda za ispis podataka
         return (self.name)
 
+    def get_rate(self):
+        print("aaaaaaaaaa")
+        reservations = Ticket.objects.all()
+        print(reservations)
+        reservations = [r for r in reservations if r.flight.avio_company.id == self.id]
+        if reservations:
+            rate = 0
+            counter = 0
+            for reservation in reservations:
+                if FlightRate.objects.filter(ticket=reservation.id).exists():
+                    rates = FlightRate.objects.filter(ticket=reservation.id).all()
+                    for r in rates:
+                        rate = rate + r.flight_rate + r.company_rate
+                        counter = counter + 2
+            if counter != 0:
+                return rate / counter
+            else:
+                return 0
+        else:
+            return 0
 
 # model aerodroma
 class Airport (models.Model):
@@ -159,6 +181,26 @@ class Ticket (models.Model):
     def clean(self):
         if self.flight != self.seat.flight:
             raise ValidationError("Seat is not form that flight")
+
+    def can_be_closed(self):
+        date1 = self.flight.departure_date.replace(tzinfo=None)
+        date2 = datetime.now().replace(tzinfo=None)
+        return abs((date2 - date1).days) >= 2
+
+    def is_done(self):
+        date1 = self.flight.arrival_date.replace(tzinfo=None)
+        date2 = datetime.now().replace(tzinfo=None)
+        return date1 < date2
+
+    def is_rated(self, user):
+        return FlightRate.objects.filter(ticket=self.id, user=user).exists()
+
+
+class FlightRate(models.Model):
+   ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+   flight_rate = models.PositiveIntegerField()
+   company_rate = models.PositiveIntegerField()
+   user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
 class ProfitSummary(Ticket):
