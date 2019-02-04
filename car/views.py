@@ -244,6 +244,7 @@ def make_reservation(request, id):
     d2 = datetime.strptime(date2, '%Y-%m-%d')
     car.is_car_taken(d1, d2)
     if car.is_taken:
+      messages.error(request, "Reservation already exists")
       return redirect('/car/choose')
     reservation = Reservation(car = car,
                           office1 = BranchOffice.objects.get(id=office1),
@@ -270,6 +271,7 @@ def make_fast_reservation(request, id):
     d2 = datetime.strptime(date2, '%Y-%m-%d')
     car.is_car_taken(d1, d2)
     if car.is_taken:
+      messages.error(request, "Reservation already exists")
       return redirect('/car/choose')
     reservation = Reservation(car = car,
                           office1 = office,
