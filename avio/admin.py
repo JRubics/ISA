@@ -232,6 +232,7 @@ admin.site.register(Country)
 admin.site.register(Airport)
 admin.site.register(Ticket, TicketAdmin)
 admin.site.register(FlightRate)
+admin.site.register(PackageReservation)
 
 
 
