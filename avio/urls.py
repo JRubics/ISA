@@ -8,10 +8,7 @@ urlpatterns = [
     path('avio/search', views.AvioSearch.as_view(), name='search_avio'),
     path('avio/search/results/', views.AvioSearchResults.as_view(), name='search_results_avio'),
     path('avio/search/reservation/<flight_id>', views.AvioReservation.as_view(), name='avio_reservation'),
-
-
-
-
     # za ko god radi profilne stranice kompanija
     path('avio/fast/reservation/<id>', views.FastReservation.as_view(), name='fast_reservation'),
+    path('rate/<id>', views.flight_rate, name='flight_rate'),
 ]
