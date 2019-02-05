@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <script>
+    $(document).ready(function() {
+      document.getElementById("list_id").style.display = 'unset';
+      document.getElementById("search_id").style.display = 'none';
+      document.getElementById("Radios1").checked = true;
+    });
+    function showlist() {
+      document.getElementById("search_id").style.display = 'none';
+      document.getElementById("list_id").style.display = 'unset'; 
+      document.getElementById("Radios2").checked = false;
+    }
+    function showsearch() {
+      document.getElementById("list_id").style.display = 'none'; 
+      document.getElementById("search_id").style.display = 'unset'; 
+      document.getElementById("Radios1").checked = false;
+    }
+    </script>
+  {% if messages %}
+  {% for message in messages %}
+  ERROR: {{ message }}
+  {% endfor %}
+  {% endif %}
+  {%if package%}
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <h1>Are you sure?</h1>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      {{package}}
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-8"></div>
+    <div class="col-md-1">
+        <a class="btn btn-default" name="confirm" href="{% url 'car:confirm_package'%}">confirm</a>
+    </div>
+    <div class="col-md-1">
+      <a class="btn btn-default" name="confirm" href="{% url 'car:close_package'%}">close</a>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+  {% else %}
+    <p>Package doesn't exist.</p>
+  {% endif %}
+{% endblock content %}
