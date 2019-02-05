@@ -209,18 +209,16 @@ class CarSeleniumTestCase(LiveServerTestCase):
       selenium.find_element_by_name('radio1').click()
 
       assert 'Choose from list' in selenium.page_source
-      assert 'Next' in selenium.page_source
 
-      select = Select(selenium.find_element_by_name('service_select'))
-      select.select_by_value(str(self.service.id))
-
-      selenium.find_element_by_name('choose_service_next').click()
+      selenium.find_element_by_name('choose' + str(self.service.id)).click()
 
       assert 'car/reservation' in selenium.current_url
       assert 'Take' in selenium.page_source
       assert 'Return' in selenium.page_source
       assert 'Find' in selenium.page_source
 
+      selenium.find_element_by_name('date1').send_keys('01/01/2029')
+      selenium.find_element_by_name('date2').send_keys('01/03/2029')
       selenium.find_element_by_name('seats').send_keys('1')
       selenium.find_element_by_name('find').click()
 

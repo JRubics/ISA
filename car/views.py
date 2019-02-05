@@ -156,17 +156,11 @@ def choose_service(request):
     return render(request, 'car/choose_service.html', context)
 
 @login_required()
-def reservation(request):
-  if request.method == 'POST':
-    s_id = request.POST['service_select']
-    if s_id == "None":
-      services = Service.objects.all()
-      offices = BranchOffice.objects.all()
-      context = {'services':services, 'offices':offices,}
-      return render(request, 'car/choose_service.html', context)
-    service = Service.objects.get(id=s_id)
-    cars = Car.objects.select_related().filter(service = s_id)
-    offices = BranchOffice.objects.select_related().filter(service = s_id)
+def reservation(request, id=None):
+  if id != "None":
+    service = Service.objects.get(id=id)
+    cars = Car.objects.select_related().filter(service = id)
+    offices = BranchOffice.objects.select_related().filter(service = id)
     context = {'type':Car.TYPE,'service':service, 'offices':offices}
     return render(request, 'car/reservation.html', context)
   else:
@@ -188,13 +182,15 @@ def choose_car(request, id):
     date2 = request.POST['date2']
     d1 = datetime.strptime(date1, '%Y-%m-%d')
     d2 = datetime.strptime(date2, '%Y-%m-%d')
-    days = (d2-d1).days
-    if days < 0:
+    d3 = datetime.now()
+    days1 = (d2-d1).days
+    days2 = (d1-d3).days
+    if days1 <= 0 or days2 < 0:
       return render(request, 'car/date_warning.html')
     car_prices_for_user = {}
     for car in cars:
       car.is_car_taken(d1, d2)
-      car_prices_for_user[car.id] = car.price * days * Decimal((100-request.user.profile.bonus) * 0.01)
+      car_prices_for_user[car.id] = car.price * days1 * Decimal((100-request.user.profile.bonus) * 0.01)
     cars = [c for c in cars if c.is_taken == 0 and c.on_sale == 0]
     context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,
               'cars':cars,'office1':office1, 'office2':office2,
@@ -214,17 +210,19 @@ def fast_choose_car(request):
     date2 = request.POST['date2']
     d1 = datetime.strptime(date1, '%Y-%m-%d')
     d2 = datetime.strptime(date2, '%Y-%m-%d')
-    days = (d2-d1).days
-    if days < 0:
+    d3 = datetime.now()
+    days1 = (d2-d1).days
+    days2 = (d1-d3).days
+    if days1 <= 0 or days2 < 0:
       return render(request, 'car/date_warning.html')
     car_prices_for_user = {}
     for car in cars:
       car.is_car_taken(d1, d2)
-      car_prices_for_user[car.id] = car.price * days * Decimal((100-request.user.profile.bonus - 5) * 0.01)
+      car_prices_for_user[car.id] = car.price * days1 * Decimal((100-request.user.profile.bonus - 5) * 0.01)
     cars = [c for c in cars if c.is_taken == 0 and c.on_sale == 1 and c.service.country == country and c.service.city == city]
     print(cars)
     context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,
-              'cars':cars, 'days':days,
+              'cars':cars, 'days':days1,
               'date1':date1, 'date2':date2,
               'car_prices_for_user':car_prices_for_user}
     return render(request, 'car/fast_choose_car.html', context)
