@@ -87,28 +87,35 @@ def index(request):
 
 @login_required()
 def home(request):
-    car_reservation_list = CarReservation.objects.filter(user=request.user.id)
-    is_car_rated = {}
-    for reservation in car_reservation_list:
-        is_car_rated[reservation.id] = reservation.is_rated(request.user.id)
+    if request.user.has_perm('user.is_car_admin'):
+        return redirect('/car/service')
+    elif request.user.has_perm('user.is_hotel_admin'):
+        return redirect('hotes/', str(request.user.hotels.id) ,'/admin_view')
+    elif request.user.has_perm('user.is_flight_admin'):
+        return redirect('/admin')
+    else:
+        car_reservation_list = CarReservation.objects.filter(user=request.user.id)
+        is_car_rated = {}
+        for reservation in car_reservation_list:
+            is_car_rated[reservation.id] = reservation.is_rated(request.user.id)
 
-    hotel_reservation_list = HotelReservation.objects.filter(user=request.user.id)
-    is_hotel_rated = {}
-    for reservation in hotel_reservation_list:
-        is_hotel_rated[reservation.id] = reservation.is_rated(request.user.id)
-    hotel_rooms = HotelRoom.objects.all()
-    hotel_services = HotelService.objects.all()
+        hotel_reservation_list = HotelReservation.objects.filter(user=request.user.id)
+        is_hotel_rated = {}
+        for reservation in hotel_reservation_list:
+            is_hotel_rated[reservation.id] = reservation.is_rated(request.user.id)
+        hotel_rooms = HotelRoom.objects.all()
+        hotel_services = HotelService.objects.all()
 
-    tickets = Ticket.objects.filter(user=request.user, status = "B")
-    is_flight_rated = {}
-    for reservation in tickets:
-        is_flight_rated[reservation.id] = reservation.is_rated(request.user.id)
-    context = {'car_reservations': car_reservation_list,
-               'is_car_rated': is_car_rated,
-               'hotel_reservations': hotel_reservation_list,
-               'hotel_rooms': hotel_rooms,
-               'hotel_services': hotel_services,
-               'is_hotel_rated': is_hotel_rated,
-               'tickets':tickets,
-               'is_flight_rated':is_flight_rated}
-    return render(request, 'user/home_page.html', context)
+        tickets = Ticket.objects.filter(user=request.user, status = "B")
+        is_flight_rated = {}
+        for reservation in tickets:
+            is_flight_rated[reservation.id] = reservation.is_rated(request.user.id)
+        context = {'car_reservations': car_reservation_list,
+                'is_car_rated': is_car_rated,
+                'hotel_reservations': hotel_reservation_list,
+                'hotel_rooms': hotel_rooms,
+                'hotel_services': hotel_services,
+                'is_hotel_rated': is_hotel_rated,
+                'tickets':tickets,
+                'is_flight_rated':is_flight_rated}
+        return render(request, 'user/home_page.html', context)
