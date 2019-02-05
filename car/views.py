@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from decimal import Decimal
 import sys
+from django.contrib import messages
 from datetime import datetime, timedelta, date
 from .models import Service
 from .models import Car
@@ -388,7 +389,12 @@ def incomes(request):
     d2 = datetime.strptime(date2, '%Y-%m-%d').replace(tzinfo=None)
     days = (d2-d1).days
     if days < 0:
-      return render(request, 'car/date_warning.html')
+      messages.error(request, "FIRST DATE MUST BE BEFORE SECOND DATE AND IN THE FUTURE!")
+      context = {
+        'service':service,
+        'income':income
+      }
+      return render(request, 'car/incomes.html', context)
     for r in reservations:
       if r.date1.replace(tzinfo=None) >= d1 and r.date2.replace(tzinfo=None) <= d2:
         income = income + r.price
