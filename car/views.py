@@ -155,6 +155,27 @@ def choose_service(request):
     context = {'services':services, 'offices':offices}
     return render(request, 'car/choose_service.html', context)
 
+
+@login_required()
+def sort_by_name(request):
+  services = Service.objects.all().order_by('name')
+  offices = BranchOffice.objects.all()
+  services = [service for service in services
+                      if service.id in [b.service.id for b in offices]]
+  context = {'services':services, 'offices':offices}
+  return render(request, 'car/choose_service.html', context)
+
+
+@login_required()
+def sort_by_city(request):
+  services = Service.objects.all().order_by('city')
+  offices = BranchOffice.objects.all()
+  services = [service for service in services
+                      if service.id in [b.service.id for b in offices]]
+  context = {'services':services, 'offices':offices}
+  return render(request, 'car/choose_service.html', context)
+
+
 @login_required()
 def reservation(request, id=None):
   if id != "None":

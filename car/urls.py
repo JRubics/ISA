@@ -20,4 +20,6 @@ urlpatterns = [
     path('cancel/<id>', views.cancel_reservation, name='cancel_reservation'),
     path('graph', views.graph, name='graph'),
     path('incomes', views.incomes, name='incomes'),
+    path('sort/name', views.sort_by_name, name='sort_by_name'),
+    path('sort/city', views.sort_by_city, name='sort_by_city'),
 ]

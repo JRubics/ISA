@@ -3,11 +3,12 @@
 {% block content %}
   <script>
     $(document).ready(function() {
-      document.getElementById("list_id").style.display = 'none'; 
-      document.getElementById("search_id").style.display = 'none'; 
+      document.getElementById("list_id").style.display = 'unset';
+      document.getElementById("search_id").style.display = 'none';
+      document.getElementById("Radios1").checked = true;
     });
     function showlist() {
-      document.getElementById("search_id").style.display = 'none'; 
+      document.getElementById("search_id").style.display = 'none';
       document.getElementById("list_id").style.display = 'unset'; 
       document.getElementById("Radios2").checked = false;
     }
@@ -53,6 +54,13 @@
       </div>
       <br>
       <div id="list_id">
+        <div class="row">
+          <div class="btn-group" role="group" aria-label="jeelna">
+            <a href="{% url 'car:sort_by_name' %}" class="btn btn-default">Sort by name</a>
+            <a href="{% url 'car:sort_by_city' %}" class="btn btn-default">Sort by city</a>
+          </div>
+        </div>
+        <br>
         <div class="row">
           <table class="table table-striped table-bordered">
             <thead>
