@@ -95,7 +95,7 @@
                             <span class="glyphicon glyphicon-plane" aria-hidden="true"></span>&nbsp; PROMENI URL
                         </a>
                     </li>
-                {% else %}
+                {% elif user.is_authenticated %}
                     <li class="active">
                         <a href="{% url 'avio:search_avio' %}">
                             <span class="glyphicon glyphicon-plane" aria-hidden="true"></span>&nbsp; Book A Flight
