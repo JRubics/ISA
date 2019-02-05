@@ -12,26 +12,32 @@ from .models import BranchOffice
 from .models import Reservation
 from .models import CarRate
 from user.models import User
+from django.conf import settings
 
 
 @login_required()
 @permission_required('user.is_car_admin')
 def edit_service(request):
-  service = Service.objects.get(id=request.user.service.id)
-  if request.method == 'POST':
-    service.name = request.POST['name']
-    service.country = request.POST['country']
-    service.city = request.POST['city']
-    service.address = request.POST['address']
-    service.number = request.POST['number']
-    service.promo_description = request.POST['promo_description']
-    service.save()
-  cars = Car.objects.select_related().filter(service = service.id)
-  for car in cars:
-    car.is_reserved()
-  offices = BranchOffice.objects.select_related().filter(service = service.id)
-  context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,'service':service, 'cars':cars, 'offices':offices}
-  return render(request, 'car/edit_service.html',context)
+  try:
+    service = Service.objects.get(id=request.user.service.id)
+    if request.method == 'POST':
+      service.name = request.POST['name']
+      service.country = request.POST['country']
+      service.city = request.POST['city']
+      service.address = request.POST['address']
+      service.number = request.POST['number']
+      service.promo_description = request.POST['promo_description']
+      service.save()
+    cars = Car.objects.select_related().filter(service = service.id)
+    for car in cars:
+      car.is_reserved()
+    offices = BranchOffice.objects.select_related().filter(service = service.id)
+    context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,'service':service, 'cars':cars, 'offices':offices}
+    return render(request, 'car/edit_service.html',context)
+  except:
+    messages.error(request, "User has ho service!")
+    return render(request, 'user/login_page.html')
+
 
 @login_required()
 @permission_required('user.is_car_admin')
