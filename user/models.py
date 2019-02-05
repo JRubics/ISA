@@ -47,8 +47,9 @@ class Profile(models.Model):
 
 class AdminUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    admin_type = models.CharField(max_length=10)
     avio_admin = models.ForeignKey(
-        AvioCompany, on_delete=models.DO_NOTHING, null=True)
+        AvioCompany, on_delete=models.DO_NOTHING, null=True, blank=True)
 
     class Meta:
         permissions = (("is_car_admin", "Is car admin"),

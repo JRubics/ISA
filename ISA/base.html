@@ -71,6 +71,31 @@
 
             <div class="collapse navbar-collapse" id="topNavBar">
                 <ul class="nav navbar-nav">
+                {% if perms.user.is_car_admin %}
+                    <li class="active">
+                        <a href="{% url 'car:edit_service' %}">
+                            <span class="glyphicon glyphicon-knight" aria-hidden="true"></span>&nbsp; MyService
+                        </a>
+                    </li>
+                {% elif perms.user.is_hotel_admin %}
+                    <li class="active">
+                        <a href="{% url 'car:edit_service' %}">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp; MyHotel
+                        </a>
+                    </li>
+                {% elif perms.user.is_flight_admin %}
+                    <li class="active">
+                        <a href="{% url 'car:edit_service' %}">
+                            <span class="glyphicon glyphicon-plane" aria-hidden="true"></span>&nbsp; MyAvioCompany
+                        </a>
+                    </li>
+                {% elif perms.user.is_master_admin %}
+                    <li class="active">
+                        <a href="{% url 'car:edit_service' %}">
+                            <span class="glyphicon glyphicon-plane" aria-hidden="true"></span>&nbsp; PROMENI URL
+                        </a>
+                    </li>
+                {% else %}
                     <li class="active">
                         <a href="{% url 'avio:search_avio' %}">
                             <span class="glyphicon glyphicon-plane" aria-hidden="true"></span>&nbsp; Book A Flight
@@ -86,8 +111,8 @@
                             <span class="glyphicon glyphicon-knight" aria-hidden="true"></span>&nbsp; Book A Ride
                         </a>
                     </li>
+                {% endif %}
                 </ul>
-
                 <form class="navbar-form navbar-left" role="search" method="get" action="#">
 
                 {% csrf_token %}
