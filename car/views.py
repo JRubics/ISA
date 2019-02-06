@@ -380,7 +380,10 @@ def car_rate(request, id=None):
 @login_required()
 def cancel_reservation(request, id=None):
   reservation = Reservation.objects.get(id=id)
+  package = PackageReservation.objects.filter(master_user=request.user, car_reservation = reservation).first()
   if reservation.can_be_closed:
+    package.car_reservation = None
+    package.save()
     reservation.delete()
   return redirect('/user/home')
 

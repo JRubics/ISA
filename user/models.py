@@ -11,7 +11,7 @@ class Profile(models.Model):
     phone_number = models.CharField(max_length=30)
     bonus = models.PositiveIntegerField(default=0)
     pic = models.FileField(upload_to='media/', default='/profile.png')
-    active_package = models.OneToOneField(PackageReservation, on_delete=models.CASCADE, null=True, blank=True)
+    active_package = models.OneToOneField(PackageReservation, on_delete=models.SET_NULL, null=True, blank=True)
 
     def new(username, email, password, first_name, last_name, city, phone_number):
         user = User.objects.create_user(username=username,
