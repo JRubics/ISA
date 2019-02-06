@@ -6,10 +6,19 @@
 ERROR: {{ message }}
 {% endfor %}
 {% endif %}
+  <br>
+  <br>
+  <div class="row">
+      <div class="col-md-1"></div>
+    <div class="col-md-4"><img src="/media/airplane.png" style="max-width:80%; max-height:80%;" alt="" /></div>
+    <div class="col-md-4"><img src="/media/sleep.png" style="max-width:80%; max-height:80%;" alt="" /></div>
+    <div class="col-md-3"><img src="/media/rent-a-car.png" style="max-width:80%; max-height:80%;" alt="" /></div>
+  </div>
   <div class="btn-group btn-group-lg" role="group" aria-label="jeelna">
       <a type="button" class="btn btn-default" href="{%url 'user:profile_initations'%}">Trip Invitations</a>
       <a type="button" class="btn btn-default" href="{%url 'user:profile_people_list'%}">Friend List</a>
   </div>
+  <br>
   <br>
   <br>
   {% if car_reservations or hotel_reservations or tickets%}
