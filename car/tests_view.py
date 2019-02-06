@@ -268,6 +268,15 @@ class CarSeleniumTestCase(LiveServerTestCase):
       selenium.get(self.live_server_url + "/car/office/delete/" + str(self.office1.id))
       assert len(selenium.find_elements_by_name('delete_office')) is 1
 
+    def test_car_admin_home(self):
+      selenium = self.selenium
+      force_login(self.user, selenium, self.live_server_url)
+      selenium.get(self.live_server_url + "/user/home")
+      print(selenium.page_source)
+      assert 'car/service' in selenium.current_url
+      assert 'testService' in selenium.page_source
+      assert 'testCar' in selenium.page_source
+
     # def test_car_reservation(self):
       # selenium = self.selenium
       # force_login(self.user, selenium, self.live_server_url)

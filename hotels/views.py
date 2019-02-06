@@ -851,7 +851,7 @@ def hotel_rate(request, id=None):
                         room_rate = room_rate,
                         user=request.user)
             room_rate.save()
-        return redirect('/user/reservations')
+        return redirect('/user/home')
     else:
         context = {'reservation':reservation, 'rooms':rooms }
         return render(request, 'hotels/rate_hotel.html',context)
