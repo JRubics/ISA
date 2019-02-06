@@ -13,4 +13,5 @@ RUN set -ex \
 	&& pip install -r requirements.txt \
 	&& apk del .build-deps
 
-CMD ["gunicorn", "--bind", "0.0.0.0:80", "ISA.wsgi:application"]
+#CMD ["gunicorn", "--bind", "0.0.0.0:80", "ISA.wsgi:application"]
+CMD ["./entrypoint.sh"]

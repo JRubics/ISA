@@ -26,12 +26,11 @@ ERROR: {{ message }}
       <table class="table table-striped table-bordered">
         <thead>
           <tr>
-            <th scope="col" colspan="6">YOUR FLIGHT RESERVATIONS</th>
+            <th scope="col" colspan="5">YOUR FLIGHT RESERVATIONS</th>
           </tr>
           <tr>
               <th scope="col">Flight</th>
             <th scope="col">Passport</th>
-            <th scope="col">Time</th>
             <th scope="col">Price</th>
             <th scope="col">Seat</th>
             <th scope="col"></th>
@@ -42,7 +41,6 @@ ERROR: {{ message }}
             <tr>
               <td>{{reservation.flight}}</td>
               <td>{{reservation.passport}}</td>
-              <td>{{reservation.time}}</td>
               <td>{{reservation.price}}</td>
               <td>{{reservation.seat}}</td>
               <td>
