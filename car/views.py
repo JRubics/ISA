@@ -14,6 +14,7 @@ from .models import CarRate
 from user.models import User
 from avio.models import PackageReservation, Ticket
 from django.conf import settings
+from django.db import IntegrityError, transaction
 
 
 @login_required()
@@ -263,6 +264,7 @@ def fast_choose_car(request):
   else:
     return redirect('/car/choose')
 
+# @transaction.atomic
 @login_required()
 def make_reservation(request, id):
   if request.method == 'POST':
@@ -297,6 +299,7 @@ def make_reservation(request, id):
   else:
     return redirect('/car/choose')
 
+# @transaction.atomic
 @login_required()
 def make_fast_reservation(request, id):
   if request.method == 'POST':
@@ -350,7 +353,7 @@ def confirm_package(request):
   profile.save()
   return redirect('/user/home')
 
-
+# @transaction.atomic
 @login_required()
 def close_package(request):
   user = User.objects.get(id=request.user.id)
@@ -383,6 +386,7 @@ def car_rate(request, id=None):
     context = {'reservation':reservation}
     return render(request, 'car/rate_car.html',context)
 
+# @transaction.atomic
 @login_required()
 def cancel_reservation(request, id=None):
   reservation = Reservation.objects.get(id=id)
