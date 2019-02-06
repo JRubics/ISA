@@ -65,6 +65,7 @@ DATABASES = {
         'USER': os.environ.get('DB_USER', ''),
         'HOST': os.environ.get('DB_HOST', ''),
         'PORT': os.environ.get('DB_PORT', ''),
+        'ATOMIC_REQUESTS': True
     }
 }
 
