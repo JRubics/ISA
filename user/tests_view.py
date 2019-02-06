@@ -4,6 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from .models import Profile
+from seleniumlogin import force_login
 
 class UserSeleniumTestCase(LiveServerTestCase):
     def setUp(self):
@@ -104,8 +105,19 @@ class UserSeleniumTestCase(LiveServerTestCase):
 
       assert 'user/login' in selenium.current_url
 
-    def test_user_home(self):
+    def test_user_home_fail(self):
       selenium = self.selenium
       selenium.get(self.live_server_url + "/user/home")
 
       assert 'user/login' in selenium.current_url
+
+    def test_user_home(self):
+      selenium = self.selenium
+      force_login(self.user, selenium, self.live_server_url)
+      selenium.get(self.live_server_url + "/user/home")
+
+      assert 'user/home' in selenium.current_url
+      assert 'Trip Invitations' in selenium.page_source
+      assert 'Friend List' in selenium.page_source
+      assert 'Profile' in selenium.page_source
+      assert 'You don\'t have reservations.' in selenium.page_source
