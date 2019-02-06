@@ -164,6 +164,8 @@ class PackageReservation(models.Model):
     master_user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     date_from = models.DateTimeField('start of flight')
     date_to = models.DateTimeField('end of trip')
+    country = models.CharField(max_length=40)
+    city = models.CharField(max_length=40)
     car_reservation = models.ForeignKey(CarReservation, on_delete=models.SET_NULL, null=True, blank=True)
     hotel_reservation = models.ForeignKey(HotelReservation, on_delete=models.SET_NULL, null=True, blank=True)
 

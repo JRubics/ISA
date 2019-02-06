@@ -255,7 +255,6 @@ def fast_choose_car(request):
       car.is_car_taken(d1, d2)
       car_prices_for_user[car.id] = car.price * days1 * Decimal((100-request.user.profile.bonus - 5) * 0.01)
     cars = [c for c in cars if c.is_taken == 0 and c.on_sale == 1 and c.service.country == country and c.service.city == city]
-    print(cars)
     context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,
               'cars':cars, 'days':days1,
               'date1':date1, 'date2':date2,

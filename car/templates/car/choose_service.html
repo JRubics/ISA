@@ -46,10 +46,10 @@
       <div>
         <form action="{% url 'car:fast_choose_car'%}" method="post">
           {% csrf_token %}
-          <input type="hidden" name="date1" value="2029-01-10" />
-          <input type="hidden" name="date2" value="2029-02-12" />
-          <input type="hidden" name="country" value="Serbia" />
-          <input type="hidden" name="city" value="Beograd" />
+          <input type="hidden" name="date1" value="{{user.profile.active_package.date_from|date:'Y-m-d'}}" />
+          <input type="hidden" name="date2" value="{{user.profile.active_package.date_to|date:'Y-m-d'}}" />
+          <input type="hidden" name="country" value="{{user.profile.active_package.country}}" />
+          <input type="hidden" name="city" value="{{user.profile.active_package.city}}" />
           <button type="submit" name="fast_reservation" value="fast_reservation" onclick="" class="btn btn-default">Fast reservation</button>
         </form>
       </div>
