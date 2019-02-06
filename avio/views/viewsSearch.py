@@ -215,7 +215,7 @@ class AvioReservation(TemplateView):
         flight = ctx['flight']
         if_request_user = True
 
-        new_package_reservation = PackageReservation.objects.create(master_user = request.user, date_from = flight.arrival_date, date_to = request.session['date_to'])
+        new_package_reservation = PackageReservation.objects.create(city = flight.arrival_city.name, country = flight.arrival_city.country.name, master_user = request.user, date_from = flight.arrival_date, date_to = request.session['date_to'])
         for f in forms:
             seat = Seat.objects.get(pk = f['seats'].value())
             if f['person'].value() != "" and f['person'].value() != None:
@@ -237,7 +237,7 @@ class AvioReservation(TemplateView):
                     ticket.user = request.user
                     ticket.save()
 
-                    person = request.user.person
+                    person = request.user.profile
                     if flight.distance > 1000 and person.bonus < 10:
                         person.bonus = person.bonus + 1
                         person.save()
