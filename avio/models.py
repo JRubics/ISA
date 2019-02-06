@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from datetime import datetime, timezone
 from django.conf import settings
 from car.models import Reservation as CarReservation
+from hotels.models import HotelReservation
 
 
 # model zemlje
@@ -164,6 +165,7 @@ class PackageReservation(models.Model):
     date_from = models.DateTimeField('start of flight')
     date_to = models.DateTimeField('end of trip')
     car_reservation = models.ForeignKey(CarReservation, on_delete=models.CASCADE, null=True, blank=True)
+    hotel_reservation = models.ForeignKey(HotelReservation, on_delete=models.CASCADE, null=True, blank=True)
 
 
 # model karte

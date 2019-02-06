@@ -22,6 +22,7 @@ urlpatterns = [
     path('incomes', views.incomes, name='incomes'),
     path('sort/name', views.sort_by_name, name='sort_by_name'),
     path('sort/city', views.sort_by_city, name='sort_by_city'),
+    path('confirm', views.confirmation, name='confirmation'),
     path('confirm_package', views.confirm_package, name='confirm_package'),
     path('close_package', views.close_package, name='close_package'),
 ]

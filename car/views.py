@@ -12,7 +12,7 @@ from .models import BranchOffice
 from .models import Reservation
 from .models import CarRate
 from user.models import User
-from avio.models import PackageReservation
+from avio.models import PackageReservation, Ticket
 
 
 @login_required()
@@ -287,8 +287,7 @@ def make_reservation(request, id):
     package = PackageReservation.objects.get(id=user.profile.active_package.id)
     package.car_reservation = reservation
     package.save()
-    context = {'package':package}
-    return render(request, 'car/confirm_package.html',context)
+    return redirect('/car/confirm')
   else:
     return redirect('/car/choose')
 
@@ -322,11 +321,17 @@ def make_fast_reservation(request, id):
     package = PackageReservation.objects.get(id=user.profile.active_package.id)
     package.car_reservation = reservation
     package.save()
-    context = {'package':package}
-    return render(request, 'car/confirm_package.html',context)
+    return redirect('/car/confirm')
   else:
     return redirect('/car/choose')
 
+
+@login_required()
+def confirmation(request):
+  package = PackageReservation.objects.get(id=request.user.profile.active_package.id)
+  tickets = Ticket.objects.all()
+  context = {'package':package, 'tickets':tickets}
+  return render(request, 'car/confirm_package.html',context)
 
 @login_required()
 def confirm_package(request):
@@ -348,6 +353,8 @@ def close_package(request):
     return redirect('/user/home')
   profile = user.profile
   package = profile.active_package
+  profile.active_package = None
+  profile.save()
   car_res = package.car_reservation
   car_res.delete()
   package.delete()
