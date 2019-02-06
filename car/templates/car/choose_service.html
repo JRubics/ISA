@@ -24,6 +24,7 @@
   {% endfor %}
   {% endif %}
   {%if services%}
+  <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
       <div class="container">
@@ -45,8 +46,8 @@
       <div>
         <form action="{% url 'car:fast_choose_car'%}" method="post">
           {% csrf_token %}
-          <input type="hidden" name="date1" value="2019-01-10" />
-          <input type="hidden" name="date2" value="2019-01-12" />
+          <input type="hidden" name="date1" value="2029-01-10" />
+          <input type="hidden" name="date2" value="2029-02-12" />
           <input type="hidden" name="country" value="Serbia" />
           <input type="hidden" name="city" value="Beograd" />
           <button type="submit" name="fast_reservation" value="fast_reservation" onclick="" class="btn btn-default">Fast reservation</button>
@@ -155,6 +156,7 @@
       <br>
     </div>
     <div class="col-md-2"></div>
+  </div>
   {% else %}
     <p>Service doesn't exist.</p>
   {% endif %}

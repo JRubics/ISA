@@ -2,9 +2,8 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-from avio.models import AvioCompany
+from avio.models import AvioCompany, PackageReservation
 from django.core.exceptions import ValidationError
-
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -12,6 +11,7 @@ class Profile(models.Model):
     phone_number = models.CharField(max_length=30)
     bonus = models.PositiveIntegerField(default=0)
     pic = models.FileField(upload_to='media/', default='/profile.png')
+    active_package = models.OneToOneField(PackageReservation, on_delete=models.SET_NULL, null=True, blank=True)
 
     def new(username, email, password, first_name, last_name, city, phone_number):
         user = User.objects.create_user(username=username,

@@ -12,6 +12,7 @@ from .models import BranchOffice
 from .models import Reservation
 from .models import CarRate
 from user.models import User
+from avio.models import PackageReservation, Ticket
 from django.conf import settings
 
 
@@ -155,12 +156,16 @@ def choose_service(request):
             'city':city, 'street':street, 'number':number, 'offices':offices}
     return render(request, 'car/service_list.html', context)
   else:
-    services = Service.objects.all()
-    offices = BranchOffice.objects.all()
-    services = [service for service in services
-                        if service.id in [b.service.id for b in offices]]
-    context = {'services':services, 'offices':offices}
-    return render(request, 'car/choose_service.html', context)
+    if request.user.profile.active_package is None:
+      messages.error(request, "You don't have active package!")
+      return redirect('/user/home')
+    else:
+      services = Service.objects.all()
+      offices = BranchOffice.objects.all()
+      services = [service for service in services
+                          if service.id in [b.service.id for b in offices]]
+      context = {'services':services, 'offices':offices}
+      return render(request, 'car/choose_service.html', context)
 
 
 @login_required()
@@ -228,6 +233,7 @@ def choose_car(request, id):
   else:
     return redirect('/car/choose')
 
+
 @login_required()
 def fast_choose_car(request):
   if request.method == 'POST':
@@ -260,6 +266,10 @@ def fast_choose_car(request):
 @login_required()
 def make_reservation(request, id):
   if request.method == 'POST':
+    user = User.objects.get(id=request.user.id)
+    if user.profile.active_package is None:
+      messages.error(request, "You don't have active package!")
+      return redirect('/user/home')
     office1 = request.POST['office1']
     office2 = request.POST['office2']
     date1 = request.POST['date1']
@@ -278,15 +288,22 @@ def make_reservation(request, id):
                           date1 = date1,
                           date2 = date2,
                           price = price,
-                          user = User.objects.get(id=request.user.id))
+                          user = user)
     reservation.save()
-    return redirect('/user/home')
+    package = PackageReservation.objects.get(id=user.profile.active_package.id)
+    package.car_reservation = reservation
+    package.save()
+    return redirect('/car/confirm')
   else:
     return redirect('/car/choose')
 
 @login_required()
 def make_fast_reservation(request, id):
   if request.method == 'POST':
+    user = User.objects.get(id=request.user.id)
+    if user.profile.active_package is None:
+      messages.error(request, "You don't have active package!")
+      return redirect('/user/home')
     service = Service.objects.get(id=request.POST['service'])
     date1 = request.POST['date1']
     date2 = request.POST['date2']
@@ -307,9 +324,48 @@ def make_fast_reservation(request, id):
                           price = price,
                           user = User.objects.get(id=request.user.id))
     reservation.save()
-    return redirect('/user/home')
+    package = PackageReservation.objects.get(id=user.profile.active_package.id)
+    package.car_reservation = reservation
+    package.save()
+    return redirect('/car/confirm')
   else:
     return redirect('/car/choose')
+
+
+@login_required()
+def confirmation(request):
+  package = PackageReservation.objects.get(id=request.user.profile.active_package.id)
+  tickets = Ticket.objects.all()
+  context = {'package':package, 'tickets':tickets}
+  return render(request, 'car/confirm_package.html',context)
+
+@login_required()
+def confirm_package(request):
+  user = User.objects.get(id=request.user.id)
+  if user.profile.active_package is None:
+    messages.error(request, "You don't have active package!")
+    return redirect('/user/home')
+  profile = user.profile
+  profile.active_package = None
+  profile.save()
+  return redirect('/user/home')
+
+
+@login_required()
+def close_package(request):
+  user = User.objects.get(id=request.user.id)
+  if user.profile.active_package is None:
+    messages.error(request, "You don't have active package!")
+    return redirect('/user/home')
+  profile = user.profile
+  package = profile.active_package
+  profile.active_package = None
+  profile.save()
+  car_res = package.car_reservation
+  car_res.delete()
+  package.delete()
+  return redirect('/user/home')
+
 
 @login_required()
 def car_rate(request, id=None):
@@ -330,7 +386,10 @@ def car_rate(request, id=None):
 @login_required()
 def cancel_reservation(request, id=None):
   reservation = Reservation.objects.get(id=id)
+  package = PackageReservation.objects.filter(master_user=request.user, car_reservation = reservation).first()
   if reservation.can_be_closed:
+    package.car_reservation = None
+    package.save()
     reservation.delete()
   return redirect('/user/home')
 

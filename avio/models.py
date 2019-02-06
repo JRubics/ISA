@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from datetime import datetime, timezone
 from django.conf import settings
+from car.models import Reservation as CarReservation
+from hotels.models import HotelReservation
 
 
 # model zemlje
@@ -162,11 +164,13 @@ class PackageReservation(models.Model):
     master_user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     date_from = models.DateTimeField('start of flight')
     date_to = models.DateTimeField('end of trip')
+    car_reservation = models.ForeignKey(CarReservation, on_delete=models.SET_NULL, null=True, blank=True)
+    hotel_reservation = models.ForeignKey(HotelReservation, on_delete=models.SET_NULL, null=True, blank=True)
 
 
 # model karte
 class Ticket (models.Model):
-    package_reservation = models.ForeignKey(PackageReservation, on_delete=models.DO_NOTHING, null=True, blank = True)
+    package_reservation = models.ForeignKey(PackageReservation, on_delete=models.CASCADE, null=True, blank = True)
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank = True)
     first_name = models.CharField(max_length=30, null=True)
     last_name = models.CharField(max_length=30, null=True)

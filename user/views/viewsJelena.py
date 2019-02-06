@@ -13,6 +13,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import Permission
 from car.models import Car
 from django.contrib.contenttypes.models import ContentType
+from avio.models import PackageReservation, Ticket
 
 
 def login_submit(request):
@@ -110,6 +111,10 @@ def home(request):
         is_flight_rated = {}
         for reservation in tickets:
             is_flight_rated[reservation.id] = reservation.is_rated(request.user.id)
+
+        packages = PackageReservation.objects.filter(master_user=request.user)
+        package_tickets = Ticket.objects.all()
+
         context = {'car_reservations': car_reservation_list,
                 'is_car_rated': is_car_rated,
                 'hotel_reservations': hotel_reservation_list,
@@ -117,5 +122,7 @@ def home(request):
                 'hotel_services': hotel_services,
                 'is_hotel_rated': is_hotel_rated,
                 'tickets':tickets,
-                'is_flight_rated':is_flight_rated}
+                'is_flight_rated':is_flight_rated,
+                'packages':packages,
+                'package_tickets':package_tickets}
         return render(request, 'user/home_page.html', context)
