@@ -56,8 +56,6 @@ ERROR: {{ message }}
                       {% endif %}
                     {% endif %}
                   {% endfor %}
-                {% elif reservation.can_be_closed%}
-                  CANCEL filipe dodaj dugme
                 {% endif %}
               </td>
             </tr>
@@ -114,8 +112,6 @@ ERROR: {{ message }}
                         {% endif %}
                       {% endif %}
                     {% endfor %}
-                {% elif reservation.can_be_closed%}
-                  CANCEL borise dodaj dugme
                 {% endif %}
               </td>
             </tr>
@@ -161,8 +157,6 @@ ERROR: {{ message }}
                       {% endif %}
                     {% endif %}
                   {% endfor %}
-                {% elif reservation.can_be_closed%}
-                  <a class="btn btn-default" href="{% url 'car:cancel_reservation' reservation.id%}">cancel</a>
                 {% endif %}
               </td>
             </tr>
@@ -181,7 +175,7 @@ ERROR: {{ message }}
             <table class="table table-striped table-bordered">
               <thead>
                 <tr>
-                  <th scope="col" colspan="7">FLIGHT RESERVATION</th>
+                  <th scope="col" colspan="8">FLIGHT RESERVATION</th>
                 </tr>
                 <tr>
                   <th scope="col">First name</th>
@@ -191,6 +185,7 @@ ERROR: {{ message }}
                   <th scope="col">Flight</th>
                   <th scope="col">Status</th>
                   <th scope="col">Full price</th>
+                  <th scope="col"></th>
                 </tr>
               </thead>
               <tbody>
@@ -204,6 +199,9 @@ ERROR: {{ message }}
                       <td>{{t.flight}}</td>
                       <td>{{t.status}}</td>
                       <td>{{t.price}}</td>
+                      <td>
+                        FILIPE dodaj close
+                      </td>
                     </tr>
                   {% endif %}
                 {% endfor %}
@@ -215,7 +213,7 @@ ERROR: {{ message }}
             <table class="table table-striped table-bordered">
               <thead>
                 <tr>
-                  <th scope="col" colspan="6">HOTEL RESERVATION</th>
+                  <th scope="col" colspan="7">HOTEL RESERVATION</th>
                 </tr>
                 <tr>
                   <th scope="col">Hotel</th>
@@ -224,6 +222,7 @@ ERROR: {{ message }}
                   <th scope="col">Guest number</th>
                   <th scope="col">Room number</th>
                   <th scope="col">Full price</th>
+                  <th scope="col"></th>
                 </tr>
               </thead>
               <tbody>
@@ -234,6 +233,9 @@ ERROR: {{ message }}
                   <td>{{package.hotel_reservation.guest_number}}</td>
                   <td>{{package.hotel_reservation.rooms|length}}</td>
                   <td>{{package.hotel_reservation.rooms_charge|add:package.hotel_reservation.services_charge}}</td>
+                  <td>
+                    BORISE dodaj close
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -244,13 +246,14 @@ ERROR: {{ message }}
             <table class="table table-striped table-bordered">
               <thead>
                 <tr>
-                  <th scope="col" colspan="4">CAR RESERVATION</th>
+                  <th scope="col" colspan="5">CAR RESERVATION</th>
                 </tr>
                 <tr>
                   <th scope="col">Car(Service)</th>
                   <th scope="col">Start date</th>
                   <th scope="col">End date</th>
                   <th scope="col">Full price</th>
+                  <th scope="col"></th>
                 </tr>
               </thead>
               <tbody>
@@ -259,6 +262,11 @@ ERROR: {{ message }}
                   <td>{{package.car_reservation.date1|date:"M-d-Y"}}</td>
                   <td>{{package.car_reservation.date2|date:"M-d-Y"}}</td>
                   <td>{{package.car_reservation.price}}</td>
+                  <td>
+                    {% if package.car_reservation.can_be_closed%}
+                      <a class="btn btn-default" href="{% url 'car:cancel_reservation' package.car_reservation.id%}">cancel</a>
+                    {% endif %}
+                  </td>
                 </tr>
               </tbody>
             </table>

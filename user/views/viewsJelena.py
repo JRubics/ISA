@@ -95,22 +95,23 @@ def home(request):
     elif request.user.has_perm('user.is_flight_admin'):
         return redirect('/admin')
     else:
-        car_reservation_list = CarReservation.objects.filter(user=request.user.id)
+        tickets = Ticket.objects.filter(user=request.user)
+        is_flight_rated = {}
+        for reservation in tickets:
+            is_flight_rated[reservation.id] = reservation.is_rated(request.user.id)
+
+        packages_from_user = [t.package_reservation for t in tickets if t.package_reservation != None]
+        car_reservation_list = [p.car_reservation for p in packages_from_user if p.car_reservation != None]
         is_car_rated = {}
         for reservation in car_reservation_list:
             is_car_rated[reservation.id] = reservation.is_rated(request.user.id)
 
-        hotel_reservation_list = HotelReservation.objects.filter(user=request.user.id)
+        hotel_reservation_list = [p.hotel_reservation for p in packages_from_user if p.hotel_reservation != None]
         is_hotel_rated = {}
         for reservation in hotel_reservation_list:
             is_hotel_rated[reservation.id] = reservation.is_rated(request.user.id)
         hotel_rooms = HotelRoom.objects.all()
         hotel_services = HotelService.objects.all()
-
-        tickets = Ticket.objects.filter(user=request.user, status = "B")
-        is_flight_rated = {}
-        for reservation in tickets:
-            is_flight_rated[reservation.id] = reservation.is_rated(request.user.id)
 
         packages = PackageReservation.objects.filter(master_user=request.user)
         package_tickets = Ticket.objects.all()
