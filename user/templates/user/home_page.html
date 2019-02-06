@@ -34,7 +34,7 @@ ERROR: {{ message }}
             <th scope="col">Time</th>
             <th scope="col">Price</th>
             <th scope="col">Seat</th>
-            <th scope="col"></th>
+            <th scope="col">Rate</th>
           </tr>
         </thead>
         <tbody>
@@ -77,7 +77,7 @@ ERROR: {{ message }}
             <th scope="col">Check out</th>
             <th scope="col">Guest number</th>
             <th scope="col">Full price</th>
-            <th scope="col"></th>
+            <th scope="col">Rate</th>
           </tr>
         </thead>
         <tbody>
@@ -133,7 +133,7 @@ ERROR: {{ message }}
             <th scope="col">Return date</th>
             <th scope="col">Car</th>
             <th scope="col">Full price</th>
-            <th scope="col"></th>
+            <th scope="col">Rate</th>
           </tr>
         </thead>
         <tbody>
@@ -185,7 +185,7 @@ ERROR: {{ message }}
                   <th scope="col">Flight</th>
                   <th scope="col">Status</th>
                   <th scope="col">Full price</th>
-                  <th scope="col"></th>
+                  <th scope="col">Cancel</th>
                 </tr>
               </thead>
               <tbody>
@@ -200,7 +200,7 @@ ERROR: {{ message }}
                       <td>{{t.status}}</td>
                       <td>{{t.price}}</td>
                       <td>
-                        FILIPE dodaj close
+                        FILIPE dodaj cancel
                       </td>
                     </tr>
                   {% endif %}
@@ -222,7 +222,7 @@ ERROR: {{ message }}
                   <th scope="col">Guest number</th>
                   <th scope="col">Room number</th>
                   <th scope="col">Full price</th>
-                  <th scope="col"></th>
+                  <th scope="col">Cancel</th>
                 </tr>
               </thead>
               <tbody>
@@ -234,7 +234,7 @@ ERROR: {{ message }}
                   <td>{{package.hotel_reservation.rooms|length}}</td>
                   <td>{{package.hotel_reservation.rooms_charge|add:package.hotel_reservation.services_charge}}</td>
                   <td>
-                    BORISE dodaj close
+                    BORISE dodaj cancel
                   </td>
                 </tr>
               </tbody>
@@ -253,7 +253,7 @@ ERROR: {{ message }}
                   <th scope="col">Start date</th>
                   <th scope="col">End date</th>
                   <th scope="col">Full price</th>
-                  <th scope="col"></th>
+                  <th scope="col">Cancel</th>
                 </tr>
               </thead>
               <tbody>
