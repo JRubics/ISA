@@ -1,7 +1,7 @@
 from django.views import generic
 from django import forms
 from user.models import Profile, UserRelationship
-from avio.models import Ticket, Flight, Seat
+from avio.models import Ticket, Flight, Seat, PackageReservation
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
@@ -52,6 +52,30 @@ class ListFriendRequests(generic.ListView):
             UserRelationship.decline(self.request.user, reciever)
         return redirect('user:profile_friend_requests')
 
+@login_required()
+def cancel_reservation(request):
+    if request.method == 'POST':
+        val = request.POST['btn']
+        if "ALL" in val:
+            val = val.replace("ALL", "")
+            res = PackageReservation.objects.get(pk = val)
+            for tic in res.ticket_set.all():
+                tic.cancelTicket()
+
+            if res.car_reservation != None:
+                car_res = res.car_reservation
+                car_res.delete()
+
+            if res.hotel_reservation != None:
+                hotel_res = res.hotel_reservation
+                hotel_res.delete()
+
+            res.delete()
+        else:
+            t = Ticket.objects.get(pk = val)
+            t.cancelTicket()
+            t.delete()
+    return redirect('user:home')
 
 @login_required()
 def profile(request):

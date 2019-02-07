@@ -19,4 +19,5 @@ urlpatterns = [
     path('profile/friend_requests', views.ListFriendRequests.as_view(), name='profile_friend_requests'),
     path('profile/unfriend', views.Unfriend.as_view(), name='profile_unfriend'),
     path('profile/invitations', views.Invitation.as_view(), name='profile_initations'),
+    path('cancel/reservation', views.cancel_reservation, name='cancel_reservation'),
 ]
