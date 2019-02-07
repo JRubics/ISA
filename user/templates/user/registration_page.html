@@ -6,32 +6,76 @@
 ERROR: {{ message }}
 {% endfor %}
 {% endif %}
+  <br>
+  <br>
+  <br>
+  <div class="row">
+    <div class="col-md-5"></div>
+    <div class="col-md-2">
+      <h1>Registration</h1>
+    </div>
+    <div class="col-md-5"></div>
+  </div>
   <form action="{% url 'user:registration_submit' %}" method="post">
     {% csrf_token %}
-    <div>username:</div>
-    <input type="text" name="username" required=true>
-    </br>
-    <div>email:</div>
-    <input type="email" name="email" required=true>
-    </br>
-    <div>password:</div>
-    <input type="password" name="password1" required=true>
-    </br>
-    <div>repeat password:</div>
-    <input type="password" name="password2" required=true>
-    </br>
-    <div>first name:</div>
-    <input type="text" name="first_name" required=true>
-    </br>
-    <div>last name:</div>
-    <input type="text" name="last_name" required=true>
-    </br>
-    <div>city:</div>
-    <input type="text" name="city" required=true>
-    </br>
-    <div>phone number:</div>
-    <input type="text" name="phone_number" required=true>
-    </br>
-    <button name="sign_in" type="submit" value="sign in" onclick="" class="btn btn-primary">Sign in</button>
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-2">
+        <div>username:</div>
+        <input type="text" name="username" required=true>
+      </div>
+      <div class="col-md-2">
+        <div>email:</div>
+        <input type="email" name="email" required=true>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-2">
+        <div>password:</div>
+        <input type="password" name="password1" required=true>
+      </div>
+      <div class="col-md-2">
+        <div>repeat password:</div>
+        <input type="password" name="password2" required=true>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-2">
+        <div>first name:</div>
+        <input type="text" name="first_name" required=true>
+      </div>
+      <div class="col-md-2">
+        <div>last name:</div>
+        <input type="text" name="last_name" required=true>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-2">
+        <div>city:</div>
+        <input type="text" name="city" required=true>
+      </div>
+      <div class="col-md-2">
+        <div>phone number:</div>
+        <input type="text" name="phone_number" required=true>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-5"></div>
+      <div class="col-md-2">
+          <button style="margin-left: 30%" name="sign_in" type="submit" value="sign in" onclick="" class="btn btn-primary">Sign in</button>
+      </div>
+      <div class="col-md-5"></div>
+    </div>
   </form>
 {% endblock content %}
