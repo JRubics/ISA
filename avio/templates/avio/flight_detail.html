@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid bg-info">
+    <div class="row text-center">
+        <div class="departure col">
+            <br>
+            <h4> From: </h4>
+            <h3>
+                <span>{{ object.departure_airport }}</span>
+                <br>
+                <span>{{ object.departure_date }}</span>
+                <br>
+            </h3>
+        </div>
+        <div class="duratiom col">
+            <br>
+            <h3> <span class="glyphicon glyphicon-time" aria-hidden="true"></span> Duration: {{ object.duration }}</h3>
+            <img src="http://bayviewinn.com/wp-content/uploads/2016/07/airplane.png" style="width:100px; height: 100px;">
+        </div>
+
+        <div class="departure col">
+            <br>
+            <h4> To: </h4>
+            <h3>
+                <span>{{ object.arrival_airport }}</span>
+                <br>
+                <span>{{ object.arrival_date }}</span>
+                <br>
+            </h3>
+        </div>
+
+        <div class="object-reservation col">
+            <br>
+            <h4>{{ object.avio_company }}</h4>
+            <h4>From: {{ object.base_price }} eur</h4>
+            <form action="{% url 'avio:avio_reservation' object.id%}" method="get">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit" class="btn btn-success">Buy</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<div class="container-fluid">
+    <div class="row bg-light">
+        <div class="col align-self-start col-md-1">
+            <h3>
+                Stops:
+            </h3>
+        </div>
+        {% for stop in object.flightleg_set.all %}
+        <div class="col align-self-start">
+            <h3> {{stop.airport}} </h3>
+            <h3>
+                <span>Arrive: {{ stop.arrival_date }}</span>
+                <br>
+                <span>Depart {{ stop.departure_date }}</span>
+                <br>
+            </h3>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<br>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col align-self-start col-md-2">
+            <h3>
+                {{ object.avio_company.name }}
+            </h3>
+        </div>
+        <div class="col align-self-start">
+            <h3> Address: </h3>
+            <h4>
+                {{object.avio_company.city.country}}
+                <br>
+                {{object.avio_company.city}}
+                <br>
+                {{object.avio_company.address}} {{object.avio_company.number}}
+            </h4>
+        </div>
+        <div class="col align-self-start">
+            <h3> About us: </h3>
+            <h4>
+                {{object.avio_company.promo_description}}
+            </h4>
+        </div>
+    </div>
+</div>
+
+<br>
+
+<div class="container-fluid">
+    <div class="row bg-light">
+        <div class="col align-self-start col-md-2">
+            <h3>
+                Cabine luggage:
+            </h3>
+        </div>
+        <div class="col align-self-start">
+            <h4>
+                {{object.avio_company.cabine_luggage_description}}
+            </h4>
+        </div>
+        <div class="col align-self-start col-md-2">
+            <h3>
+                Compartment luggage:
+            </h3>
+        </div>
+        <div class="col align-self-start">
+            <h4>
+                {{object.avio_company.luggage}}
+            </h4>
+        </div>
+        <div class="col align-self-start col-md-2">
+                <h3>
+                    Aditional services:
+                </h3>
+            </div>
+            <div class="col align-self-start">
+                <h4>
+                    {{object.avio_company.additional_services}}
+                </h4>
+            </div>
+    </div>
+</div>
+
+
+{% endblock content %}

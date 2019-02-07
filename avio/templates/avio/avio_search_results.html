@@ -38,7 +38,7 @@
         </div>
         <div class="duratiom col">
             <br>
-            <h3>{{ stops }} - Duration: {{ fly.duration }}</h3>
+            <h3>{{ stops }} - <span class="glyphicon glyphicon-time" aria-hidden="true"></span> Duration: {{ fly.duration }}</h3>
             <img src="http://bayviewinn.com/wp-content/uploads/2016/07/airplane.png" style="width:100px; height: 100px;">
         </div>
 
@@ -57,7 +57,7 @@
             <br>
             <h4>{{ fly.avio_company }}</h4>
             <h4>From: {{ fly.base_price }} eur</h4>
-            <form action="{% url 'avio:avio_reservation' fly.id%}" method="get">
+            <form action="{% url 'avio:avio_flight_details' fly.id%}" method="get">
             {% csrf_token %}
                 {{ form }}
                 <button type="submit" class="btn btn-success">Buy</button>

@@ -1,5 +1,6 @@
 from django.views.generic.list import ListView
 from django.views.generic.edit import View
+from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView
 from django.shortcuts import redirect, render
 from avio.models import Flight, Ticket, Seat, FlightLeg, FlightRate, PackageReservation
@@ -144,6 +145,9 @@ class FastReservation(ListView):
         seat.seat_status = "T"
         seat.save()
         return self.get(request, id)
+
+class AvioFlightDetails(DetailView):
+    model = Flight
         
 
 class AvioReservation(TemplateView):
