@@ -222,7 +222,7 @@
   pk: 12
   fields:
     hotel: 3
-    name: Shake hands with president Trump
+    name: Shake hands with president
     price: 100
     type_of_charge: 'per person'
 
