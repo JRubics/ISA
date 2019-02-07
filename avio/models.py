@@ -175,6 +175,10 @@ class PackageReservation(models.Model):
 
         self.delete()
 
+    @property
+    def canBeCanceled(self):
+        return True if ((self.date_from.replace(tzinfo=None) - datetime.now().replace(tzinfo=None)).total_seconds() / 3600) > 3 else False
+
 
 # model karte
 class Ticket (models.Model):

@@ -200,6 +200,8 @@ ERROR: {{ message }}
           <td>{{t.status}}</td>
           <td>{{t.price}}</td>
           <td>
+            {% if package.canBeCanceled %}
+              
             {% if request.user != t.user %}
             <form action="" method="post">
               {% csrf_token %}
@@ -211,6 +213,7 @@ ERROR: {{ message }}
               {% csrf_token %}
               <button type="submit" class="btn btn-danger" name="btn" value="ALL{{ package.id }}">Cancel Package</button>
             </form>
+            {% endif %}
             {% endif %}
           </td>
         </tr>

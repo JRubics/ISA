@@ -13,6 +13,7 @@ import datetime
 from django.db.models import F, ExpressionWrapper, fields
 import json
 from django.contrib import messages 
+from django.core.mail import send_mail
 
 
 class RefineSearchForm(forms.ModelForm):
@@ -227,7 +228,7 @@ class AvioReservation(TemplateView):
                 person = Profile.objects.get(pk = f['person'].value())
                 Ticket.objects.create(package_reservation = new_package_reservation, user = person.user, first_name = person.user.first_name, last_name = person.user.last_name, time =  datetime.datetime.now(), price = flight.base_price * seat.price_factor, flight = flight, seat = seat, status = "R")
                 #slanje mejla
-                send_mail('Travel Invitation',str(request.user.profile) + " has invited you to travel to " + str(flight) + ". Log in to your account to view the reservation",'isa2018bfj@google.com',[person.uset.email],fail_silently=False,)
+                send_mail('Travel Invitation',str(request.user.profile) + " has invited you to travel to " + str(flight) + ". Log in to your account to view the reservation",'isa2018bfj@google.com',[person.user.email],fail_silently=False,)
 
                 if flight.distance > 1000 and person.bonus < 10:
                     person.bonus = person.bonus + 1
