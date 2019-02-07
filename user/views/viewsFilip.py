@@ -153,7 +153,15 @@ class Invitation(generic.ListView):
     template_name = 'user/profile_invitations.html'
 
     def get_queryset(self):
-        return Ticket.objects.filter(user = self.request.user, status = "R")
+        qs = Ticket.objects.filter(user = self.request.user, status = "R")
+        for tic in qs:
+            if tic.invitation_too_long():
+                tic.cancelTicket()
+                tic.delete()
+            if tic.package_reservation.canBeCanceled:
+                tic.cancelTicket() 
+                tic.delete()
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super(Invitation, self).get_context_data(**kwargs)
