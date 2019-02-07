@@ -60,7 +60,6 @@ class AvioSearch(View):
             elif not tic.package_reservation.canBeCanceled:
                 tic.cancelTicket()
                 tic.delete()
-
         form = AirportForm()
         return render(request, 'avio/avio_search.html', {'form':form})
 
