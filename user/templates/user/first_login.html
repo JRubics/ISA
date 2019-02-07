@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col text-center">
+            <form action="{% url 'user:first_login' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" value="{{username}}" name="username" />
+                <input type="hidden" value="{{password}}" name="prev_pass" />
+                <div class="jumbotron">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <h3>Please enter new password</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label>Enter password:</label>
+                                <input type="password" name="pass1" required/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label>Confirm password:</label>
+                                <input type="password" name="pass2" required/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col text-center">
+                                <button type="submit" class="btn btn-primary">Continue</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+{% endblock content %}

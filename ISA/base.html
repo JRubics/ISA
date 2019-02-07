@@ -78,11 +78,13 @@
                         </a>
                     </li>
                 {% elif perms.user.is_hotel_admin %}
+                    {% if hotel %}
                     <li class="active">
-                        <a href="{% url 'car:edit_service' %}">
+                        <a href="{% url 'hotels:admin_view_hotel' hotel.id %}">
                             <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp; MyHotel
                         </a>
                     </li>
+                    {% endif %}
                 {% elif perms.user.is_flight_admin %}
                     <li class="active">
                         <a href="{% url 'car:edit_service' %}">
