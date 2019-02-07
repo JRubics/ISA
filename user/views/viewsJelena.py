@@ -18,9 +18,13 @@ from avio.models import PackageReservation, Ticket
 
 def login_submit(request):
     if request.method == 'POST':
-        user = authenticate(request, username=Profile.get_username_from_email(
-            request.POST['email']), password=request.POST['password'])
+        username = Profile.get_username_from_email(request.POST['email'])
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
         if user is not None:
+            if (user.has_perm('user.is_avio_admin') or user.has_perm('user.is_hotel_admin') or user.has_perm('user.is_car_admin') or user.has_perm('user.is_master_admin')) and user.adminuser.first_login:
+                context = {'username': username, 'password': password}
+                return render(request, 'user/first_login.html', context)
             login(request, user)
             return redirect('/user/home')
         else:
@@ -92,39 +96,44 @@ def home(request):
         val = request.POST['btn']
         if "ALL" in val:
             val = val.replace("ALL", "")
-            res = PackageReservation.objects.get(pk = val)
+            res = PackageReservation.objects.get(pk=val)
             for tic in res.ticket_set.all():
                 tic.cancelTicket()
-            
+
             res.delete()
         else:
-            t = Ticket.objects.get(pk = val)
+            t = Ticket.objects.get(pk=val)
             t.cancelTicket()
             t.delete()
-
-    
+            
     if request.user.has_perm('user.is_car_admin'):
         return redirect('/car/service')
     elif request.user.has_perm('user.is_hotel_admin'):
-        return redirect('hotes/', str(request.user.hotels.id) ,'/admin_view')
+        return redirect('hotels:admin_view_hotel', hotel_id=request.user.hotel.id)
     elif request.user.has_perm('user.is_flight_admin'):
         return redirect('/admin')
     else:
         tickets = Ticket.objects.filter(user=request.user)
         is_flight_rated = {}
         for reservation in tickets:
-            is_flight_rated[reservation.id] = reservation.is_rated(request.user.id)
+            is_flight_rated[reservation.id] = reservation.is_rated(
+                request.user.id)
 
-        packages_from_user = [t.package_reservation for t in tickets if t.package_reservation != None]
-        car_reservation_list = [p.car_reservation for p in packages_from_user if p.car_reservation != None]
+        packages_from_user = [
+            t.package_reservation for t in tickets if t.package_reservation != None]
+        car_reservation_list = [
+            p.car_reservation for p in packages_from_user if p.car_reservation != None]
         is_car_rated = {}
         for reservation in car_reservation_list:
-            is_car_rated[reservation.id] = reservation.is_rated(request.user.id)
+            is_car_rated[reservation.id] = reservation.is_rated(
+                request.user.id)
 
-        hotel_reservation_list = [p.hotel_reservation for p in packages_from_user if p.hotel_reservation != None]
+        hotel_reservation_list = [
+            p.hotel_reservation for p in packages_from_user if p.hotel_reservation != None]
         is_hotel_rated = {}
         for reservation in hotel_reservation_list:
-            is_hotel_rated[reservation.id] = reservation.is_rated(request.user.id)
+            is_hotel_rated[reservation.id] = reservation.is_rated(
+                request.user.id)
         hotel_rooms = HotelRoom.objects.all()
         hotel_services = HotelService.objects.all()
 
@@ -132,14 +141,36 @@ def home(request):
         package_tickets = Ticket.objects.all()
 
         context = {'car_reservations': car_reservation_list,
-                'is_car_rated': is_car_rated,
-                'hotel_reservations': hotel_reservation_list,
-                'hotel_rooms': hotel_rooms,
-                'hotel_services': hotel_services,
-                'is_hotel_rated': is_hotel_rated,
-                'tickets':tickets,
-                'is_flight_rated':is_flight_rated,
-                'packages':packages,
-                'package_tickets':package_tickets}
-    
+                   'is_car_rated': is_car_rated,
+                   'hotel_reservations': hotel_reservation_list,
+                   'hotel_rooms': hotel_rooms,
+                   'hotel_services': hotel_services,
+                   'is_hotel_rated': is_hotel_rated,
+                   'tickets': tickets,
+                   'is_flight_rated': is_flight_rated,
+                   'packages': packages,
+                   'package_tickets': package_tickets}
+
         return render(request, 'user/home_page.html', context)
+
+
+def first_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        prev_pass = request.POST['prev_pass']
+        pass1 = request.POST['pass1']
+        pass2 = request.POST['pass2']
+        user = authenticate(request, username=username, password=prev_pass)
+        if user is not None:
+            if pass1 is None or pass2 is None or pass1 != pass2:
+                messages.error(request, 'Passwords do not match')
+                return render(request, 'user/first_login.html')
+            user.set_password(pass1)
+            user.adminuser.first_login = False
+            user.adminuser.save()
+            user.save()
+            login(request, user)
+            return redirect('/user/home')
+        else:
+            messages.error(request, "Not a user")
+            return redirect(settings.LOGIN_REDIRECT_URL)

@@ -85,3 +85,10 @@
     is_superuser: false
     is_staff: false
     is_active: true
+
+- model: user.discountpointreference
+  pk: 1
+  fields:
+    travel_coefficient: 1
+    hotel_discount: 2
+    carservice_discount: 5
