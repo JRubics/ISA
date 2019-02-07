@@ -8,4 +8,3 @@ selenium
 django-selenium-login
 PyYaml==3.13
 django-crispy-forms
-django-map-widgets
