@@ -204,7 +204,7 @@ class CarSeleniumTestCase(LiveServerTestCase):
       assert len(selenium.find_elements_by_name('edit_car')) is 1
       assert len(selenium.find_elements_by_name('delete_car')) is 1
 
-    def test_car_reservation_choose_service_from_list(self):
+    def test_car_full_reservation_choose_service_from_list(self):
       selenium = self.selenium
       force_login(self.user1, selenium, self.live_server_url)
       selenium.get(self.live_server_url + "/car/choose")
@@ -227,6 +227,14 @@ class CarSeleniumTestCase(LiveServerTestCase):
 
       assert len(selenium.find_elements_by_name('make_reservation')) is 2
       assert 'Available cars:' in selenium.page_source
+
+      selenium.find_element_by_id('make_reservation'+ str(self.car.id)).send_keys(Keys.ENTER)
+
+      assert 'confirm' in selenium.page_source
+      assert 'close' in selenium.page_source
+
+      selenium.find_element_by_name('confirm').click()
+      assert('user/home') in selenium.current_url
 
     def test_car_search(self):
       selenium = self.selenium
@@ -279,16 +287,11 @@ class CarSeleniumTestCase(LiveServerTestCase):
       assert 'testService' in selenium.page_source
       assert 'testCar' in selenium.page_source
 
-    # def test_car_reservation(self):
-      # selenium = self.selenium
-      # force_login(self.user, selenium, self.live_server_url)
-      # selenium.get(self.live_server_url + "/user/choose")
+    def test_car_normal_user_home(self):
+      selenium = self.selenium
+      force_login(self.user1, selenium, self.live_server_url)
+      selenium.get(self.live_server_url + "/user/home")
 
-      # selenium.find_element_by_name('radio2').click()
-
-      # selenium.find_element_by_name('name').send_keys('testS')
-      # selenium.find_element_by_name('country').send_keys('SRB')
-      # selenium.find_element_by_name('search_service').click()
-
-      # assert 'car/choose' in selenium.current_url
-      # assert 'testService' in selenium.page_source
+      assert 'user/home' in selenium.current_url
+      assert 'Trip Invitations' in selenium.page_source
+      assert 'Friend List' in selenium.page_source
