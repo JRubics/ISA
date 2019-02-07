@@ -8,6 +8,18 @@
         </div>
     </div>
     <br />
+    {% if messages %}
+    <div class="row">
+    {% for message in messages %}
+    <div class="bs-example">
+        <div class="alert alert-danger">
+            <a href="#" class="close" data-dismiss="alert">&times;</a>
+            <strong>Error!</strong> {{message}}
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+    {% endif %}
     <div class="row">
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
