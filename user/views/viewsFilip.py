@@ -134,11 +134,9 @@ class Invitation(generic.ListView):
             if tic.invitation_too_long:
                 tic.cancelTicket
                 tic.delete()
-
             if tic.package_reservation.canBeCanceled:
-                tic.cancelTicket
+                tic.cancelTicket 
                 tic.delete()
-
         return qs
 
     def get_context_data(self, **kwargs):
