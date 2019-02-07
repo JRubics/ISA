@@ -76,6 +76,13 @@ class AvioSearchResults(View):
         ret_ids = []
         search_form = RefineSearchForm()
 
+        print(request.session['date_to'])
+        print(depart_date)
+        print(depart_city)
+        print(arr_city)
+        print(num_seats)
+        print(t_seats)
+
         # ako je smao u jednom pravcu:
         if request.GET["trip_type"] == "One-way":
             qs = Flight.objects.filter(departure_date__startswith = depart_date, departure_city = depart_city, arrival_city = arr_city)
@@ -89,6 +96,9 @@ class AvioSearchResults(View):
         request.session['ret'] = ret_ids
         request.session['num_seats'] = num_seats
         request.session['seat_type'] = t_seats
+        
+        print(ret_ids)
+
         return render(request, 'avio/avio_search_results.html', {'ret':ret, 'num_seats':num_seats, 'search_form':search_form})
 
 
