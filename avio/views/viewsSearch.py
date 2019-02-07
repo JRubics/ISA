@@ -52,6 +52,14 @@ class AirportForm(forms.ModelForm):
 
 class AvioSearch(View):
     def get(self, request, *args, **kwargs):
+        qs = Ticket.objects.filter(status = "R")
+        for tic in qs:
+            if tic.invitation_too_long():
+                tic.cancelTicket()
+                tic.delete()
+            elif not tic.package_reservation.canBeCanceled:
+                tic.cancelTicket()
+                tic.delete()
         form = AirportForm()
         return render(request, 'avio/avio_search.html', {'form':form})
 
