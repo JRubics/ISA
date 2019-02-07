@@ -114,7 +114,7 @@
   fields:
     user: 5
     city: NS
-    phone_number: asd
+    phone_number: 123
     bonus: 2
 
 - model: auth.user
