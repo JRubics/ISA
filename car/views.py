@@ -377,8 +377,13 @@ def close_package(request):
   package = profile.active_package
   profile.active_package = None
   profile.save()
-  car_res = package.car_reservation
-  car_res.delete()
+  if package.car_reservation != None:
+      car_res = package.car_reservation
+      car_res.delete()
+
+  if package.hotel_reservation != None:
+      hotel_res = package.hotel_reservation
+      hotel_res.delete()
   package.delete()
   return redirect('/user/home')
 
