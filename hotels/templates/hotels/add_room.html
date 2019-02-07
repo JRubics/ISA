@@ -10,6 +10,16 @@
         <div class="row">
             <div class="container-fluid">
                 <div class="jumbotron">
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="bs-example">
+                        <div class="alert alert-danger">
+                            <a href="#" class="close" data-dismiss="alert">&times;</a>
+                            <strong>Error!</strong> {{message}}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
                     {% load crispy_forms_tags %}
                     <form action="{% url 'hotels:add_hotel_room' hotel.id%}" method="post">
                         {% csrf_token %}

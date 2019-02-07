@@ -7,6 +7,7 @@ from .forms import HotelInfoForm, HotelServiceForm, RoomInfoForm, RoomPriceForm,
 from .models import Hotel, HotelRoom, HotelService, HotelServicePackage, HotelRoomPrice, ValidationError, HotelShoppingCart, HotelReservation, QuickReservationOption, HotelRate, RoomRate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
+from django.core.exceptions import PermissionDenied
 
 # import pdb; pdb.set_trace()
 
@@ -132,24 +133,34 @@ def get_total_services(services, day_num, guest_num, room_num):
 
 
 @login_required()
+@permission_required('user.is_hotel_admin')
 def admin_view_hotel(request, hotel_id):
+    user = request.user
     hotel = get_object_or_404(Hotel, pk=hotel_id)
-    context = {'hotel': hotel}
-    return render(request, 'hotels/admin_view.html', context)
+    if hotel.admin == user:
+        context = {'hotel': hotel}
+        return render(request, 'hotels/admin_view.html', context)
+    else:
+        raise PermissionDenied
 
 
 @login_required()
+@permission_required('user.is_hotel_admin')
 def edit_hotel_info(request, hotel_id):
+    user = request.user
     hotel = get_object_or_404(Hotel, pk=hotel_id)
-    if request.method == 'GET':
-        form = HotelInfoForm(instance=hotel)
-    elif request.method == 'POST':
-        form = HotelInfoForm(request.POST, instance=hotel)
-        if form.is_valid():
-            hotel = form.save()
-            return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
-    context = {'hotel': hotel, 'form': form}
-    return render(request, 'hotels/edit_hotel_info.html', context)
+    if hotel.admin == user:
+        if request.method == 'GET':
+            form = HotelInfoForm(instance=hotel)
+        elif request.method == 'POST':
+            form = HotelInfoForm(request.POST, instance=hotel)
+            if form.is_valid():
+                hotel = form.save()
+                return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
+        context = {'hotel': hotel, 'form': form}
+        return render(request, 'hotels/edit_hotel_info.html', context)
+    else:
+        raise PermissionDenied
 
 
 def view_hotels(request):
@@ -194,162 +205,217 @@ def view_hotel_registered(request, hotel_id):
 # Hotel Room
 
 @login_required()
+@permission_required('user.is_hotel_admin')
 def add_hotel_room(request, hotel_id):
+    user = request.user
     hotel = get_object_or_404(Hotel, pk=hotel_id)
-    if request.method == 'GET':
-        form = RoomInfoForm()
-    elif request.method == 'POST':
-        form = RoomInfoForm(request.POST)
-        if form.is_valid():
-            room = form.save(commit=False)
-            room.hotel = hotel
-            try:
-                room.full_clean()
-                room.save()
-                return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
-            except ValidationError:
-                messages.error(request, 'Room number already in use.')
-    context = {'hotel': hotel, 'form': form}
-    return render(request, 'hotels/add_room.html', context)
+    if hotel.admin == user:
+        if request.method == 'GET':
+            form = RoomInfoForm()
+        elif request.method == 'POST':
+            form = RoomInfoForm(request.POST)
+            if form.is_valid():
+                room = form.save(commit=False)
+                room.hotel = hotel
+                try:
+                    room.full_clean()
+                    room.save()
+                    return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
+                except ValidationError:
+                    messages.error(request, 'Room number already in use.')
+        context = {'hotel': hotel, 'form': form}
+        return render(request, 'hotels/add_room.html', context)
+    else:
+        raise PermissionDenied
 
 
 @login_required()
+@permission_required('user.is_hotel_admin')
 def edit_hotel_room(request, hotel_id, room_id=None):
+    user = request.user
     hotel = get_object_or_404(Hotel, pk=hotel_id)
-    room = get_object_or_404(HotelRoom, pk=room_id)
-    if request.method == 'GET':
-        form = RoomInfoForm(instance=room)
-    elif request.method == 'POST':
-        form = RoomInfoForm(request.POST, instance=room)
-        if form.is_valid():
-            room = form.save()
-            return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
-    context = {'hotel': hotel, 'room': room, 'form': form}
-    return render(request, 'hotels/edit_room.html', context)
+    if hotel.admin == user:
+        room = get_object_or_404(HotelRoom, pk=room_id)
+        if request.method == 'GET':
+            form = RoomInfoForm(instance=room)
+        elif request.method == 'POST':
+            form = RoomInfoForm(request.POST, instance=room)
+            if form.is_valid():
+                room = form.save()
+                return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
+        context = {'hotel': hotel, 'room': room, 'form': form}
+        return render(request, 'hotels/edit_room.html', context)
+    else:
+        raise PermissionDenied
 
 
 @login_required()
+@permission_required('user.is_hotel_admin')
 def delete_hotel_room(request, hotel_id, room_id=None):
+    user = request.user
     hotel = get_object_or_404(Hotel, pk=hotel_id)
-    room = get_object_or_404(HotelRoom, pk=room_id)
-    room.delete()
-    return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
+    if hotel.admin == user:
+        room = get_object_or_404(HotelRoom, pk=room_id)
+        room.delete()
+        return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
+    else:
+        raise PermissionDenied
 
 # Hotel Service
 
 
 @login_required()
+@permission_required('user.is_hotel_admin')
 def add_hotel_service(request, hotel_id):
+    user = request.user
     hotel = get_object_or_404(Hotel, pk=hotel_id)
-    if request.method == 'GET':
-        form = HotelServiceForm()
-    elif request.method == 'POST':
-        form = HotelServiceForm(request.POST)
-        if form.is_valid():
-            service = form.save(commit=False)
-            service.hotel = hotel
-            service.save()
-            return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
-    context = {'hotel': hotel, 'form': form}
-    return render(request, 'hotels/add_service.html', context)
+    if hotel.admin == user:
+        if request.method == 'GET':
+            form = HotelServiceForm()
+        elif request.method == 'POST':
+            form = HotelServiceForm(request.POST)
+            if form.is_valid():
+                service = form.save(commit=False)
+                service.hotel = hotel
+                service.save()
+                return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
+        context = {'hotel': hotel, 'form': form}
+        return render(request, 'hotels/add_service.html', context)
+    else:
+        raise PermissionDenied
 
 
 @login_required()
+@permission_required('user.is_hotel_admin')
 def edit_hotel_service(request, hotel_id, service_id):
+    user = request.user
     hotel = get_object_or_404(Hotel, pk=hotel_id)
-    service = get_object_or_404(HotelService, pk=service_id)
-    if request.method == 'GET':
-        form = HotelServiceForm(instance=service)
-    elif request.method == 'POST':
-        form = HotelServiceForm(request.POST, instance=service)
-        if form.is_valid():
-            service.save()
-            return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
-    context = {'hotel': hotel, 'service': service, 'form': form}
-    return render(request, 'hotels/edit_service.html', context)
+    if hotel.admin == user:
+        service = get_object_or_404(HotelService, pk=service_id)
+        if request.method == 'GET':
+            form = HotelServiceForm(instance=service)
+        elif request.method == 'POST':
+            form = HotelServiceForm(request.POST, instance=service)
+            if form.is_valid():
+                service.save()
+                return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
+        context = {'hotel': hotel, 'service': service, 'form': form}
+        return render(request, 'hotels/edit_service.html', context)
+    else:
+        raise PermissionDenied
 
 
 @login_required()
+@permission_required('user.is_hotel_admin')
 def delete_hotel_service(request, hotel_id, service_id):
+    user = request.user
     hotel = get_object_or_404(Hotel, pk=hotel_id)
-    service = get_object_or_404(HotelService, pk=service_id)
-    service.delete()
-    return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
+    if hotel.admin == user:
+        service = get_object_or_404(HotelService, pk=service_id)
+        service.delete()
+        return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
+    else:
+        raise PermissionDenied
 
 # Service Package
 
 
 @login_required()
+@permission_required('user.is_hotel_admin')
 def add_service_package(request, hotel_id):
+    user = request.user
     hotel = get_object_or_404(Hotel, pk=hotel_id)
-    if request.method == 'GET':
-        form = ServicePackageForm()
-        form.fields['services'].queryset = HotelService.objects.filter(
-            hotel_id=hotel_id)
-    elif request.method == 'POST':
-        form = ServicePackageForm(request.POST)
-        if form.is_valid():
-            package = form.save(commit=False)
-            package.hotel = hotel
-            package.save()
-            return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
-    context = {'hotel': hotel, 'form': form}
-    return render(request, 'hotels/add_package.html', context)
+    if hotel.admin == user:
+        if request.method == 'GET':
+            form = ServicePackageForm()
+            form.fields['services'].queryset = HotelService.objects.filter(
+                hotel_id=hotel_id)
+        elif request.method == 'POST':
+            form = ServicePackageForm(request.POST)
+            if form.is_valid():
+                package = form.save(commit=False)
+                package.hotel = hotel
+                package.save()
+                return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
+        context = {'hotel': hotel, 'form': form}
+        return render(request, 'hotels/add_package.html', context)
+    else:
+        raise PermissionDenied
 
 
 @login_required()
+@permission_required('user.is_hotel_admin')
 def edit_service_package(request, hotel_id, package_id):
+    user = request.user
     hotel = get_object_or_404(Hotel, pk=hotel_id)
-    package = get_object_or_404(HotelServicePackage, pk=package_id)
-    if request.method == 'GET':
-        form = ServicePackageForm(instance=package)
-        form.fields['services'].queryset = HotelService.objects.filter(
-            hotel_id=hotel_id)
-    elif request.method == 'POST':
-        form = ServicePackageForm(request.POST, instance=package)
-        if form.is_valid():
-            package = form.save()
-            return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
-    context = {'hotel': hotel, 'package': package, 'form': form}
-    return render(request, 'hotels/edit_package.html', context)
+    if hotel.admin == user:
+        package = get_object_or_404(HotelServicePackage, pk=package_id)
+        if request.method == 'GET':
+            form = ServicePackageForm(instance=package)
+            form.fields['services'].queryset = HotelService.objects.filter(
+                hotel_id=hotel_id)
+        elif request.method == 'POST':
+            form = ServicePackageForm(request.POST, instance=package)
+            if form.is_valid():
+                package = form.save()
+                return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
+        context = {'hotel': hotel, 'package': package, 'form': form}
+        return render(request, 'hotels/edit_package.html', context)
+    else:
+        raise PermissionDenied
 
 
 @login_required()
+@permission_required('user.is_hotel_admin')
 def delete_service_package(request, hotel_id, package_id):
+    user = request.user
     hotel = get_object_or_404(Hotel, pk=hotel_id)
-    package = get_object_or_404(HotelServicePackage, pk=package_id)
-    package.delete()
-    return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
+    if hotel.admin == user:
+        package = get_object_or_404(HotelServicePackage, pk=package_id)
+        package.delete()
+        return redirect('hotels:admin_view_hotel', hotel_id=hotel.id)
+    else:
+        raise PermissionDenied
 
 # Room Price
 
 
 @login_required()
+@permission_required('user.is_hotel_admin')
 def view_room_prices(request, hotel_id, room_id):
+    user = request.user
     hotel = get_object_or_404(Hotel, pk=hotel_id)
-    room = get_object_or_404(HotelRoom, pk=room_id)
-    context = {'hotel': hotel, 'room': room}
-    return render(request, 'hotels/view_room_prices.html', context)
+    if hotel.admin == user:
+        room = get_object_or_404(HotelRoom, pk=room_id)
+        context = {'hotel': hotel, 'room': room}
+        return render(request, 'hotels/view_room_prices.html', context)
+    else:
+        raise PermissionDenied
 
 
 @login_required()
+@permission_required('user.is_hotel_admin')
 def filtered_room_prices(request, hotel_id, room_id):
+    user = request.user
     hotel = get_object_or_404(Hotel, pk=hotel_id)
-    room = get_object_or_404(HotelRoom, pk=room_id)
-    context = {'hotel': hotel, 'room': room}
-    if request.method == 'POST':
-        date_from = datetime.strptime(request.POST.get(
-            'form_valid_from'), "%Y-%m-%d").date()
-        date_to = datetime.strptime(request.POST.get(
-            'form_valid_to'), "%Y-%m-%d").date()
-        if date_from is not None and date_to is not None:
-            if date_from < date_to:
-                prices = HotelRoomPrice.objects.filter(room_id=room.id)
-                prices = prices.exclude(valid_to__lt=date_from).exclude(
-                    valid_from__gt=date_to)
-                context = {'hotel': hotel, 'room': room, 'prices': prices,
-                           'date_from': date_from, 'date_to': date_to}
-    return render(request, 'hotels/view_room_prices.html', context)
+    if hotel.admin == user:
+        room = get_object_or_404(HotelRoom, pk=room_id)
+        context = {'hotel': hotel, 'room': room}
+        if request.method == 'POST':
+            date_from = datetime.strptime(request.POST.get(
+                'form_valid_from'), "%Y-%m-%d").date()
+            date_to = datetime.strptime(request.POST.get(
+                'form_valid_to'), "%Y-%m-%d").date()
+            if date_from is not None and date_to is not None:
+                if date_from < date_to:
+                    prices = HotelRoomPrice.objects.filter(room_id=room.id)
+                    prices = prices.exclude(valid_to__lt=date_from).exclude(
+                        valid_from__gt=date_to)
+                    context = {'hotel': hotel, 'room': room, 'prices': prices,
+                            'date_from': date_from, 'date_to': date_to}
+        return render(request, 'hotels/view_room_prices.html', context)
+    else:
+        raise PermissionDenied
 
 
 def resolve_price_overlaps(price):
@@ -407,52 +473,67 @@ def resolve_price_overlaps(price):
 
 
 @login_required()
+@permission_required('user.is_hotel_admin')
 def add_room_price(request, hotel_id, room_id):
+    user = request.user
     hotel = get_object_or_404(Hotel, pk=hotel_id)
-    room = get_object_or_404(HotelRoom, pk=room_id)
-    if request.method == 'GET':
-        form = RoomPriceForm()
-        form.fields['service_package'].queryset = HotelServicePackage.objects.filter(
-            hotel_id=hotel_id)
-    elif request.method == 'POST':
-        form = RoomPriceForm(request.POST)
-        if form.is_valid():
-            price = form.save(commit=False)
-            price.room = room
-            resolve_price_overlaps(price)
-            price.save()
-            return redirect('hotels:view_room_prices', hotel_id=hotel.id, room_id=room.id)
-    context = {'hotel': hotel, 'room': room, 'form': form}
-    return render(request, 'hotels/add_price.html', context)
+    if hotel.admin == user:
+        room = get_object_or_404(HotelRoom, pk=room_id)
+        if request.method == 'GET':
+            form = RoomPriceForm()
+            form.fields['service_package'].queryset = HotelServicePackage.objects.filter(
+                hotel_id=hotel_id)
+        elif request.method == 'POST':
+            form = RoomPriceForm(request.POST)
+            if form.is_valid():
+                price = form.save(commit=False)
+                price.room = room
+                resolve_price_overlaps(price)
+                price.save()
+                return redirect('hotels:view_room_prices', hotel_id=hotel.id, room_id=room.id)
+        context = {'hotel': hotel, 'room': room, 'form': form}
+        return render(request, 'hotels/add_price.html', context)
+    else:
+        raise PermissionDenied
 
 
 @login_required()
+@permission_required('user.is_hotel_admin')
 def edit_room_price(request, hotel_id, room_id, price_id):
+    user = request.user
     hotel = get_object_or_404(Hotel, pk=hotel_id)
-    room = get_object_or_404(HotelRoom, pk=room_id)
-    price = get_object_or_404(HotelRoomPrice, pk=price_id)
-    if request.method == 'GET':
-        form = RoomPriceForm(instance=price)
-        form.fields['service_package'].queryset = HotelServicePackage.objects.filter(
-            hotel_id=hotel_id)
-    elif request.method == 'POST':
-        form = RoomPriceForm(request.POST, instance=price)
-        if form.is_valid():
-            price = form.save(commit=False)
-            resolve_price_overlaps(price)
-            price.save()
-            return redirect('hotels:view_room_prices', hotel_id=hotel.id, room_id=room.id)
-    context = {'hotel': hotel, 'room': room, 'price': price, 'form': form}
-    return render(request, 'hotels/edit_price.html', context)
+    if hotel.admin == user:
+        room = get_object_or_404(HotelRoom, pk=room_id)
+        price = get_object_or_404(HotelRoomPrice, pk=price_id)
+        if request.method == 'GET':
+            form = RoomPriceForm(instance=price)
+            form.fields['service_package'].queryset = HotelServicePackage.objects.filter(
+                hotel_id=hotel_id)
+        elif request.method == 'POST':
+            form = RoomPriceForm(request.POST, instance=price)
+            if form.is_valid():
+                price = form.save(commit=False)
+                resolve_price_overlaps(price)
+                price.save()
+                return redirect('hotels:view_room_prices', hotel_id=hotel.id, room_id=room.id)
+        context = {'hotel': hotel, 'room': room, 'price': price, 'form': form}
+        return render(request, 'hotels/edit_price.html', context)
+    else:
+        raise PermissionDenied
 
 
 @login_required()
+@permission_required('user.is_hotel_admin')
 def delete_room_price(request, hotel_id, room_id, price_id):
+    user = request.user
     hotel = get_object_or_404(Hotel, pk=hotel_id)
-    room = get_object_or_404(HotelRoom, pk=room_id)
-    price = get_object_or_404(HotelRoomPrice, pk=price_id)
-    price.delete()
-    return redirect('hotels:view_room_prices', hotel_id=hotel.id, room_id=room.id)
+    if hotel.admin == user:
+        room = get_object_or_404(HotelRoom, pk=room_id)
+        price = get_object_or_404(HotelRoomPrice, pk=price_id)
+        price.delete()
+        return redirect('hotels:view_room_prices', hotel_id=hotel.id, room_id=room.id)
+    else:
+        raise PermissionDenied
 
 # Hotel Reservation
 
@@ -777,25 +858,30 @@ def calculate_number_of_visitors_per_month(resers, year):
 
 
 @login_required()
+@permission_required('user.is_hotel_admin')
 def visitor_number(request, hotel_id):
+    user = request.user
     hotel = get_object_or_404(Hotel, pk=hotel_id)
-    year = date.today().year
-    begin_date = date(year, 1, 1)
-    end_date = date(year, 12, 31)
-    resers = HotelReservation.objects.filter(
-        hotel_id=hotel.id
-    ).order_by('check_in')
-    rset_days = calculate_number_of_visitors_per_day(
-        resers, begin_date, end_date)
-    rset_weeks = calculate_number_of_visitors_per_week(resers, year)
-    rset_months = calculate_number_of_visitors_per_month(resers, year)
-    context = {
-        'hotel': hotel,
-        'rset_days': rset_days,
-        'rset_weeks': rset_weeks,
-        'rset_months': rset_months
-    }
-    return render(request, 'hotels/hotel_stats_guests.html', context)
+    if hotel.admin == user:
+        year = date.today().year
+        begin_date = date(year, 1, 1)
+        end_date = date(year, 12, 31)
+        resers = HotelReservation.objects.filter(
+            hotel_id=hotel.id
+        ).order_by('check_in')
+        rset_days = calculate_number_of_visitors_per_day(
+            resers, begin_date, end_date)
+        rset_weeks = calculate_number_of_visitors_per_week(resers, year)
+        rset_months = calculate_number_of_visitors_per_month(resers, year)
+        context = {
+            'hotel': hotel,
+            'rset_days': rset_days,
+            'rset_weeks': rset_weeks,
+            'rset_months': rset_months
+        }
+        return render(request, 'hotels/hotel_stats_guests.html', context)
+    else:
+        raise PermissionDenied
 
 
 def calculate_earnings(hotel, begin_date, end_date):
@@ -812,25 +898,30 @@ def calculate_earnings(hotel, begin_date, end_date):
 
 
 @login_required()
+@permission_required('user.is_hotel_admin')
 def earnings_statistic(request, hotel_id):
+    user = request.user
     hotel = get_object_or_404(Hotel, pk=hotel_id)
-    if request.method == 'GET':
-        context = {'hotel': hotel}
-        return render(request, 'hotels/hotel_stats_earnings.html', context)
-    elif request.method == 'POST':
-        begin_date = request.POST.get('start_date')
-        end_date = request.POST.get('end_date')
-        if begin_date is None or end_date is None:
-            messages.error(request, 'Both dates required')
+    if hotel.admin == user:
+        if request.method == 'GET':
             context = {'hotel': hotel}
             return render(request, 'hotels/hotel_stats_earnings.html', context)
-        if begin_date > end_date:
-            messages.error(request, 'Both dates required')
-            context = {'hotel': hotel}
+        elif request.method == 'POST':
+            begin_date = request.POST.get('start_date')
+            end_date = request.POST.get('end_date')
+            if begin_date is None or end_date is None:
+                messages.error(request, 'Both dates required')
+                context = {'hotel': hotel}
+                return render(request, 'hotels/hotel_stats_earnings.html', context)
+            if begin_date > end_date:
+                messages.error(request, 'Both dates required')
+                context = {'hotel': hotel}
+                return render(request, 'hotels/hotel_stats_earnings.html', context)
+            total_earnings = calculate_earnings(hotel, begin_date, end_date)
+            context = {'hotel': hotel, 'total_earnings': total_earnings}
             return render(request, 'hotels/hotel_stats_earnings.html', context)
-        total_earnings = calculate_earnings(hotel, begin_date, end_date)
-        context = {'hotel': hotel, 'total_earnings': total_earnings}
-        return render(request, 'hotels/hotel_stats_earnings.html', context)
+    else:
+        raise PermissionDenied
 
 
 

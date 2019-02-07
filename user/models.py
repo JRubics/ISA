@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from avio.models import AvioCompany, PackageReservation
 from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -92,3 +93,28 @@ class UserRelationship(models.Model):
             UserRelationship.objects.filter(user_1 = user1, user_2 = user2).delete()
         else:
             UserRelationship.objects.filter(user_1 = user2, user_2 = user1).delete()
+
+
+class DiscountPointReference(models.Model):
+    travel_coefficient = models.DecimalField(
+        default=1,
+        decimal_places=2,
+        max_digits=8,
+        validators=[MinValueValidator(1, "Minimum is 1%"),
+                    MaxValueValidator(10, "Maximum is 100%")]
+    )
+    hotel_discount = models.PositiveIntegerField(
+        default=2,
+        validators=[MinValueValidator(0, "Percentage is between 0 and 100"),
+                    MaxValueValidator(100, "Percentage is between 0 and 100")]
+    )
+    carservice_discount = models.PositiveIntegerField(
+        default=5,
+        validators=[MinValueValidator(0, "Percentage is between 0 and 100"),
+                    MaxValueValidator(100, "Percentage is between 0 and 100")]
+    )
+    def clean(self):
+        if self.hotel_discount < 0 or self.hotel_discount > 100:
+            raise ValidationError("Percentage is between 0 and 100")
+        if self.carservice_discount < 0 or self.carservice_discount > 100:
+            raise ValidationError("Percentage is between 0 and 100")
