@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% if messages %}
+{% for message in messages %}
+ERROR: {{ message }}
+{% endfor %}
+{% endif %}
   {% if service %}
   <form action="{% url 'car:edit_service'%}" method="post">
     {% csrf_token %}

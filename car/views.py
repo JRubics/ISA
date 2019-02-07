@@ -63,34 +63,41 @@ def add_car(request, service_id=None):
 @login_required()
 @permission_required('user.is_car_admin')
 def edit_car(request, id=None):
-  if request.method == 'POST':
-    car = Car.objects.get(id=id)
-    car.name = request.POST['name']
-    car.manufacturer = request.POST['manufacturer_select']
-    car.model = request.POST['model']
-    car.car_type = request.POST['type_select']
-    car.price = request.POST['price']
-    car.year = request.POST['year']
-    car.seats = request.POST['seats']
-    if request.POST.getlist('on_sale') != []:
-      car.on_sale = True
+  car = Car.objects.get(id=id)
+  if request.user.service == car.service:
+    if request.method == 'POST':
+      car.name = request.POST['name']
+      car.manufacturer = request.POST['manufacturer_select']
+      car.model = request.POST['model']
+      car.car_type = request.POST['type_select']
+      car.price = request.POST['price']
+      car.year = request.POST['year']
+      car.seats = request.POST['seats']
+      if request.POST.getlist('on_sale') != []:
+        car.on_sale = True
+      else:
+        car.on_sale = False
+      car.save()
+      context = {'car':car}
+      return redirect('/car/service')
     else:
-      car.on_sale = False
-    car.save()
-    context = {'car':car}
-    return redirect('/car/service')
+      context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,'car':car}
+      return render(request, 'car/edit_car.html',context)
   else:
-    car = Car.objects.get(id=id)
-    context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,'car':car}
-    return render(request, 'car/edit_car.html',context)
+    messages.error(request, "Invalid car id!")
+    return redirect('/car/service')
 
 @login_required()
 @permission_required('user.is_car_admin')
 def delete_car(request, id=None):
   car = Car.objects.get(id=id)
-  service = car.service
-  car.delete()
-  return redirect('/car/service')
+  if request.user.service == car.service:
+    service = car.service
+    car.delete()
+    return redirect('/car/service')
+  else:
+    messages.error(request, "Invalid car id!")
+    return redirect('/car/service')
 
 @login_required()
 @permission_required('user.is_car_admin')
@@ -112,28 +119,35 @@ def add_office(request, service_id=None):
 @login_required()
 @permission_required('user.is_car_admin')
 def edit_office(request, id=None):
-  if request.method == 'POST':
-    office = BranchOffice.objects.get(id=id)
-    office.name = request.POST['name']
-    office.country = request.POST['country']
-    office.city = request.POST['city']
-    office.address = request.POST['address']
-    office.number = request.POST['number']
-    office.save()
-    context = {'office':office}
-    return redirect('/car/service')
+  office = BranchOffice.objects.get(id=id)
+  if request.user.service == office.service:
+    if request.method == 'POST':
+      office.name = request.POST['name']
+      office.country = request.POST['country']
+      office.city = request.POST['city']
+      office.address = request.POST['address']
+      office.number = request.POST['number']
+      office.save()
+      context = {'office':office}
+      return redirect('/car/service')
+    else:
+      context = {'office':office}
+      return render(request, 'car/edit_office.html',context)
   else:
-    office = BranchOffice.objects.get(id=id)
-    context = {'office':office}
-    return render(request, 'car/edit_office.html',context)
+    messages.error(request, "Invalid office id!")
+    return redirect('/car/service')
 
 @login_required()
 @permission_required('user.is_car_admin')
 def delete_office(request, id=None):
   office = BranchOffice.objects.get(id=id)
-  service = office.service
-  office.delete()
-  return redirect('/car/service')
+  if request.user.service == office.service:
+    service = office.service
+    office.delete()
+    return redirect('/car/service')
+  else:
+    messages.error(request, "Invalid office id!")
+    return redirect('/car/service')
 
 
 @login_required()
