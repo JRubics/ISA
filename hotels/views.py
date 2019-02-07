@@ -8,6 +8,7 @@ from .models import Hotel, HotelRoom, HotelService, HotelServicePackage, HotelRo
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.core.exceptions import PermissionDenied
+from user.models import DiscountPointReference
 
 # import pdb; pdb.set_trace()
 
@@ -128,6 +129,15 @@ def get_total_services(services, day_num, guest_num, room_num):
         elif service.type_of_charge == HotelService.PER_ROOM_PER_DAY:
             total += service.price * room_num * day_num
     return total
+
+
+def get_hotel_discount():
+    if DiscountPointReference.objects.exists():
+        discount = DiscountPointReference.objects.first()
+        return discount.hotel_discount
+    else:
+        return 0
+
 
 # Hotel
 
@@ -665,7 +675,7 @@ def reservation_step_4(request, hotel_id):
         total_nights = (hsc.check_out - hsc.check_in).days
         total_services = get_total_services(
             hsc.services.all(), (hsc.check_out - hsc.check_in).days, hsc.guest_number, hsc.rooms.count())
-        grand_total = total_rooms + total_services
+        grand_total = (total_rooms + total_services) * (Decimal(100) - get_hotel_discount()) / Decimal(100)
 
         hsc.rooms_charge = total_rooms
         hsc.services_charge = total_services
@@ -686,8 +696,8 @@ def reservation_step_4(request, hotel_id):
         reservation.hotel = hotel
         reservation.check_in = hsc.check_in
         reservation.check_out = hsc.check_out
-        reservation.rooms_charge = hsc.rooms_charge
-        reservation.services_charge = hsc.services_charge
+        reservation.rooms_charge = hsc.rooms_charge * (Decimal(100) - get_hotel_discount()) / Decimal(100)
+        reservation.services_charge = hsc.services_charge * (Decimal(100) - get_hotel_discount()) / Decimal(100)
         reservation.guest_number = hsc.guest_number
         try:
             reservation.full_clean()
@@ -725,6 +735,7 @@ def filter_discounted_rooms_and_prepare(rooms, check_in, check_out):
             room.services = service_package.services.all()
             room.total = room.disprice + \
                 get_total_services(room.services, daynum, room.capacity, 1)
+            room.total = room.total * (Decimal(100) - get_hotel_discount()) / Decimal(100)
             tmp.append(room)
     return tmp
 
@@ -767,8 +778,8 @@ def quick_reservation(request, hotel_id):
                 return redirect('hotels:quick_reservation', hotel_id=hotel.id)
             reservation.check_in = hsc.check_in
             reservation.check_out = hsc.check_out
-            reservation.rooms_charge = qro.rooms_charge
-            reservation.services_charge = qro.services_charge
+            reservation.rooms_charge = qro.rooms_charge * (Decimal(100) - get_hotel_discount()) / Decimal(100)
+            reservation.services_charge = qro.services_charge * (Decimal(100) - get_hotel_discount()) / Decimal(100)
             reservation.guest_number = hsc.guest_number
             import pdb
             pdb.set_trace()

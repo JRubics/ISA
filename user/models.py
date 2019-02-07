@@ -51,6 +51,7 @@ class AdminUser(models.Model):
     admin_type = models.CharField(max_length=10)
     avio_admin = models.ForeignKey(
         AvioCompany, on_delete=models.DO_NOTHING, null=True, blank=True)
+    first_login = models.BooleanField(default=True)
 
     class Meta:
         permissions = (("is_car_admin", "Is car admin"),
@@ -114,6 +115,8 @@ class DiscountPointReference(models.Model):
                     MaxValueValidator(100, "Percentage is between 0 and 100")]
     )
     def clean(self):
+        if self.travel_coefficient < 1 or self.travel_coefficient > 10:
+            raise ValidationError("Must be between 1 and 10")
         if self.hotel_discount < 0 or self.hotel_discount > 100:
             raise ValidationError("Percentage is between 0 and 100")
         if self.carservice_discount < 0 or self.carservice_discount > 100:
