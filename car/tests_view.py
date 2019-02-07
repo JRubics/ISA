@@ -4,15 +4,10 @@ from selenium.webdriver.common.keys import Keys
 from django.contrib.auth.models import User, Permission
 from django.contrib.auth import authenticate
 from seleniumlogin import force_login
-from .models import Service
-from .models import Car
-from .models import BranchOffice
-from .models import Reservation
-from .models import CarRate
-from user.models import User
-from user.models import Profile
-from datetime import datetime
-from datetime import timedelta
+from .models import Service, Car, BranchOffice, Reservation, CarRate
+from avio.models import PackageReservation
+from user.models import User, Profile
+from datetime import datetime, timedelta
 from selenium.webdriver.support.ui import Select
 
 import warnings
@@ -23,9 +18,12 @@ class CarSeleniumTestCase(LiveServerTestCase):
       self.selenium = webdriver.Chrome()
 
       self.user = User.objects.create(username='test', email='test@test.com',password='passtest', is_active=True)
-      self.profile = Profile.objects.create(user=self.user, city='Novi Sad', phone_number='021333444', bonus=2)
       self.user.user_permissions.add(Permission.objects.get(name='Is car admin'))
       self.user.save()
+
+      self.user1 = User.objects.create(username='test1', email='test1@test.com',password='passtest', is_active=True)
+      self.profile = Profile.objects.create(user=self.user1, city='Novi Sad', phone_number='021333444', bonus=2)
+      self.user1.save()
 
       self.service = Service(name='testService', promo_description='someDesc', country='SRB', city='Novi Sad', address='Street', number='123', service_admin=self.user)
       self.service.save()
@@ -38,11 +36,16 @@ class CarSeleniumTestCase(LiveServerTestCase):
       self.office = BranchOffice(name='testOffice', service=self.service, country='SRB', city='Novi Sad', address='Street 2', number='6')
       self.office.save()
 
-      self.reservation = Reservation(car = self.car, office1 = self.office, office2 = self.office, date1 = (datetime.now()).replace(tzinfo=None), date2 = (datetime.now() + timedelta(days=2)).replace(tzinfo=None), user = self.user)
+      self.reservation = Reservation(car = self.car, office1 = self.office, office2 = self.office, date1 = (datetime.now()).replace(tzinfo=None), date2 = (datetime.now() + timedelta(days=2)).replace(tzinfo=None), user = self.user1)
       self.reservation.save()
 
-      self.rate1 = CarRate(reservation = self.reservation, car_rate = 3, service_rate = 4, user = self.user)
+      self.rate1 = CarRate(reservation = self.reservation, car_rate = 3, service_rate = 4, user = self.user1)
       self.rate1.save()
+
+      self.package = PackageReservation(master_user=self.user1, date_from=datetime.now(), date_to=datetime.now(), country='Serbia', city='Novi Sad')
+      self.package.save()
+      self.user1.profile.active_package = self.package
+      self.user1.profile.save()
 
     def tearDown(self):
       self.selenium.quit()
@@ -201,9 +204,9 @@ class CarSeleniumTestCase(LiveServerTestCase):
       assert len(selenium.find_elements_by_name('edit_car')) is 1
       assert len(selenium.find_elements_by_name('delete_car')) is 1
 
-    def test_car_reservation_choose_service_from_list(self):
+    def test_car_full_reservation_choose_service_from_list(self):
       selenium = self.selenium
-      force_login(self.user, selenium, self.live_server_url)
+      force_login(self.user1, selenium, self.live_server_url)
       selenium.get(self.live_server_url + "/car/choose")
 
       selenium.find_element_by_name('radio1').click()
@@ -225,9 +228,17 @@ class CarSeleniumTestCase(LiveServerTestCase):
       assert len(selenium.find_elements_by_name('make_reservation')) is 2
       assert 'Available cars:' in selenium.page_source
 
+      selenium.find_element_by_id('make_reservation'+ str(self.car.id)).send_keys(Keys.ENTER)
+
+      assert 'confirm' in selenium.page_source
+      assert 'close' in selenium.page_source
+
+      selenium.find_element_by_name('confirm').click()
+      assert('user/home') in selenium.current_url
+
     def test_car_search(self):
       selenium = self.selenium
-      force_login(self.user, selenium, self.live_server_url)
+      force_login(self.user1, selenium, self.live_server_url)
       selenium.get(self.live_server_url + "/car/choose")
 
       selenium.find_element_by_name('radio2').click()
@@ -272,21 +283,15 @@ class CarSeleniumTestCase(LiveServerTestCase):
       selenium = self.selenium
       force_login(self.user, selenium, self.live_server_url)
       selenium.get(self.live_server_url + "/user/home")
-      print(selenium.page_source)
       assert 'car/service' in selenium.current_url
       assert 'testService' in selenium.page_source
       assert 'testCar' in selenium.page_source
 
-    # def test_car_reservation(self):
-      # selenium = self.selenium
-      # force_login(self.user, selenium, self.live_server_url)
-      # selenium.get(self.live_server_url + "/user/choose")
+    def test_car_normal_user_home(self):
+      selenium = self.selenium
+      force_login(self.user1, selenium, self.live_server_url)
+      selenium.get(self.live_server_url + "/user/home")
 
-      # selenium.find_element_by_name('radio2').click()
-
-      # selenium.find_element_by_name('name').send_keys('testS')
-      # selenium.find_element_by_name('country').send_keys('SRB')
-      # selenium.find_element_by_name('search_service').click()
-
-      # assert 'car/choose' in selenium.current_url
-      # assert 'testService' in selenium.page_source
+      assert 'user/home' in selenium.current_url
+      assert 'Trip Invitations' in selenium.page_source
+      assert 'Friend List' in selenium.page_source

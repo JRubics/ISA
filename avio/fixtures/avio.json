@@ -1,0 +1,4903 @@
+[
+{
+  "model": "avio.country",
+  "pk": 1,
+  "fields": {
+    "name": "Serbia",
+    "time_zone": 1
+  }
+},
+{
+  "model": "avio.country",
+  "pk": 2,
+  "fields": {
+    "name": "Poland",
+    "time_zone": 1
+  }
+},
+{
+  "model": "avio.country",
+  "pk": 3,
+  "fields": {
+    "name": "Portugal",
+    "time_zone": 0
+  }
+},
+{
+  "model": "avio.country",
+  "pk": 4,
+  "fields": {
+    "name": "Spain",
+    "time_zone": 1
+  }
+},
+{
+  "model": "avio.city",
+  "pk": 1,
+  "fields": {
+    "name": "Novi Sad",
+    "country": 1
+  }
+},
+{
+  "model": "avio.city",
+  "pk": 2,
+  "fields": {
+    "name": "Belgrade",
+    "country": 1
+  }
+},
+{
+  "model": "avio.city",
+  "pk": 3,
+  "fields": {
+    "name": "Bialystok",
+    "country": 2
+  }
+},
+{
+  "model": "avio.city",
+  "pk": 4,
+  "fields": {
+    "name": "Warsaw",
+    "country": 2
+  }
+},
+{
+  "model": "avio.city",
+  "pk": 5,
+  "fields": {
+    "name": "Gdansk",
+    "country": 2
+  }
+},
+{
+  "model": "avio.city",
+  "pk": 6,
+  "fields": {
+    "name": "Krakow",
+    "country": 2
+  }
+},
+{
+  "model": "avio.city",
+  "pk": 7,
+  "fields": {
+    "name": "Porto",
+    "country": 3
+  }
+},
+{
+  "model": "avio.city",
+  "pk": 8,
+  "fields": {
+    "name": "Lisbon",
+    "country": 3
+  }
+},
+{
+  "model": "avio.city",
+  "pk": 9,
+  "fields": {
+    "name": "Valencia",
+    "country": 4
+  }
+},
+{
+  "model": "avio.city",
+  "pk": 10,
+  "fields": {
+    "name": "Barcelona",
+    "country": 4
+  }
+},
+{
+  "model": "avio.city",
+  "pk": 11,
+  "fields": {
+    "name": "Madrid",
+    "country": 4
+  }
+},
+{
+  "model": "avio.aviocompany",
+  "pk": 1,
+  "fields": {
+    "name": "FTN AIR",
+    "promo_description": "Kompanija namenjena studentima koji zive na udaljenim mestima od fakulteta, da bi mogli da stignu na vreme na nastavu...\r\nMada svi znamo da se to nece desiti...\r\n...",
+    "cabine_luggage_description": "Laptop",
+    "luggage": "Nema toga, sve je na kompu",
+    "additional_services": "Mozes da pricas o programiranju sa pilotima",
+    "city": 1,
+    "address": "Klisa",
+    "number": "101",
+    "destinations": [
+      1,
+      2,
+      5,
+      6,
+      10
+    ]
+  }
+},
+{
+  "model": "avio.aviocompany",
+  "pk": 2,
+  "fields": {
+    "name": "LOT POLISH AIRLINES",
+    "promo_description": "We are a modern airline connecting Central and Eastern Europe to the world.\r\n\r\nEvery year we host on board our aircraft 9 million passengers, providing them with possibly the most efficient and most comfortable journeys from Warsaw to 110 destinations worldwide.\r\n\r\nWe are the only airline in the region to offer direct long-haul flights from Warsaw to New York, Newark, Chicago, Los Angeles, Miami, Toronto, Beijing, Tokyo, Seoul, Singapoure, from Krakow to Chicago, from Rzeszow to Newark and also from Budapest to New York and Chicago.",
+    "cabine_luggage_description": "Depending on the class of travel passengers can bring on board:      lot Business Class - 2 pieces each up to 9 kg     lot Premium",
+    "luggage": "In addition to the above cabin baggage allowance, the following items may be carried free of charge:      ladies handbag or should",
+    "additional_services": "No need for this",
+    "city": 4,
+    "address": "Marsza\u0142kowska",
+    "number": "130",
+    "destinations": [
+      1,
+      2,
+      3,
+      7,
+      8,
+      9,
+      11
+    ]
+  }
+},
+{
+  "model": "avio.aviocompany",
+  "pk": 3,
+  "fields": {
+    "name": "TAP AIR PROTUGAL",
+    "promo_description": "The new TAP: 2 years of conquests\r\nIn the beginning of 2016, we laid the foundations for a new era of investment and renovation. Since then, the new TAP became a reality: a more modern airline, in line with passenger satisfaction.\r\n\r\nStep by step, we strengthen our commitment to the future, connecting people, economies and communities. And we are increasingly establishing as Portugal\u2019s largest exporter and promoter in the world.\r\nWelcome aboard...\r\nFor more than 70 years, TAP has been a pioneer in connecting Portugal to the world and the continents to each other. We were born in a country of explorers. We grew, changed, followed the innovations in aviation, marked presence in historical moments. Embark with us on a trip to the past!\r\n\r\nA country ready for take off\r\nTAP is born in 1945. We\u2019re at the end of World War II, which boosted the development of aviation. Next comes the baby-boom, the entertainment and mass consumption. Portugal still lacks a connection to the world.",
+    "cabine_luggage_description": "Hand baggage  115 cm / 45 in  Economy Class: 8 kg / 17 lbs Business Class: 2 pieces of 8 kg / 17 lbs",
+    "luggage": "Hold baggage  158 cm / 62 in.  Maximum weight: 32kg / 70 lbs. Limit varies according to class/destination.",
+    "additional_services": "None",
+    "city": 7,
+    "address": "S\u00e3o Nicolau",
+    "number": "21",
+    "destinations": [
+      1,
+      2,
+      4,
+      5,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  }
+},
+{
+  "model": "avio.airport",
+  "pk": 1,
+  "fields": {
+    "name": "AirportFTN",
+    "city": 1,
+    "address": "Trg Dositeja Obradovica",
+    "number": "15"
+  }
+},
+{
+  "model": "avio.airport",
+  "pk": 2,
+  "fields": {
+    "name": "Chopin",
+    "city": 4,
+    "address": "\u017bwirki i Wigury",
+    "number": "1"
+  }
+},
+{
+  "model": "avio.airport",
+  "pk": 3,
+  "fields": {
+    "name": "El Prat",
+    "city": 10,
+    "address": "El Prat de Llobregat",
+    "number": "08820"
+  }
+},
+{
+  "model": "avio.airport",
+  "pk": 4,
+  "fields": {
+    "name": "Francisco S\u00e1 Carneiro",
+    "city": 7,
+    "address": "Maia",
+    "number": "4470"
+  }
+},
+{
+  "model": "avio.airport",
+  "pk": 5,
+  "fields": {
+    "name": "Nikola Tesla",
+    "city": 2,
+    "address": "Aerodrom Beograd",
+    "number": "59"
+  }
+},
+{
+  "model": "avio.airport",
+  "pk": 6,
+  "fields": {
+    "name": "Biala",
+    "city": 3,
+    "address": "Zwierznicka",
+    "number": "6"
+  }
+},
+{
+  "model": "avio.airport",
+  "pk": 7,
+  "fields": {
+    "name": "Lech Wa\u0142\u0119sa",
+    "city": 5,
+    "address": "Juliusza S\u0142owackiego",
+    "number": "200"
+  }
+},
+{
+  "model": "avio.airport",
+  "pk": 8,
+  "fields": {
+    "name": "John Paul II",
+    "city": 6,
+    "address": "kapitana Mieczys\u0142awa Medweckiego",
+    "number": "1"
+  }
+},
+{
+  "model": "avio.airport",
+  "pk": 9,
+  "fields": {
+    "name": "Portela",
+    "city": 8,
+    "address": "Alameda das Comunidades Portuguesas",
+    "number": "1700"
+  }
+},
+{
+  "model": "avio.airport",
+  "pk": 10,
+  "fields": {
+    "name": "Manises",
+    "city": 9,
+    "address": "Carretera del Aeropuerto,",
+    "number": "46940"
+  }
+},
+{
+  "model": "avio.flight",
+  "pk": 15,
+  "fields": {
+    "avio_company": 1,
+    "departure_airport": 1,
+    "departure_date": "2019-02-10T18:04:02Z",
+    "departure_city": 1,
+    "arrival_airport": 4,
+    "arrival_date": "2019-02-10T22:04:26Z",
+    "arrival_city": 7,
+    "distance": 3247,
+    "base_price": 123
+  }
+},
+{
+  "model": "avio.flight",
+  "pk": 16,
+  "fields": {
+    "avio_company": 1,
+    "departure_airport": 1,
+    "departure_date": "2019-02-11T10:04:52Z",
+    "departure_city": 1,
+    "arrival_airport": 3,
+    "arrival_date": "2019-02-11T15:05:14Z",
+    "arrival_city": 10,
+    "distance": 3012,
+    "base_price": 167
+  }
+},
+{
+  "model": "avio.flight",
+  "pk": 17,
+  "fields": {
+    "avio_company": 1,
+    "departure_airport": 4,
+    "departure_date": "2019-02-17T18:06:18Z",
+    "departure_city": 7,
+    "arrival_airport": 1,
+    "arrival_date": "2019-02-17T21:06:28Z",
+    "arrival_city": 1,
+    "distance": 3457,
+    "base_price": 230
+  }
+},
+{
+  "model": "avio.flight",
+  "pk": 18,
+  "fields": {
+    "avio_company": 2,
+    "departure_airport": 2,
+    "departure_date": "2019-02-08T14:07:07Z",
+    "departure_city": 4,
+    "arrival_airport": 1,
+    "arrival_date": "2019-02-08T17:07:27Z",
+    "arrival_city": 1,
+    "distance": 1879,
+    "base_price": 138
+  }
+},
+{
+  "model": "avio.flight",
+  "pk": 19,
+  "fields": {
+    "avio_company": 2,
+    "departure_airport": 1,
+    "departure_date": "2019-02-09T09:08:04Z",
+    "departure_city": 1,
+    "arrival_airport": 2,
+    "arrival_date": "2019-02-09T12:08:14Z",
+    "arrival_city": 4,
+    "distance": 1675,
+    "base_price": 79
+  }
+},
+{
+  "model": "avio.flight",
+  "pk": 20,
+  "fields": {
+    "avio_company": 2,
+    "departure_airport": 2,
+    "departure_date": "2019-02-10T20:09:00Z",
+    "departure_city": 4,
+    "arrival_airport": 9,
+    "arrival_date": "2019-02-10T23:09:22Z",
+    "arrival_city": 8,
+    "distance": 2757,
+    "base_price": 235
+  }
+},
+{
+  "model": "avio.flight",
+  "pk": 21,
+  "fields": {
+    "avio_company": 3,
+    "departure_airport": 4,
+    "departure_date": "2019-02-11T19:10:01Z",
+    "departure_city": 7,
+    "arrival_airport": 1,
+    "arrival_date": "2019-02-11T21:10:53Z",
+    "arrival_city": 1,
+    "distance": 2763,
+    "base_price": 143
+  }
+},
+{
+  "model": "avio.flight",
+  "pk": 22,
+  "fields": {
+    "avio_company": 3,
+    "departure_airport": 9,
+    "departure_date": "2019-02-11T12:11:37Z",
+    "departure_city": 8,
+    "arrival_airport": 2,
+    "arrival_date": "2019-02-11T16:12:19Z",
+    "arrival_city": 4,
+    "distance": 1897,
+    "base_price": 135
+  }
+},
+{
+  "model": "avio.flight",
+  "pk": 23,
+  "fields": {
+    "avio_company": 3,
+    "departure_airport": 1,
+    "departure_date": "2019-02-10T20:55:25Z",
+    "departure_city": 1,
+    "arrival_airport": 4,
+    "arrival_date": "2019-02-10T23:55:36Z",
+    "arrival_city": 7,
+    "distance": 3221,
+    "base_price": 187
+  }
+},
+{
+  "model": "avio.flightleg",
+  "pk": 3,
+  "fields": {
+    "flight": 18,
+    "airport": 6,
+    "arrival_date": "2019-02-08T15:14:09Z",
+    "departure_date": "2019-02-08T16:14:15Z"
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 676,
+  "fields": {
+    "flight": 15,
+    "seat_number": 1,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 677,
+  "fields": {
+    "flight": 16,
+    "seat_number": 1,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 678,
+  "fields": {
+    "flight": 17,
+    "seat_number": 1,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 679,
+  "fields": {
+    "flight": 18,
+    "seat_number": 1,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 680,
+  "fields": {
+    "flight": 19,
+    "seat_number": 1,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 681,
+  "fields": {
+    "flight": 20,
+    "seat_number": 1,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 682,
+  "fields": {
+    "flight": 21,
+    "seat_number": 1,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 683,
+  "fields": {
+    "flight": 22,
+    "seat_number": 1,
+    "seat_status": "T",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 684,
+  "fields": {
+    "flight": 15,
+    "seat_number": 2,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 685,
+  "fields": {
+    "flight": 15,
+    "seat_number": 3,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 686,
+  "fields": {
+    "flight": 15,
+    "seat_number": 4,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 687,
+  "fields": {
+    "flight": 15,
+    "seat_number": 5,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 688,
+  "fields": {
+    "flight": 15,
+    "seat_number": 6,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 689,
+  "fields": {
+    "flight": 15,
+    "seat_number": 7,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 690,
+  "fields": {
+    "flight": 15,
+    "seat_number": 8,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 691,
+  "fields": {
+    "flight": 15,
+    "seat_number": 9,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 692,
+  "fields": {
+    "flight": 15,
+    "seat_number": 10,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 693,
+  "fields": {
+    "flight": 15,
+    "seat_number": 11,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 694,
+  "fields": {
+    "flight": 15,
+    "seat_number": 12,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 695,
+  "fields": {
+    "flight": 15,
+    "seat_number": 13,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 696,
+  "fields": {
+    "flight": 15,
+    "seat_number": 14,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 697,
+  "fields": {
+    "flight": 15,
+    "seat_number": 15,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 698,
+  "fields": {
+    "flight": 15,
+    "seat_number": 16,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 699,
+  "fields": {
+    "flight": 15,
+    "seat_number": 17,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 700,
+  "fields": {
+    "flight": 15,
+    "seat_number": 18,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 701,
+  "fields": {
+    "flight": 15,
+    "seat_number": 19,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 702,
+  "fields": {
+    "flight": 15,
+    "seat_number": 20,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 703,
+  "fields": {
+    "flight": 15,
+    "seat_number": 1,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 704,
+  "fields": {
+    "flight": 15,
+    "seat_number": 2,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 705,
+  "fields": {
+    "flight": 15,
+    "seat_number": 3,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 706,
+  "fields": {
+    "flight": 15,
+    "seat_number": 4,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 707,
+  "fields": {
+    "flight": 15,
+    "seat_number": 5,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 708,
+  "fields": {
+    "flight": 15,
+    "seat_number": 6,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 709,
+  "fields": {
+    "flight": 15,
+    "seat_number": 7,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 710,
+  "fields": {
+    "flight": 15,
+    "seat_number": 8,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 711,
+  "fields": {
+    "flight": 15,
+    "seat_number": 9,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 712,
+  "fields": {
+    "flight": 15,
+    "seat_number": 10,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 713,
+  "fields": {
+    "flight": 15,
+    "seat_number": 11,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 714,
+  "fields": {
+    "flight": 15,
+    "seat_number": 12,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 715,
+  "fields": {
+    "flight": 15,
+    "seat_number": 13,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 716,
+  "fields": {
+    "flight": 15,
+    "seat_number": 14,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 717,
+  "fields": {
+    "flight": 15,
+    "seat_number": 15,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 718,
+  "fields": {
+    "flight": 15,
+    "seat_number": 16,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 719,
+  "fields": {
+    "flight": 15,
+    "seat_number": 17,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 720,
+  "fields": {
+    "flight": 15,
+    "seat_number": 18,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 721,
+  "fields": {
+    "flight": 15,
+    "seat_number": 19,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 722,
+  "fields": {
+    "flight": 15,
+    "seat_number": 20,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 723,
+  "fields": {
+    "flight": 15,
+    "seat_number": 1,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 724,
+  "fields": {
+    "flight": 15,
+    "seat_number": 2,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 725,
+  "fields": {
+    "flight": 15,
+    "seat_number": 3,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 726,
+  "fields": {
+    "flight": 15,
+    "seat_number": 4,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 727,
+  "fields": {
+    "flight": 15,
+    "seat_number": 5,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 728,
+  "fields": {
+    "flight": 15,
+    "seat_number": 6,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 729,
+  "fields": {
+    "flight": 15,
+    "seat_number": 7,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 730,
+  "fields": {
+    "flight": 15,
+    "seat_number": 8,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 731,
+  "fields": {
+    "flight": 15,
+    "seat_number": 9,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 732,
+  "fields": {
+    "flight": 15,
+    "seat_number": 10,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 733,
+  "fields": {
+    "flight": 15,
+    "seat_number": 11,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 734,
+  "fields": {
+    "flight": 15,
+    "seat_number": 12,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 735,
+  "fields": {
+    "flight": 15,
+    "seat_number": 13,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 736,
+  "fields": {
+    "flight": 15,
+    "seat_number": 14,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 737,
+  "fields": {
+    "flight": 15,
+    "seat_number": 15,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 738,
+  "fields": {
+    "flight": 15,
+    "seat_number": 16,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 739,
+  "fields": {
+    "flight": 15,
+    "seat_number": 17,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 740,
+  "fields": {
+    "flight": 15,
+    "seat_number": 18,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 741,
+  "fields": {
+    "flight": 15,
+    "seat_number": 19,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 742,
+  "fields": {
+    "flight": 15,
+    "seat_number": 20,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 743,
+  "fields": {
+    "flight": 16,
+    "seat_number": 2,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 744,
+  "fields": {
+    "flight": 16,
+    "seat_number": 3,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 745,
+  "fields": {
+    "flight": 16,
+    "seat_number": 4,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 746,
+  "fields": {
+    "flight": 16,
+    "seat_number": 5,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 747,
+  "fields": {
+    "flight": 16,
+    "seat_number": 6,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 748,
+  "fields": {
+    "flight": 16,
+    "seat_number": 7,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 749,
+  "fields": {
+    "flight": 16,
+    "seat_number": 8,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 750,
+  "fields": {
+    "flight": 16,
+    "seat_number": 9,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 751,
+  "fields": {
+    "flight": 16,
+    "seat_number": 10,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 752,
+  "fields": {
+    "flight": 16,
+    "seat_number": 11,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 753,
+  "fields": {
+    "flight": 16,
+    "seat_number": 12,
+    "seat_status": "T",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 754,
+  "fields": {
+    "flight": 16,
+    "seat_number": 13,
+    "seat_status": "T",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 755,
+  "fields": {
+    "flight": 16,
+    "seat_number": 14,
+    "seat_status": "T",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 756,
+  "fields": {
+    "flight": 16,
+    "seat_number": 15,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 757,
+  "fields": {
+    "flight": 16,
+    "seat_number": 16,
+    "seat_status": "T",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 758,
+  "fields": {
+    "flight": 16,
+    "seat_number": 1,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 759,
+  "fields": {
+    "flight": 16,
+    "seat_number": 2,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 760,
+  "fields": {
+    "flight": 16,
+    "seat_number": 3,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 761,
+  "fields": {
+    "flight": 16,
+    "seat_number": 4,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 762,
+  "fields": {
+    "flight": 16,
+    "seat_number": 5,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 763,
+  "fields": {
+    "flight": 16,
+    "seat_number": 6,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 764,
+  "fields": {
+    "flight": 16,
+    "seat_number": 7,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 765,
+  "fields": {
+    "flight": 16,
+    "seat_number": 8,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 766,
+  "fields": {
+    "flight": 16,
+    "seat_number": 9,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 767,
+  "fields": {
+    "flight": 16,
+    "seat_number": 10,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 768,
+  "fields": {
+    "flight": 16,
+    "seat_number": 11,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 769,
+  "fields": {
+    "flight": 16,
+    "seat_number": 12,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 770,
+  "fields": {
+    "flight": 16,
+    "seat_number": 13,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 771,
+  "fields": {
+    "flight": 16,
+    "seat_number": 14,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 772,
+  "fields": {
+    "flight": 16,
+    "seat_number": 15,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 773,
+  "fields": {
+    "flight": 16,
+    "seat_number": 16,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 774,
+  "fields": {
+    "flight": 17,
+    "seat_number": 2,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 775,
+  "fields": {
+    "flight": 17,
+    "seat_number": 3,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 776,
+  "fields": {
+    "flight": 17,
+    "seat_number": 4,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 777,
+  "fields": {
+    "flight": 17,
+    "seat_number": 5,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 778,
+  "fields": {
+    "flight": 17,
+    "seat_number": 6,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 779,
+  "fields": {
+    "flight": 17,
+    "seat_number": 7,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 780,
+  "fields": {
+    "flight": 17,
+    "seat_number": 8,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 781,
+  "fields": {
+    "flight": 17,
+    "seat_number": 9,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 782,
+  "fields": {
+    "flight": 17,
+    "seat_number": 10,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 783,
+  "fields": {
+    "flight": 17,
+    "seat_number": 11,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 784,
+  "fields": {
+    "flight": 17,
+    "seat_number": 12,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 785,
+  "fields": {
+    "flight": 17,
+    "seat_number": 13,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 786,
+  "fields": {
+    "flight": 17,
+    "seat_number": 14,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 787,
+  "fields": {
+    "flight": 17,
+    "seat_number": 1,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 788,
+  "fields": {
+    "flight": 17,
+    "seat_number": 2,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 789,
+  "fields": {
+    "flight": 17,
+    "seat_number": 3,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 790,
+  "fields": {
+    "flight": 17,
+    "seat_number": 4,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 791,
+  "fields": {
+    "flight": 17,
+    "seat_number": 5,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 792,
+  "fields": {
+    "flight": 17,
+    "seat_number": 6,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 793,
+  "fields": {
+    "flight": 17,
+    "seat_number": 7,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 794,
+  "fields": {
+    "flight": 17,
+    "seat_number": 8,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 795,
+  "fields": {
+    "flight": 17,
+    "seat_number": 9,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 796,
+  "fields": {
+    "flight": 17,
+    "seat_number": 10,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 797,
+  "fields": {
+    "flight": 17,
+    "seat_number": 11,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 798,
+  "fields": {
+    "flight": 17,
+    "seat_number": 12,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 799,
+  "fields": {
+    "flight": 17,
+    "seat_number": 13,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 800,
+  "fields": {
+    "flight": 17,
+    "seat_number": 14,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 801,
+  "fields": {
+    "flight": 17,
+    "seat_number": 15,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 802,
+  "fields": {
+    "flight": 17,
+    "seat_number": 16,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 803,
+  "fields": {
+    "flight": 17,
+    "seat_number": 17,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 804,
+  "fields": {
+    "flight": 17,
+    "seat_number": 18,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 805,
+  "fields": {
+    "flight": 17,
+    "seat_number": 19,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 806,
+  "fields": {
+    "flight": 17,
+    "seat_number": 20,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 807,
+  "fields": {
+    "flight": 17,
+    "seat_number": 21,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 808,
+  "fields": {
+    "flight": 17,
+    "seat_number": 22,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 809,
+  "fields": {
+    "flight": 17,
+    "seat_number": 23,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 810,
+  "fields": {
+    "flight": 17,
+    "seat_number": 24,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 811,
+  "fields": {
+    "flight": 17,
+    "seat_number": 25,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 812,
+  "fields": {
+    "flight": 17,
+    "seat_number": 26,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 813,
+  "fields": {
+    "flight": 17,
+    "seat_number": 27,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 814,
+  "fields": {
+    "flight": 17,
+    "seat_number": 28,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 815,
+  "fields": {
+    "flight": 17,
+    "seat_number": 29,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 816,
+  "fields": {
+    "flight": 17,
+    "seat_number": 30,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 817,
+  "fields": {
+    "flight": 17,
+    "seat_number": 31,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 818,
+  "fields": {
+    "flight": 17,
+    "seat_number": 32,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 819,
+  "fields": {
+    "flight": 17,
+    "seat_number": 33,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 820,
+  "fields": {
+    "flight": 17,
+    "seat_number": 34,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 821,
+  "fields": {
+    "flight": 18,
+    "seat_number": 2,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 822,
+  "fields": {
+    "flight": 18,
+    "seat_number": 3,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 823,
+  "fields": {
+    "flight": 18,
+    "seat_number": 4,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 824,
+  "fields": {
+    "flight": 18,
+    "seat_number": 5,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 825,
+  "fields": {
+    "flight": 18,
+    "seat_number": 6,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 826,
+  "fields": {
+    "flight": 18,
+    "seat_number": 7,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 827,
+  "fields": {
+    "flight": 18,
+    "seat_number": 8,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 828,
+  "fields": {
+    "flight": 18,
+    "seat_number": 9,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 829,
+  "fields": {
+    "flight": 18,
+    "seat_number": 10,
+    "seat_status": "R",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 830,
+  "fields": {
+    "flight": 18,
+    "seat_number": 11,
+    "seat_status": "R",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 831,
+  "fields": {
+    "flight": 18,
+    "seat_number": 12,
+    "seat_status": "R",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 832,
+  "fields": {
+    "flight": 18,
+    "seat_number": 13,
+    "seat_status": "T",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 833,
+  "fields": {
+    "flight": 18,
+    "seat_number": 14,
+    "seat_status": "T",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 834,
+  "fields": {
+    "flight": 18,
+    "seat_number": 15,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 835,
+  "fields": {
+    "flight": 18,
+    "seat_number": 16,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 836,
+  "fields": {
+    "flight": 18,
+    "seat_number": 17,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 837,
+  "fields": {
+    "flight": 18,
+    "seat_number": 18,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 838,
+  "fields": {
+    "flight": 18,
+    "seat_number": 19,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 839,
+  "fields": {
+    "flight": 18,
+    "seat_number": 20,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 840,
+  "fields": {
+    "flight": 18,
+    "seat_number": 21,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 841,
+  "fields": {
+    "flight": 18,
+    "seat_number": 22,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 842,
+  "fields": {
+    "flight": 18,
+    "seat_number": 23,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 843,
+  "fields": {
+    "flight": 18,
+    "seat_number": 24,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 844,
+  "fields": {
+    "flight": 18,
+    "seat_number": 25,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 845,
+  "fields": {
+    "flight": 18,
+    "seat_number": 26,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 846,
+  "fields": {
+    "flight": 18,
+    "seat_number": 27,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 847,
+  "fields": {
+    "flight": 18,
+    "seat_number": 28,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 848,
+  "fields": {
+    "flight": 18,
+    "seat_number": 29,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 849,
+  "fields": {
+    "flight": 18,
+    "seat_number": 30,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 850,
+  "fields": {
+    "flight": 18,
+    "seat_number": 31,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 851,
+  "fields": {
+    "flight": 18,
+    "seat_number": 32,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 852,
+  "fields": {
+    "flight": 18,
+    "seat_number": 33,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 853,
+  "fields": {
+    "flight": 18,
+    "seat_number": 34,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 854,
+  "fields": {
+    "flight": 18,
+    "seat_number": 35,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 855,
+  "fields": {
+    "flight": 18,
+    "seat_number": 36,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 856,
+  "fields": {
+    "flight": 18,
+    "seat_number": 37,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 857,
+  "fields": {
+    "flight": 18,
+    "seat_number": 38,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 858,
+  "fields": {
+    "flight": 18,
+    "seat_number": 39,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 859,
+  "fields": {
+    "flight": 18,
+    "seat_number": 40,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 860,
+  "fields": {
+    "flight": 18,
+    "seat_number": 41,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 861,
+  "fields": {
+    "flight": 18,
+    "seat_number": 42,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 862,
+  "fields": {
+    "flight": 18,
+    "seat_number": 43,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 863,
+  "fields": {
+    "flight": 18,
+    "seat_number": 44,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 864,
+  "fields": {
+    "flight": 18,
+    "seat_number": 45,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 865,
+  "fields": {
+    "flight": 18,
+    "seat_number": 46,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 866,
+  "fields": {
+    "flight": 18,
+    "seat_number": 47,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 867,
+  "fields": {
+    "flight": 18,
+    "seat_number": 48,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 868,
+  "fields": {
+    "flight": 18,
+    "seat_number": 49,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 869,
+  "fields": {
+    "flight": 18,
+    "seat_number": 50,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 870,
+  "fields": {
+    "flight": 18,
+    "seat_number": 51,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 871,
+  "fields": {
+    "flight": 18,
+    "seat_number": 52,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 872,
+  "fields": {
+    "flight": 19,
+    "seat_number": 2,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 873,
+  "fields": {
+    "flight": 19,
+    "seat_number": 3,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 874,
+  "fields": {
+    "flight": 19,
+    "seat_number": 4,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 875,
+  "fields": {
+    "flight": 19,
+    "seat_number": 1,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 876,
+  "fields": {
+    "flight": 19,
+    "seat_number": 2,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 877,
+  "fields": {
+    "flight": 19,
+    "seat_number": 3,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 878,
+  "fields": {
+    "flight": 19,
+    "seat_number": 4,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 879,
+  "fields": {
+    "flight": 19,
+    "seat_number": 5,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 880,
+  "fields": {
+    "flight": 19,
+    "seat_number": 6,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 881,
+  "fields": {
+    "flight": 19,
+    "seat_number": 7,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 882,
+  "fields": {
+    "flight": 19,
+    "seat_number": 8,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 883,
+  "fields": {
+    "flight": 19,
+    "seat_number": 9,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 884,
+  "fields": {
+    "flight": 19,
+    "seat_number": 10,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 885,
+  "fields": {
+    "flight": 19,
+    "seat_number": 11,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 886,
+  "fields": {
+    "flight": 19,
+    "seat_number": 12,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 887,
+  "fields": {
+    "flight": 19,
+    "seat_number": 13,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 888,
+  "fields": {
+    "flight": 19,
+    "seat_number": 14,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 889,
+  "fields": {
+    "flight": 19,
+    "seat_number": 15,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 890,
+  "fields": {
+    "flight": 19,
+    "seat_number": 16,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 891,
+  "fields": {
+    "flight": 19,
+    "seat_number": 17,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 892,
+  "fields": {
+    "flight": 19,
+    "seat_number": 18,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 893,
+  "fields": {
+    "flight": 19,
+    "seat_number": 19,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 894,
+  "fields": {
+    "flight": 19,
+    "seat_number": 20,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 895,
+  "fields": {
+    "flight": 20,
+    "seat_number": 2,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 896,
+  "fields": {
+    "flight": 20,
+    "seat_number": 3,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 897,
+  "fields": {
+    "flight": 20,
+    "seat_number": 4,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 898,
+  "fields": {
+    "flight": 20,
+    "seat_number": 5,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 899,
+  "fields": {
+    "flight": 20,
+    "seat_number": 1,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 900,
+  "fields": {
+    "flight": 20,
+    "seat_number": 2,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 901,
+  "fields": {
+    "flight": 20,
+    "seat_number": 3,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 902,
+  "fields": {
+    "flight": 20,
+    "seat_number": 4,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 903,
+  "fields": {
+    "flight": 20,
+    "seat_number": 5,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 904,
+  "fields": {
+    "flight": 20,
+    "seat_number": 6,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 905,
+  "fields": {
+    "flight": 20,
+    "seat_number": 7,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 906,
+  "fields": {
+    "flight": 20,
+    "seat_number": 8,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 907,
+  "fields": {
+    "flight": 20,
+    "seat_number": 9,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 908,
+  "fields": {
+    "flight": 20,
+    "seat_number": 10,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 909,
+  "fields": {
+    "flight": 20,
+    "seat_number": 11,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 910,
+  "fields": {
+    "flight": 20,
+    "seat_number": 12,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 911,
+  "fields": {
+    "flight": 20,
+    "seat_number": 13,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 912,
+  "fields": {
+    "flight": 20,
+    "seat_number": 14,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 913,
+  "fields": {
+    "flight": 20,
+    "seat_number": 15,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 914,
+  "fields": {
+    "flight": 20,
+    "seat_number": 16,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 915,
+  "fields": {
+    "flight": 20,
+    "seat_number": 17,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 916,
+  "fields": {
+    "flight": 20,
+    "seat_number": 18,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 917,
+  "fields": {
+    "flight": 20,
+    "seat_number": 19,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 918,
+  "fields": {
+    "flight": 20,
+    "seat_number": 20,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 919,
+  "fields": {
+    "flight": 20,
+    "seat_number": 21,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 920,
+  "fields": {
+    "flight": 20,
+    "seat_number": 22,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 921,
+  "fields": {
+    "flight": 20,
+    "seat_number": 23,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 922,
+  "fields": {
+    "flight": 20,
+    "seat_number": 24,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 923,
+  "fields": {
+    "flight": 20,
+    "seat_number": 25,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 924,
+  "fields": {
+    "flight": 20,
+    "seat_number": 26,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 925,
+  "fields": {
+    "flight": 20,
+    "seat_number": 27,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 926,
+  "fields": {
+    "flight": 20,
+    "seat_number": 28,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 927,
+  "fields": {
+    "flight": 20,
+    "seat_number": 29,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 928,
+  "fields": {
+    "flight": 20,
+    "seat_number": 30,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 929,
+  "fields": {
+    "flight": 20,
+    "seat_number": 1,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 930,
+  "fields": {
+    "flight": 20,
+    "seat_number": 2,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 931,
+  "fields": {
+    "flight": 20,
+    "seat_number": 3,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 932,
+  "fields": {
+    "flight": 20,
+    "seat_number": 4,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 933,
+  "fields": {
+    "flight": 20,
+    "seat_number": 5,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 934,
+  "fields": {
+    "flight": 20,
+    "seat_number": 6,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 935,
+  "fields": {
+    "flight": 20,
+    "seat_number": 7,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 936,
+  "fields": {
+    "flight": 20,
+    "seat_number": 8,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 937,
+  "fields": {
+    "flight": 20,
+    "seat_number": 9,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 938,
+  "fields": {
+    "flight": 20,
+    "seat_number": 10,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 939,
+  "fields": {
+    "flight": 20,
+    "seat_number": 11,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 940,
+  "fields": {
+    "flight": 20,
+    "seat_number": 12,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 941,
+  "fields": {
+    "flight": 20,
+    "seat_number": 13,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 942,
+  "fields": {
+    "flight": 20,
+    "seat_number": 14,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 943,
+  "fields": {
+    "flight": 20,
+    "seat_number": 15,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 944,
+  "fields": {
+    "flight": 20,
+    "seat_number": 16,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 945,
+  "fields": {
+    "flight": 20,
+    "seat_number": 17,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 946,
+  "fields": {
+    "flight": 20,
+    "seat_number": 18,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 947,
+  "fields": {
+    "flight": 20,
+    "seat_number": 19,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 948,
+  "fields": {
+    "flight": 20,
+    "seat_number": 20,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 949,
+  "fields": {
+    "flight": 20,
+    "seat_number": 21,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 950,
+  "fields": {
+    "flight": 20,
+    "seat_number": 22,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 951,
+  "fields": {
+    "flight": 20,
+    "seat_number": 23,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 952,
+  "fields": {
+    "flight": 20,
+    "seat_number": 24,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 953,
+  "fields": {
+    "flight": 20,
+    "seat_number": 25,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 954,
+  "fields": {
+    "flight": 20,
+    "seat_number": 26,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 955,
+  "fields": {
+    "flight": 20,
+    "seat_number": 27,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 956,
+  "fields": {
+    "flight": 20,
+    "seat_number": 28,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 957,
+  "fields": {
+    "flight": 20,
+    "seat_number": 29,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 958,
+  "fields": {
+    "flight": 20,
+    "seat_number": 30,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 959,
+  "fields": {
+    "flight": 21,
+    "seat_number": 2,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 960,
+  "fields": {
+    "flight": 21,
+    "seat_number": 3,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 961,
+  "fields": {
+    "flight": 21,
+    "seat_number": 4,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 962,
+  "fields": {
+    "flight": 21,
+    "seat_number": 5,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 963,
+  "fields": {
+    "flight": 21,
+    "seat_number": 6,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 964,
+  "fields": {
+    "flight": 21,
+    "seat_number": 7,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 965,
+  "fields": {
+    "flight": 21,
+    "seat_number": 8,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 966,
+  "fields": {
+    "flight": 21,
+    "seat_number": 9,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 967,
+  "fields": {
+    "flight": 21,
+    "seat_number": 10,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 968,
+  "fields": {
+    "flight": 21,
+    "seat_number": 11,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 969,
+  "fields": {
+    "flight": 21,
+    "seat_number": 12,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 970,
+  "fields": {
+    "flight": 21,
+    "seat_number": 13,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 971,
+  "fields": {
+    "flight": 21,
+    "seat_number": 14,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 972,
+  "fields": {
+    "flight": 21,
+    "seat_number": 15,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 973,
+  "fields": {
+    "flight": 21,
+    "seat_number": 16,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 974,
+  "fields": {
+    "flight": 21,
+    "seat_number": 17,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 975,
+  "fields": {
+    "flight": 21,
+    "seat_number": 18,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 976,
+  "fields": {
+    "flight": 21,
+    "seat_number": 19,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 977,
+  "fields": {
+    "flight": 21,
+    "seat_number": 20,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 978,
+  "fields": {
+    "flight": 21,
+    "seat_number": 1,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 979,
+  "fields": {
+    "flight": 21,
+    "seat_number": 2,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 980,
+  "fields": {
+    "flight": 21,
+    "seat_number": 3,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 981,
+  "fields": {
+    "flight": 21,
+    "seat_number": 4,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 982,
+  "fields": {
+    "flight": 21,
+    "seat_number": 5,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 983,
+  "fields": {
+    "flight": 21,
+    "seat_number": 6,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 984,
+  "fields": {
+    "flight": 21,
+    "seat_number": 7,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 985,
+  "fields": {
+    "flight": 21,
+    "seat_number": 8,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 986,
+  "fields": {
+    "flight": 21,
+    "seat_number": 9,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 987,
+  "fields": {
+    "flight": 21,
+    "seat_number": 10,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 988,
+  "fields": {
+    "flight": 21,
+    "seat_number": 11,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 989,
+  "fields": {
+    "flight": 21,
+    "seat_number": 12,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 990,
+  "fields": {
+    "flight": 21,
+    "seat_number": 13,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 991,
+  "fields": {
+    "flight": 21,
+    "seat_number": 14,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 992,
+  "fields": {
+    "flight": 21,
+    "seat_number": 15,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 993,
+  "fields": {
+    "flight": 21,
+    "seat_number": 16,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 994,
+  "fields": {
+    "flight": 21,
+    "seat_number": 17,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 995,
+  "fields": {
+    "flight": 21,
+    "seat_number": 18,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 996,
+  "fields": {
+    "flight": 21,
+    "seat_number": 19,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 997,
+  "fields": {
+    "flight": 21,
+    "seat_number": 20,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 998,
+  "fields": {
+    "flight": 22,
+    "seat_number": 2,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 999,
+  "fields": {
+    "flight": 22,
+    "seat_number": 3,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 1000,
+  "fields": {
+    "flight": 22,
+    "seat_number": 4,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 1001,
+  "fields": {
+    "flight": 22,
+    "seat_number": 5,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 1002,
+  "fields": {
+    "flight": 22,
+    "seat_number": 1,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 1003,
+  "fields": {
+    "flight": 22,
+    "seat_number": 2,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 1004,
+  "fields": {
+    "flight": 22,
+    "seat_number": 3,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 1005,
+  "fields": {
+    "flight": 22,
+    "seat_number": 4,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 1006,
+  "fields": {
+    "flight": 22,
+    "seat_number": 5,
+    "seat_status": "F",
+    "seat_type": "F",
+    "price_factor": 2.0
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 1007,
+  "fields": {
+    "flight": 22,
+    "seat_number": 1,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 1008,
+  "fields": {
+    "flight": 22,
+    "seat_number": 2,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 1009,
+  "fields": {
+    "flight": 22,
+    "seat_number": 3,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 1010,
+  "fields": {
+    "flight": 22,
+    "seat_number": 4,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 1011,
+  "fields": {
+    "flight": 22,
+    "seat_number": 5,
+    "seat_status": "F",
+    "seat_type": "B",
+    "price_factor": 1.5
+  }
+},
+{
+  "model": "avio.seat",
+  "pk": 1012,
+  "fields": {
+    "flight": 23,
+    "seat_number": 1,
+    "seat_status": "F",
+    "seat_type": "E",
+    "price_factor": 1.0
+  }
+},
+{
+  "model": "auth.group",
+  "pk": 1,
+  "fields": {
+    "name": "avioAdmin",
+    "permissions": [
+      [
+        "view_airport",
+        "avio",
+        "airport"
+      ],
+      [
+        "change_aviocompany",
+        "avio",
+        "aviocompany"
+      ],
+      [
+        "view_aviocompany",
+        "avio",
+        "aviocompany"
+      ],
+      [
+        "view_city",
+        "avio",
+        "city"
+      ],
+      [
+        "view_country",
+        "avio",
+        "country"
+      ],
+      [
+        "add_flight",
+        "avio",
+        "flight"
+      ],
+      [
+        "change_flight",
+        "avio",
+        "flight"
+      ],
+      [
+        "delete_flight",
+        "avio",
+        "flight"
+      ],
+      [
+        "view_flight",
+        "avio",
+        "flight"
+      ],
+      [
+        "add_flightleg",
+        "avio",
+        "flightleg"
+      ],
+      [
+        "change_flightleg",
+        "avio",
+        "flightleg"
+      ],
+      [
+        "delete_flightleg",
+        "avio",
+        "flightleg"
+      ],
+      [
+        "view_flightleg",
+        "avio",
+        "flightleg"
+      ],
+      [
+        "add_manageseats",
+        "avio",
+        "seat"
+      ],
+      [
+        "add_seat",
+        "avio",
+        "seat"
+      ],
+      [
+        "change_manageseats",
+        "avio",
+        "seat"
+      ],
+      [
+        "change_seat",
+        "avio",
+        "seat"
+      ],
+      [
+        "delete_manageseats",
+        "avio",
+        "seat"
+      ],
+      [
+        "delete_seat",
+        "avio",
+        "seat"
+      ],
+      [
+        "view_manageseats",
+        "avio",
+        "seat"
+      ],
+      [
+        "view_seat",
+        "avio",
+        "seat"
+      ],
+      [
+        "add_ticket",
+        "avio",
+        "ticket"
+      ],
+      [
+        "change_ticket",
+        "avio",
+        "ticket"
+      ],
+      [
+        "delete_ticket",
+        "avio",
+        "ticket"
+      ],
+      [
+        "view_profitsummary",
+        "avio",
+        "ticket"
+      ],
+      [
+        "view_ticket",
+        "avio",
+        "ticket"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$ewjisaa5yKil$PyDzswMjS/oOO38Fe/EOPei6rKem7XjsNzMVx8PUiYQ=",
+    "last_login": "2019-02-07T12:08:59.991Z",
+    "is_superuser": true,
+    "username": "filip",
+    "first_name": "Filip",
+    "last_name": "J",
+    "email": "fillix96@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2019-01-23T14:20:47Z",
+    "groups": [
+      [
+        "avioAdmin"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$4IPmAlYU2jP2$WOMVih9AbWCenxC6MZwnfs4XgAVLxjE6qlx+/ZPfIE4=",
+    "last_login": "2019-02-03T13:39:06.658Z",
+    "is_superuser": false,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2019-01-25T14:16:41Z",
+    "groups": [
+      [
+        "avioAdmin"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$LJSDqRYZpDTA$MXKtT37jvzmE4xdsuzYYa5ztVeaX9WohuikEBCLddGk=",
+    "last_login": "2019-01-26T17:18:08Z",
+    "is_superuser": false,
+    "username": "noc",
+    "first_name": "Prelepa",
+    "last_name": "Noc",
+    "email": "fillix96@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-01-25T16:00:43Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 6,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$fGGSukWLb4v5$OFggpcuWwX4dBuo1PHz8IV8J7NYCwBdi7kPIhpB+sWk=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "Prelepa",
+    "first_name": "Prelepa",
+    "last_name": "Jedina",
+    "email": "prelepa@prelepa.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-01-26T13:34:06Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 7,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$LBpNhNaI3LuV$4ymMumP0Y2qxTyo9Udro1B9T0Er4WYQ6YvEDdf4WhRA=",
+    "last_login": "2019-02-07T13:14:25.613Z",
+    "is_superuser": false,
+    "username": "Sky",
+    "first_name": "Sky",
+    "last_name": "Bright",
+    "email": "sky@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-01-26T13:35:12Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 8,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$migGNyCDD4Mw$KQLBRjAmt3NGPtlhwVnJ8YSpEeifW7QQxQ6Cb9Rr/7A=",
+    "last_login": "2019-01-26T21:26:20Z",
+    "is_superuser": false,
+    "username": "Celestia",
+    "first_name": "Celestia",
+    "last_name": "Ola",
+    "email": "celestia@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-01-26T13:36:43Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 9,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$thqbcWSy7lHm$DI8UsaMgPQezjVfbdjPD/zPk04+FCwXyBQA/HmmKBMQ=",
+    "last_login": "2019-02-07T18:27:47.345Z",
+    "is_superuser": false,
+    "username": "Orion",
+    "first_name": "Orion",
+    "last_name": "Strelac",
+    "email": "orion@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-01-26T13:37:51Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 10,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$dUxP0i1YU815$pvIIDrXpxPlqTLPU67+qQ+08hBGtMaUlz2XhE5lrGg4=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "Gemini",
+    "first_name": "Gemini",
+    "last_name": "Leo",
+    "email": "gemini@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-01-26T13:38:54Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 11,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$7umjkfq1hohH$H5k2UphT1bDuus+vV2XoUU0Zusn3FmCMFmC++RwIkYI=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "Zvezdasta",
+    "first_name": "Zvezdasta",
+    "last_name": "Svetlucava",
+    "email": "zvezdasta@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-01-27T01:31:54Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "18399b8s6ar4km4ezn4f5nm3umuvtkgd",
+  "fields": {
+    "session_data": "ZjA0MjY3MTE2NWNkZjVlMjY4NWE0Y2EwOTRkYTYyMTUxMTQ1ZWE3Zjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZTkwNDc3MTA0YWVlOTc3M2JiOWUzOGM2NWQ5ZjExMmQyZjBjMTRmIn0=",
+    "expire_date": "2019-02-20T23:29:26.406Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "19hpss04mzrqi7dwdinby6thm2d7iog2",
+  "fields": {
+    "session_data": "ZjA0MjY3MTE2NWNkZjVlMjY4NWE0Y2EwOTRkYTYyMTUxMTQ1ZWE3Zjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZTkwNDc3MTA0YWVlOTc3M2JiOWUzOGM2NWQ5ZjExMmQyZjBjMTRmIn0=",
+    "expire_date": "2019-02-16T20:28:36.078Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "5x6ix7jkwkivlv8swyj0ogfwsbf0dh54",
+  "fields": {
+    "session_data": "ZjA0MjY3MTE2NWNkZjVlMjY4NWE0Y2EwOTRkYTYyMTUxMTQ1ZWE3Zjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZTkwNDc3MTA0YWVlOTc3M2JiOWUzOGM2NWQ5ZjExMmQyZjBjMTRmIn0=",
+    "expire_date": "2019-02-18T15:24:31.551Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "9t9jp6huwmu5reav8jsad1vg5acagl8k",
+  "fields": {
+    "session_data": "ZjA0MjY3MTE2NWNkZjVlMjY4NWE0Y2EwOTRkYTYyMTUxMTQ1ZWE3Zjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZTkwNDc3MTA0YWVlOTc3M2JiOWUzOGM2NWQ5ZjExMmQyZjBjMTRmIn0=",
+    "expire_date": "2019-02-17T15:46:33.123Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "egoijix430m33fqlhk32xtcuh4e3w9ds",
+  "fields": {
+    "session_data": "ZjA0MjY3MTE2NWNkZjVlMjY4NWE0Y2EwOTRkYTYyMTUxMTQ1ZWE3Zjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZTkwNDc3MTA0YWVlOTc3M2JiOWUzOGM2NWQ5ZjExMmQyZjBjMTRmIn0=",
+    "expire_date": "2019-02-21T12:09:00.104Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "isjneklmur10m94crgnnj5zo6217mako",
+  "fields": {
+    "session_data": "MDFmZDEyMDEwZTJmN2RiMTY0ZTJmZDliMjRhMzllOTU0ZmVlMjdhNTp7Il9hdXRoX3VzZXJfaWQiOiI5IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIxZTUyMDAzMjA5MjA3OGQ5YmQ5YzAxNmJlMGVjYjMyYjg5NzlkNGUxIn0=",
+    "expire_date": "2019-02-11T03:35:40.141Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "p1xw6m4kimmnu5p7yhjy3bfsd8fqx1hq",
+  "fields": {
+    "session_data": "MjFkZTZlNzhiMjcwYWIzZjc3YjQ5MjlmMWMyMjNiODBhMjRlNTg3Yjp7Il9hdXRoX3VzZXJfaWQiOiI5IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIwNGU1MzIxN2EwODM0NjBiYzVhZGVmYTJlYWEyOWEwMGZjNGZlNzA3In0=",
+    "expire_date": "2019-02-10T01:35:31.131Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "wvdek8cy7xllakqoflo2odor058bh4ku",
+  "fields": {
+    "session_data": "ZjA0MjY3MTE2NWNkZjVlMjY4NWE0Y2EwOTRkYTYyMTUxMTQ1ZWE3Zjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZTkwNDc3MTA0YWVlOTc3M2JiOWUzOGM2NWQ5ZjExMmQyZjBjMTRmIn0=",
+    "expire_date": "2019-02-16T15:41:56.095Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "wwxur7l02fzb15txr1ux80bsnx1ysisp",
+  "fields": {
+    "session_data": "MWRlYWU4M2RjNTZlODhlYzczNjk5ZGRiZGEwYTI4NGNhMmE3YTI0NDp7Il9hdXRoX3VzZXJfaWQiOiI5IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIxZTUyMDAzMjA5MjA3OGQ5YmQ5YzAxNmJlMGVjYjMyYjg5NzlkNGUxIiwiZGF0ZV90byI6IjIwMTktMDItMjgiLCJyZXQiOlsxNV0sIm51bV9zZWF0cyI6IjEiLCJzZWF0X3R5cGUiOiJFY29ub215In0=",
+    "expire_date": "2019-02-21T20:47:21.752Z"
+  }
+},
+{
+  "model": "avio.ticket",
+  "pk": 27,
+  "fields": {
+    "package_reservation": 8,
+    "user": [
+      "Sky"
+    ],
+    "first_name": "Sky",
+    "last_name": "Bright",
+    "passport": "123456",
+    "time": "2019-02-07T18:23:13.387Z",
+    "price": 135.0,
+    "seat": 683,
+    "flight": 22,
+    "status": "B"
+  }
+},
+{
+  "model": "avio.ticket",
+  "pk": 29,
+  "fields": {
+    "package_reservation": 9,
+    "user": [
+      "Sky"
+    ],
+    "first_name": "Sky",
+    "last_name": "Bright",
+    "passport": "123456",
+    "time": "2019-02-07T18:26:02.713Z",
+    "price": 167.0,
+    "seat": 757,
+    "flight": 16,
+    "status": "B"
+  }
+},
+{
+  "model": "avio.ticket",
+  "pk": 31,
+  "fields": {
+    "package_reservation": null,
+    "user": null,
+    "first_name": "Prva",
+    "last_name": "Zvezdica",
+    "passport": "654321",
+    "time": "2019-02-07T18:26:04.283Z",
+    "price": 167.0,
+    "seat": 755,
+    "flight": 16,
+    "status": "B"
+  }
+},
+{
+  "model": "avio.ticket",
+  "pk": 32,
+  "fields": {
+    "package_reservation": null,
+    "user": null,
+    "first_name": "Druga",
+    "last_name": "Mesec",
+    "passport": "543216",
+    "time": "2019-02-07T18:26:04.290Z",
+    "price": 167.0,
+    "seat": 754,
+    "flight": 16,
+    "status": "B"
+  }
+},
+{
+  "model": "avio.ticket",
+  "pk": 33,
+  "fields": {
+    "package_reservation": null,
+    "user": null,
+    "first_name": "Treca",
+    "last_name": "Sunce",
+    "passport": "432165",
+    "time": "2019-02-07T18:26:04.295Z",
+    "price": 167.0,
+    "seat": 753,
+    "flight": 16,
+    "status": "B"
+  }
+},
+{
+  "model": "avio.ticket",
+  "pk": 34,
+  "fields": {
+    "package_reservation": 10,
+    "user": [
+      "Orion"
+    ],
+    "first_name": "Orion",
+    "last_name": "Strelac",
+    "passport": "654321",
+    "time": "2019-02-07T18:30:42.252Z",
+    "price": 138.0,
+    "seat": 832,
+    "flight": 18,
+    "status": "B"
+  }
+},
+{
+  "model": "avio.ticket",
+  "pk": 35,
+  "fields": {
+    "package_reservation": 10,
+    "user": [
+      "noc"
+    ],
+    "first_name": "Prelepa",
+    "last_name": "Noc",
+    "passport": null,
+    "time": "2019-02-07T18:30:42.257Z",
+    "price": 138.0,
+    "seat": 831,
+    "flight": 18,
+    "status": "R"
+  }
+},
+{
+  "model": "avio.ticket",
+  "pk": 36,
+  "fields": {
+    "package_reservation": 10,
+    "user": [
+      "Sky"
+    ],
+    "first_name": "Sky",
+    "last_name": "Bright",
+    "passport": null,
+    "time": "2019-02-07T18:30:43.838Z",
+    "price": 138.0,
+    "seat": 830,
+    "flight": 18,
+    "status": "R"
+  }
+},
+{
+  "model": "avio.ticket",
+  "pk": 37,
+  "fields": {
+    "package_reservation": 10,
+    "user": [
+      "Celestia"
+    ],
+    "first_name": "Celestia",
+    "last_name": "Ola",
+    "passport": null,
+    "time": "2019-02-07T18:30:45.274Z",
+    "price": 138.0,
+    "seat": 829,
+    "flight": 18,
+    "status": "R"
+  }
+},
+{
+  "model": "avio.ticket",
+  "pk": 38,
+  "fields": {
+    "package_reservation": null,
+    "user": null,
+    "first_name": "Cetvrta",
+    "last_name": "Noc",
+    "passport": "76543",
+    "time": "2019-02-07T18:30:46.701Z",
+    "price": 138.0,
+    "seat": 833,
+    "flight": 18,
+    "status": "B"
+  }
+},
+{
+  "model": "avio.packagereservation",
+  "pk": 8,
+  "fields": {
+    "master_user": [
+      "Sky"
+    ],
+    "date_from": "2019-02-11T16:12:19Z",
+    "date_to": "2019-02-15T00:00:00Z",
+    "country": "Poland",
+    "city": "Warsaw",
+    "car_reservation": null,
+    "hotel_reservation": null
+  }
+},
+{
+  "model": "avio.packagereservation",
+  "pk": 9,
+  "fields": {
+    "master_user": [
+      "Sky"
+    ],
+    "date_from": "2019-02-11T15:05:14Z",
+    "date_to": "2019-02-18T00:00:00Z",
+    "country": "Spain",
+    "city": "Barcelona",
+    "car_reservation": null,
+    "hotel_reservation": null
+  }
+},
+{
+  "model": "avio.packagereservation",
+  "pk": 10,
+  "fields": {
+    "master_user": [
+      "Orion"
+    ],
+    "date_from": "2019-02-08T17:07:27Z",
+    "date_to": "2019-02-20T00:00:00Z",
+    "country": "Serbia",
+    "city": "Novi Sad",
+    "car_reservation": null,
+    "hotel_reservation": null
+  }
+},
+{
+  "model": "user.userrelationship",
+  "pk": 2,
+  "fields": {
+    "user_1": [
+      "noc"
+    ],
+    "user_2": [
+      "Orion"
+    ],
+    "status": "FF"
+  }
+},
+{
+  "model": "user.userrelationship",
+  "pk": 3,
+  "fields": {
+    "user_1": [
+      "Celestia"
+    ],
+    "user_2": [
+      "Orion"
+    ],
+    "status": "FF"
+  }
+},
+{
+  "model": "user.userrelationship",
+  "pk": 4,
+  "fields": {
+    "user_1": [
+      "Sky"
+    ],
+    "user_2": [
+      "Orion"
+    ],
+    "status": "FF"
+  }
+},
+{
+  "model": "user.adminuser",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "admin_type": "1",
+    "avio_admin": 1
+  }
+},
+{
+  "model": "user.profile",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "noc"
+    ],
+    "city": "NS",
+    "phone_number": "0709876544",
+    "bonus": 1,
+    "pic": "466aa7603f14638289a9c34b8265d1f8.jpg",
+    "active_package": null
+  }
+},
+{
+  "model": "user.profile",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "Prelepa"
+    ],
+    "city": "NS",
+    "phone_number": "0909876444",
+    "bonus": 0,
+    "pic": "profile_KmzKe61_v1qOp6l.png",
+    "active_package": null
+  }
+},
+{
+  "model": "user.profile",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "Sky"
+    ],
+    "city": "NS",
+    "phone_number": "423894239",
+    "bonus": 7,
+    "pic": "profile_9HQRRPZ.png",
+    "active_package": 9
+  }
+},
+{
+  "model": "user.profile",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "Celestia"
+    ],
+    "city": "NS",
+    "phone_number": "4239843298",
+    "bonus": 1,
+    "pic": "6ee70f2266f80a8dc140cc6e51a21d88.jpg",
+    "active_package": null
+  }
+},
+{
+  "model": "user.profile",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "Orion"
+    ],
+    "city": "Sunca",
+    "phone_number": "432947238",
+    "bonus": 8,
+    "pic": "media/moscow.jpg",
+    "active_package": 10
+  }
+},
+{
+  "model": "user.profile",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "Gemini"
+    ],
+    "city": "Ns",
+    "phone_number": "3287479",
+    "bonus": 0,
+    "pic": "profile_KmzKe61.png",
+    "active_package": null
+  }
+},
+{
+  "model": "user.profile",
+  "pk": 7,
+  "fields": {
+    "user": [
+      "Zvezdasta"
+    ],
+    "city": "Oblak",
+    "phone_number": "38294023",
+    "bonus": 0,
+    "pic": "/profile.png",
+    "active_package": null
+  }
+},
+{
+  "model": "user.profile",
+  "pk": 8,
+  "fields": {
+    "user": [
+      "filip"
+    ],
+    "city": "NS",
+    "phone_number": "90524",
+    "bonus": 0,
+    "pic": "/profile.png",
+    "active_package": null
+  }
+}
+]

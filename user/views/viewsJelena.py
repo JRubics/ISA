@@ -92,20 +92,6 @@ def index(request):
 
 @login_required()
 def home(request):
-    if request.method == 'POST':
-        val = request.POST['btn']
-        if "ALL" in val:
-            val = val.replace("ALL", "")
-            res = PackageReservation.objects.get(pk=val)
-            for tic in res.ticket_set.all():
-                tic.cancelTicket()
-
-            res.delete()
-        else:
-            t = Ticket.objects.get(pk=val)
-            t.cancelTicket()
-            t.delete()
-            
     if request.user.has_perm('user.is_car_admin'):
         return redirect('/car/service')
     elif request.user.has_perm('user.is_hotel_admin'):

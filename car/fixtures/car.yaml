@@ -1,7 +1,7 @@
 - model: car.service
   pk: 1
   fields:
-    name: s1
+    name: FastCar
     promo_description: Best service
     country: Serbia
     city: Beograd
@@ -12,7 +12,7 @@
 - model: car.service
   pk: 2
   fields:
-    name: s2
+    name: Car666
     promo_description: Car Car Car
     country: Serbia
     city: Novi Sad
@@ -23,7 +23,7 @@
 - model: car.service
   pk: 3
   fields:
-    name: s3
+    name: ADAC
     promo_description: Deutsche Car
     country: Deutschland
     city: Karlsruhe
@@ -31,44 +31,66 @@
     number: 9
     service_admin: 4
 
+- model: car.service
+  pk: 4
+  fields:
+    name: NYCAR
+    promo_description: new york service
+    country: SAD
+    city: New York
+    address: 148th St
+    number: 21
+    service_admin: 6
+
+- model: car.service
+  pk: 5
+  fields:
+    name: PolCar
+    promo_description: Best poland service
+    country: Poland
+    city: Warsaw
+    address: Saska
+    number: 12
+    service_admin: 7
+
 - model: car.car
   pk: 1
   fields:
-    name: c1
+    name: Klio1
     service: 1
-    manufacturer: 2
-    model: model2
+    manufacturer: 1
+    model: Klio
     car_type: 1
-    price: 100
+    price: 9000
     year: 2007
-    seats: 5
+    seats: 4
     is_taken: 0
     on_sale: 0
 
 - model: car.car
   pk: 2
   fields:
-    name: c11
+    name: Fokus
     service: 1
     manufacturer: 3
-    model: model3
-    car_type: 3
-    price: 120
-    year: 2016
-    seats: 4
+    model: Fokus
+    car_type: 1
+    price: 8000
+    year: 2009
+    seats: 5
     is_taken: 0
-    on_sale: 1
+    on_sale: 0
 
 - model: car.car
   pk: 3
   fields:
-    name: c2
-    service: 3
-    manufacturer: 5
-    model: modela
+    name: Vektra A klasa
+    service: 1
+    manufacturer: 2
+    model: Vektra
     car_type: 2
-    price: 1080
-    year: 2008
+    price: 8400
+    year: 2009
     seats: 5
     is_taken: 0
     on_sale: 0
@@ -76,21 +98,119 @@
 - model: car.car
   pk: 4
   fields:
-    name: c3
+    name: AstraAA
+    service: 1
+    manufacturer: 2
+    model: Astra
+    car_type: 1
+    price: 12000
+    year: 2016
+    seats: 5
+    is_taken: 0
+    on_sale: 1
+
+- model: car.car
+  pk: 5
+  fields:
+    name: Insignia
+    service: 3
+    manufacturer: 2
+    model: Insignia
+    car_type: 2
+    price: 14800
+    year: 2008
+    seats: 5
+    is_taken: 0
+    on_sale: 0
+
+- model: car.car
+  pk: 6
+  fields:
+    name: A2
     service: 3
     manufacturer: 6
-    model: modele
+    model: A2
     car_type: 1
-    price: 170
-    year: 2014
+    price: 22000
+    year: 2017
+    seats: 5
+    is_taken: 0
+    on_sale: 0
+
+- model: car.car
+  pk: 7
+  fields:
+    name: Yaris
+    service: 3
+    manufacturer: 5
+    model: Yaris
+    car_type: 1
+    price: 2200
+    year: 2002
     seats: 4
+    is_taken: 0
+    on_sale: 0
+
+- model: car.car
+  pk: 8
+  fields:
+    name: Kamion12
+    service: 2
+    manufacturer: 7
+    model: K12
+    car_type: 3
+    price: 24000
+    year: 2004
+    seats: 2
+    is_taken: 0
+    on_sale: 0
+
+- model: car.car
+  pk: 9
+  fields:
+    name: Bus
+    service: 2
+    manufacturer: 8
+    model: Bus1
+    car_type: 3
+    price: 33000
+    year: 2000
+    seats: 30
+    is_taken: 0
+    on_sale: 1
+
+- model: car.car
+  pk: 10
+  fields:
+    name: Megan
+    service: 4
+    manufacturer: 1
+    model: Megan
+    car_type: 2
+    price: 13000
+    year: 2002
+    seats: 5
+    is_taken: 0
+    on_sale: 0
+
+- model: car.car
+  pk: 11
+  fields:
+    name: Suzuki
+    service: 5
+    manufacturer: 1
+    model: Suzuki
+    car_type: 2
+    price: 14000
+    year: 2012
+    seats: 5
     is_taken: 0
     on_sale: 0
 
 - model: car.branchoffice
   pk: 1
   fields:
-    name: b1
+    name: Office1
     service: 1
     country: Serbia
     city: Novi Sad
@@ -100,7 +220,7 @@
 - model: car.branchoffice
   pk: 2
   fields:
-    name: b2
+    name: Office2
     service: 2
     country: Serbia
     city: Novi Sad
@@ -110,7 +230,7 @@
 - model: car.branchoffice
   pk: 3
   fields:
-    name: b3
+    name: Obbice Takovska
     service: 1
     country: Serbia
     city: Beograd
@@ -120,50 +240,80 @@
 - model: car.branchoffice
   pk: 4
   fields:
-    name: b4
+    name: OfficeDE
     service: 3
     country: Deutschland
     city: Karlsruhe
     address: Zirkel
     number: 4
 
-- model: car.reservation
-  pk: 1
+- model: car.branchoffice
+  pk: 5
   fields:
-    car: 1
-    office1: 1
-    office2: 1
-    date1: 2013-03-18 13:19:37+00:00
-    date2: 2013-03-18 13:19:37+00:00
-    user: 5
-    price: 123
+    name: OfficeDE1
+    service: 3
+    country: Deutschland
+    city: Karlsruhe
+    address: Schlossplatz
+    number: 4
 
-- model: car.reservation
-  pk: 2
+- model: car.branchoffice
+  pk: 6
   fields:
-    car: 3
-    office1: 4
-    office2: 4
-    date1: 2019-01-10 13:19:37+00:00
-    date2: 2019-01-11 13:19:37+00:00
-    user: 5
-    price: 123
+    name: OfficeNY
+    service: 4
+    country: SAD
+    city: New York
+    address: Navy St
+    number: 4
 
-- model: car.reservation
-  pk: 3
+- model: car.branchoffice
+  pk: 7
   fields:
-    car: 3
-    office1: 4
-    office2: 4
-    date1: 2020-08-10 13:19:37+00:00
-    date2: 2020-09-18 13:19:37+00:00
-    user: 5
-    price: 123
+    name: OfficeDE1
+    service: 5
+    country: Poland
+    city: Warsaw
+    address: Jana Styki
+    number: 11
 
-- model: car.carrate
-  pk: 1
-  fields:
-    reservation: 1
-    car_rate: 4
-    service_rate: 5
-    user: 5
+# - model: car.reservation
+#   pk: 1
+#   fields:
+#     car: 1
+#     office1: 1
+#     office2: 1
+#     date1: 2013-03-18 13:19:37+00:00
+#     date2: 2013-03-18 13:19:37+00:00
+#     user: 5
+#     price: 123
+
+# - model: car.reservation
+#   pk: 2
+#   fields:
+#     car: 3
+#     office1: 4
+#     office2: 4
+#     date1: 2019-01-10 13:19:37+00:00
+#     date2: 2019-01-11 13:19:37+00:00
+#     user: 5
+#     price: 123
+
+# - model: car.reservation
+#   pk: 3
+#   fields:
+#     car: 3
+#     office1: 4
+#     office2: 4
+#     date1: 2020-08-10 13:19:37+00:00
+#     date2: 2020-09-18 13:19:37+00:00
+#     user: 5
+#     price: 123
+
+# - model: car.carrate
+#   pk: 1
+#   fields:
+#     reservation: 1
+#     car_rate: 4
+#     service_rate: 5
+#     user: 5

@@ -203,15 +203,15 @@ ERROR: {{ message }}
             {% if package.canBeCanceled %}
               
             {% if request.user != t.user %}
-            <form action="" method="post">
+            <form action="{% url 'user:cancel_reservation' %}" method="post">
               {% csrf_token %}
-              <button type="submit" class="btn btn-warning" name="btn" value="{{ t.id }}">Remove</button>
+              <button type="submit" class="btn btn-default" name="btn" value="{{ t.id }}">Remove</button>
             </form>
             {% endif %}
             {% if request.user == t.user %}
-            <form action="" method="post">
+            <form action="{% url 'user:cancel_reservation' %}" method="post">
               {% csrf_token %}
-              <button type="submit" class="btn btn-danger" name="btn" value="ALL{{ package.id }}">Cancel Package</button>
+              <button type="submit" class="btn btn-default" name="btn" value="ALL{{ package.id }}">Cancel Package</button>
             </form>
             {% endif %}
             {% endif %}
@@ -248,7 +248,9 @@ ERROR: {{ message }}
           <td>{{package.hotel_reservation.rooms|length}}</td>
           <td>{{package.hotel_reservation.rooms_charge|add:package.hotel_reservation.services_charge}}</td>
           <td>
-            BORISE dodaj cancel
+            {% if package.hotel_reservation.can_be_closed%}
+              BORISE dodaj cancel
+            {% endif %}
           </td>
         </tr>
       </tbody>

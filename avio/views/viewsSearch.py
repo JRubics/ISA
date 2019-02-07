@@ -52,6 +52,14 @@ class AirportForm(forms.ModelForm):
 
 class AvioSearch(View):
     def get(self, request, *args, **kwargs):
+        qs = Ticket.objects.filter(status = "R")
+        for tic in qs:
+            if tic.invitation_too_long():
+                tic.cancelTicket()
+                tic.delete()
+            elif not tic.package_reservation.canBeCanceled:
+                tic.cancelTicket()
+                tic.delete()
         form = AirportForm()
         return render(request, 'avio/avio_search.html', {'form':form})
 
@@ -68,6 +76,13 @@ class AvioSearchResults(View):
         ret_ids = []
         search_form = RefineSearchForm()
 
+        print(request.session['date_to'])
+        print(depart_date)
+        print(depart_city)
+        print(arr_city)
+        print(num_seats)
+        print(t_seats)
+
         # ako je smao u jednom pravcu:
         if request.GET["trip_type"] == "One-way":
             qs = Flight.objects.filter(departure_date__startswith = depart_date, departure_city = depart_city, arrival_city = arr_city)
@@ -81,6 +96,9 @@ class AvioSearchResults(View):
         request.session['ret'] = ret_ids
         request.session['num_seats'] = num_seats
         request.session['seat_type'] = t_seats
+        
+        print(ret_ids)
+
         return render(request, 'avio/avio_search_results.html', {'ret':ret, 'num_seats':num_seats, 'search_form':search_form})
 
 
@@ -247,6 +265,9 @@ class AvioReservation(TemplateView):
                         person.bonus = person.bonus + 1
                         person.save()
             seat.save()
+
+        request.user.profile.active_package = new_package_reservation
+        request.user.profile.save()
 
         return redirect('user:profile_unfriend')
 

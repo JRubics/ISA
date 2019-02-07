@@ -137,6 +137,11 @@
                     </li>
                     {% else %}
                     <li class="">
+                        <a href="{% url 'user:registration_submit' %}">
+                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp; Register
+                        </a>
+                    </li>
+                    <li class="">
                         <a href="{% url 'user:login_submit' %}">
                             <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp; Login
                         </a>

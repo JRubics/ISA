@@ -20,6 +20,9 @@ urlpatterns = [
     path('profile/unfriend', views.Unfriend.as_view(), name='profile_unfriend'),
     path('profile/invitations', views.Invitation.as_view(), name='profile_initations'),
 
+
     #boris dodao
     path('first_login/', views.first_login, name='first_login'),
+
+    path('cancel/reservation', views.cancel_reservation, name='cancel_reservation'),
 ]
