@@ -22,7 +22,7 @@ class CarTestCase(TestCase):
       self.service = Service(name='testService', promo_description='someDesc', country='SRB', city='Novi Sad', address='Street', number='123')
       self.service.save()
 
-      self.car = Car(name='testCar', service=self.service, manufacturer='1', model='someModel', car_type='1', price=123.45, year=2001, seats=3)
+      self.car = Car(name='testCar', service=self.service, manufacturer='1', model='someModel', car_type='1', price=123.45, year=2001, seats=3, is_taken=0)
       self.car.save()
 
       self.office = BranchOffice(name='testOffice', service=self.service, country='SRB', city='Novi Sad', address='Street 2', number='6')
@@ -68,7 +68,6 @@ class CarTestCase(TestCase):
       self.assertEqual(self.office.__str__(), 'testOffice (testService)')
 
     def test_car_taken_default(self):
-      self.car.is_taken = 0
       self.assertEqual(self.car.is_taken, 0)
 
     def test_car_taken(self):
