@@ -127,7 +127,7 @@ class FlightLeg (models.Model):
 
     def clean(self):
         if self.arrival_date > self.flight.arrival_date or self.arrival_date < self.flight.departure_date:
-            raise ValidationError("Datas must be between " + str(self.flight.departure_date) + " and " + str(self.flight.arrival_date))
+            raise ValidationError("Dates must be between " + str(self.flight.departure_date) + " and " + str(self.flight.arrival_date))
 
         if self.departure_date > self.flight.arrival_date or self.departure_date < self.flight.departure_date:
             raise ValidationError("Dates must be between " + str(self.flight.departure_date) + " and " + str(self.flight.arrival_date))
@@ -169,6 +169,16 @@ class PackageReservation(models.Model):
     car_reservation = models.ForeignKey(CarReservation, on_delete=models.SET_NULL, null=True, blank=True)
     hotel_reservation = models.ForeignKey(HotelReservation, on_delete=models.SET_NULL, null=True, blank=True)
 
+    def cancelPackage(self):
+        for tic in self.ticket_set.all():
+            tic.cancelTicket()
+
+        self.delete()
+
+    @property
+    def canBeCanceled(self):
+        return True if ((self.date_from.replace(tzinfo=None) - datetime.now().replace(tzinfo=None)).total_seconds() / 3600) > 3 else False
+
 
 # model karte
 class Ticket (models.Model):
@@ -200,6 +210,11 @@ class Ticket (models.Model):
 
     def is_rated(self, user):
         return FlightRate.objects.filter(ticket=self.id, user=user).exists()
+
+    def cancelTicket(self):
+        self.seat.seat_status = "F"
+        self.seat.save()
+
 
 
 class FlightRate(models.Model):
