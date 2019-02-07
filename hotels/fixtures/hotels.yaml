@@ -1,0 +1,243 @@
+- model: hotels.hotel
+  pk: 1
+  fields:
+    name: Park
+    country: Serbia
+    city: Novi Sad
+    address: Novosadskog Sajma
+    address_number: 35
+    description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet cursus dolor sit amet scelerisque. Vivamus eu rutrum elit. Morbi luctus lacus quis erat sodales dapibus. Donec dictum semper velit ut tincidunt. Ut ullamcorper ut orci sed tempus. Nullam porttitor est vel sem fringilla, vitae facilisis orci interdum. Mauris eu arcu eget orci convallis pellentesque.
+    admin: 12
+
+- model: hotels.hotel
+  pk: 2
+  fields:
+    name: Moskva
+    country: Serbia
+    city: Belgrade
+    address: Terazije
+    address_number: 20
+    description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet cursus dolor sit amet scelerisque. Vivamus eu rutrum elit. Morbi luctus lacus quis erat sodales dapibus. Donec dictum semper velit ut tincidunt. Ut ullamcorper ut orci sed tempus. Nullam porttitor est vel sem fringilla, vitae facilisis orci interdum. Mauris eu arcu eget orci convallis pellentesque.
+    admin: 1212
+
+- model: hotels.hotel
+  pk: 3
+  fields:
+    name: Trump Tower
+    country: USA
+    city: New York
+    address: 5th Ave
+    address_number: 725
+    description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet cursus dolor sit amet scelerisque. Vivamus eu rutrum elit. Morbi luctus lacus quis erat sodales dapibus. Donec dictum semper velit ut tincidunt. Ut ullamcorper ut orci sed tempus. Nullam porttitor est vel sem fringilla, vitae facilisis orci interdum. Mauris eu arcu eget orci convallis pellentesque.
+    admin: 121212
+
+- model: hotels.hotelroom
+  pk: 1
+  fields:
+    hotel: 1
+    name: Jednosoban apartman
+    number: 1
+    floor_number: 1
+    capacity: 2
+    has_balcony: False
+    default_price_per_day: 40
+
+- model: hotels.hotelroom
+  pk: 2
+  fields:
+    hotel: 1
+    name: Dvosoban apartman
+    number: 2
+    floor_number: 1
+    capacity: 4
+    has_balcony: False
+    default_price_per_day: 60
+
+- model: hotels.hotelroom
+  pk: 3
+  fields:
+    hotel: 1
+    name: Jednosoban apartman
+    number: 3
+    floor_number: 2
+    capacity: 2
+    has_balcony: True
+    default_price_per_day: 45
+
+- model: hotels.hotelroom
+  pk: 4
+  fields:
+    hotel: 1
+    name: Dvosoban apartman
+    number: 4
+    floor_number: 2
+    capacity: 4
+    has_balcony: True
+    default_price_per_day: 65
+
+- model: hotels.hotelroom
+  pk: 5
+  fields:
+    hotel: 1
+    name: Penthouse suite
+    number: 5
+    floor_number: 3
+    capacity: 8
+    has_balcony: True
+    default_price_per_day: 120
+
+- model: hotels.hotelroom
+  pk: 6
+  fields:
+    hotel: 2
+    name: Jednosoban apartman
+    number: 1
+    floor_number: 1
+    capacity: 2
+    has_balcony: False
+    default_price_per_day: 60
+
+- model: hotels.hotelroom
+  pk: 7
+  fields:
+    hotel: 2
+    name: Dvosoban apartman
+    number: 2
+    floor_number: 1
+    capacity: 4
+    has_balcony: False
+    default_price_per_day: 80
+
+- model: hotels.hotelroom
+  pk: 8
+  fields:
+    hotel: 3
+    name: Luxury Room
+    number: 1
+    floor_number: 1
+    capacity: 2
+    has_balcony: False
+    default_price_per_day: 240
+
+- model: hotels.hotelroom
+  pk: 9
+  fields:
+    hotel: 3
+    name: Luxury Room
+    number: 2
+    floor_number: 2
+    capacity: 4
+    has_balcony: False
+    default_price_per_day: 360
+
+- model: hotels.hotelservice
+  pk: 1
+  fields:
+    hotel: 1
+    name: Dorucak
+    price: 12
+    type_of_charge: 'per person/day'
+
+- model: hotels.hotelservice
+  pk: 2
+  fields:
+    hotel: 1
+    name: Vecera
+    price: 15
+    type_of_charge: 'per person/day'
+
+- model: hotels.hotelservice
+  pk: 3
+  fields:
+    hotel: 1
+    name: WiFi
+    price: 15
+    type_of_charge: 'per room'
+
+- model: hotels.hotelservice
+  pk: 4
+  fields:
+    hotel: 1
+    name: Ciscenje
+    price: 5
+    type_of_charge: 'per room/day'
+
+- model: hotels.hotelservice
+  pk: 5
+  fields:
+    hotel: 2
+    name: Dorucak
+    price: 15
+    type_of_charge: 'per person/day'
+
+- model: hotels.hotelservice
+  pk: 6
+  fields:
+    hotel: 2
+    name: Vecera
+    price: 20
+    type_of_charge: 'per person/day'
+
+- model: hotels.hotelservice
+  pk: 7
+  fields:
+    hotel: 2
+    name: WiFi
+    price: 10
+    type_of_charge: 'per room'
+
+- model: hotels.hotelservice
+  pk: 8
+  fields:
+    hotel: 2
+    name: Ciscenje
+    price: 5
+    type_of_charge: 'per room/day'
+
+- model: hotels.hotelservice
+  pk: 9
+  fields:
+    hotel: 2
+    name: Moskva torta
+    price: 10
+    type_of_charge: 'per person'
+
+- model: hotels.hotelservice
+  pk: 10
+  fields:
+    hotel: 3
+    name: Breakfast
+    price: 20
+    type_of_charge: 'per person/day'
+
+- model: hotels.hotelservice
+  pk: 11
+  fields:
+    hotel: 3
+    name: Dinner
+    price: 40
+    type_of_charge: 'per person/day'
+
+- model: hotels.hotelservice
+  pk: 12
+  fields:
+    hotel: 3
+    name: Shake hands with president Trump
+    price: 100
+    type_of_charge: 'per person'
+
+- model: hotels.hotelservice
+  pk: 13
+  fields:
+    hotel: 3
+    name: Cleaning service
+    price: 10
+    type_of_charge: 'per room/day'
+
+- model: hotels.hotelservice
+  pk: 14
+  fields:
+    hotel: 3
+    name: Taxi transport
+    price: 20
+    type_of_charge: 'per room'

@@ -164,4 +164,3 @@ class Invitation(generic.ListView):
             ticket.save()
 
         return self.get(request)
-

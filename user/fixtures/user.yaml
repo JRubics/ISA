@@ -55,3 +55,33 @@
     city: NS
     phone_number: asd
     bonus: 2
+
+- model: auth.user
+  pk: 12
+  fields:
+    username: hadmin
+    password: pbkdf2_sha256$120000$SEW99m0OEtQH$jndrIaIPGf0w25wqfEtTz1lhU1mTaKtxyYFkNEVZHRA=
+    email: admin@hotelpark.com
+    is_superuser: false
+    is_staff: false
+    is_active: true
+    
+- model: auth.user
+  pk: 1212
+  fields:
+    username: hadmin2
+    password: pbkdf2_sha256$120000$SEW99m0OEtQH$jndrIaIPGf0w25wqfEtTz1lhU1mTaKtxyYFkNEVZHRA=
+    email: admin@hotelmoskva.com
+    is_superuser: false
+    is_staff: false
+    is_active: true
+
+- model: auth.user
+  pk: 121212
+  fields:
+    username: hadmin3
+    password: pbkdf2_sha256$120000$SEW99m0OEtQH$jndrIaIPGf0w25wqfEtTz1lhU1mTaKtxyYFkNEVZHRA=
+    email: admin@trumptower.com
+    is_superuser: false
+    is_staff: false
+    is_active: true
