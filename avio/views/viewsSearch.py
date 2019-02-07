@@ -256,6 +256,9 @@ class AvioReservation(TemplateView):
                         person.save()
             seat.save()
 
+        request.user.profile.active_package = new_package_reservation
+        request.user.profile.save()
+
         return redirect('user:profile_unfriend')
 
 
