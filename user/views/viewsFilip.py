@@ -131,11 +131,11 @@ class Invitation(generic.ListView):
     def get_queryset(self):
         qs = Ticket.objects.filter(user = self.request.user, status = "R")
         for tic in qs:
-            if tic.invitation_too_long:
-                tic.cancelTicket
+            if tic.invitation_too_long():
+                tic.cancelTicket()
                 tic.delete()
             if tic.package_reservation.canBeCanceled:
-                tic.cancelTicket 
+                tic.cancelTicket() 
                 tic.delete()
         return qs
 
