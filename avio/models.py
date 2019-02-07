@@ -129,11 +129,11 @@ class FlightLeg (models.Model):
         if self.arrival_date > self.flight.arrival_date or self.arrival_date < self.flight.departure_date:
             raise ValidationError("Datas must be between " + str(self.flight.departure_date) + " and " + str(self.flight.arrival_date))
 
-        if self.departure_date < self.flight.arrival_date or self.departure_date < self.flight.departure_date:
-            raise ValidationError("Datas must be between " + str(self.flight.departure_date) + " and " + str(self.flight.arrival_date))
+        if self.departure_date > self.flight.arrival_date or self.departure_date < self.flight.departure_date:
+            raise ValidationError("Dates must be between " + str(self.flight.departure_date) + " and " + str(self.flight.arrival_date))
 
         if self.arrival_date > self.departure_date:
-            raise ValidationError("Datas are not valid")
+            raise ValidationError("Dates are not valid")
 
 
 # model sedista
