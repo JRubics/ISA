@@ -66,7 +66,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand navbar-left" href="{% url 'user:home' %}">FlyCarSleep</a>
+                <a class="navbar-brand navbar-left" href="/user/">FlyCarSleep</a>
             </div>
 
             <div class="collapse navbar-collapse" id="topNavBar">
@@ -98,19 +98,14 @@
                         </a>
                     </li>
                 {% elif user.is_authenticated %}
-                    <li class="active">
+                    <li>
+                        <a href="{% url 'user:home' %}">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;Home
+                        </a>
+                    </li>
+                    <li>
                         <a href="{% url 'avio:search_avio' %}">
                             <span class="glyphicon glyphicon-plane" aria-hidden="true"></span>&nbsp; Book A Flight
-                        </a>
-                    </li>
-                    <li class="">
-                        <a href="{% url 'hotels:view_hotels' %}">
-                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp; Book A Place
-                        </a>
-                    </li>
-                    <li class="">
-                        <a href="{% url 'car:choose_service' %}">
-                            <span class="glyphicon glyphicon-knight" aria-hidden="true"></span>&nbsp; Book A Ride
                         </a>
                     </li>
                 {% endif %}

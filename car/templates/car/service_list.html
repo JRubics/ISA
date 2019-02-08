@@ -3,7 +3,7 @@
 {% block content %}
   <div class="row">
       <div class="col-md-8">
-        <h2>Search by 
+        <h2>Search by
           {% if name%}
             name({{name}}) : 
           {% endif %}
@@ -36,6 +36,8 @@
               <th scope="col">City</th>
               <th scope="col">Street</th>
               <th scope="col">Number</th>
+              <th scope="col">Offices</th>
+              <th scope="col">Rate</th>
               <th scope="col"></th>
             </tr>
           </thead>
@@ -48,6 +50,12 @@
                 <td>{{service.city}}</td>
                 <td>{{service.address}}</td>
                 <td>{{service.number}}</td>
+                <td>
+                  {%for office in service.branchoffice_set.all %}
+                    {{office.name}}<br>
+                  {% endfor %}
+                </td>
+                <td>{{service.get_rate}}</td>
                 <td><a class="btn btn-default" name="choose{{service.id}}" href="{% url 'car:reservation' service.id%}">choose</a></td>
               </tr>
             {% endfor %}

@@ -14,6 +14,7 @@ from django.contrib.auth.models import Permission
 from car.models import Car
 from django.contrib.contenttypes.models import ContentType
 from avio.models import PackageReservation, Ticket
+from django.contrib.auth import update_session_auth_hash
 
 
 def login_submit(request):
@@ -22,7 +23,7 @@ def login_submit(request):
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            if (user.has_perm('user.is_avio_admin') or user.has_perm('user.is_hotel_admin') or user.has_perm('user.is_car_admin') or user.has_perm('user.is_master_admin')) and user.adminuser.first_login:
+            if (user.has_perm('user.is_flight_admin') or user.has_perm('user.is_hotel_admin') or user.has_perm('user.is_car_admin') or user.has_perm('user.is_master_admin')) and user.adminuser.first_login:
                 context = {'username': username, 'password': password}
                 return render(request, 'user/first_login.html', context)
             login(request, user)
@@ -135,10 +136,31 @@ def home(request):
                    'tickets': tickets,
                    'is_flight_rated': is_flight_rated,
                    'packages': packages,
-                   'package_tickets': package_tickets}
+                   'package_tickets': package_tickets,
+                   'ticket_type':Ticket.TYPE}
 
         return render(request, 'user/home_page.html', context)
 
+@login_required()
+def admin_pass_change(request):
+    if request.POST['password1'] != request.POST['password2']:
+        messages.error(request, "Passwords must be same.")
+        return render(request, 'user/admin_edit_page.html')
+    user = User.objects.get(id=request.user.id)
+    user.set_password(request.POST['password1'])
+    user.save()
+    update_session_auth_hash(request, user)
+    return redirect('/user/home')
+
+@login_required()
+def admin_email_change(request):
+    if User.objects.filter(email=request.POST['email']).exists():
+        messages.error(request, "Email already exists")
+        return render(request, 'user/admin_edit_page.html')
+    user = User.objects.get(id=request.user.id)
+    user.email = request.POST['email']
+    user.save()
+    return redirect('/user/home')
 
 def first_login(request):
     if request.method == 'POST':

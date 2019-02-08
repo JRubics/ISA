@@ -17,6 +17,17 @@ class AvioCompanyAdmin (admin.ModelAdmin):
         return qs.filter(id=request.user.adminuser.avio_admin.id)
 
 
+class FlightRateAdmin (admin.ModelAdmin):
+    list_display = ['ticket', 'flight_rate', 'company_rate', 'user']
+    list_filter = ('flight_rate', 'ticket')
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(ticket__flight__avio_company = request.user.adminuser.avio_admin.id)        
+
+
 class FlightAdmin (admin.ModelAdmin):
     def get_form(self, request, obj=None, **kwargs):
         form = super(FlightAdmin, self).get_form(request, obj, **kwargs)
@@ -70,9 +81,11 @@ class SeatA (admin.ModelAdmin):
         if request.user.is_superuser:
             return qs
 
-        for res in qs:
-            if res.flight.id != request.user.adminuser.avio_admin.id:
-                qs.exclude(res)
+        qs = qs.filter(seat_status__in = ["T","P","F","O"])
+        qs = qs.filter(flight__avio_company = request.user.adminuser.avio_admin.id)
+
+        print("YD&*SDUIAS")
+
         return qs
 
 
@@ -97,7 +110,7 @@ class SeatAdmin(admin.ModelAdmin):
         }
 
         if not request.user.is_superuser:
-            qs = qs.filter(flight = request.user.adminuser.avio_admin.id)
+            qs = qs.filter(flight__avio_company = request.user.adminuser.avio_admin.id)
         response.context_data['seats'] = qs.values('flight', 'flight__avio_company__name', 'flight__departure_city__name', 'flight__arrival_city__name', 'flight__departure_date').annotate(**metrics).order_by('flight')
         return response
 
@@ -207,6 +220,11 @@ class TicketAdmin(admin.ModelAdmin):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "flight" and not request.user.is_superuser:
             kwargs["queryset"] = Flight.objects.filter(avio_company=request.user.adminuser.avio_admin)
+        
+        if db_field.name == "package_reservation" and not request.user.is_superuser:
+            kwargs["queryset"] = PackageReservation.objects.none()
+        
+        
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     def get_queryset(self, request):
@@ -214,9 +232,7 @@ class TicketAdmin(admin.ModelAdmin):
         if request.user.is_superuser:
             return qs
 
-        for res in qs:
-            if res.flight.id != request.user.adminuser.avio_admin.id:
-                qs.exclude(res)
+        qs = qs.filter(flight__avio_company = request.user.adminuser.avio_admin.id)
         return qs
 
 
@@ -227,11 +243,11 @@ admin.site.register(FlightLeg, FlightLegAdmin)
 admin.site.register(ManageSeats, SeatAdmin)
 admin.site.register(Seat, SeatA)
 admin.site.register(ProfitSummary, SaleSummaryAdmin)
+admin.site.register(FlightRate, FlightRateAdmin)
 admin.site.register(City)
 admin.site.register(Country)
 admin.site.register(Airport)
 admin.site.register(Ticket, TicketAdmin)
-admin.site.register(FlightRate)
 admin.site.register(PackageReservation)
 
 

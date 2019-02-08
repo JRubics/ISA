@@ -10,6 +10,8 @@ urlpatterns = [
     path('logout/', views.logout_submit, name='logout_submit'),
     path('confirmation/', views.confirmation, name='confirmation'),
     path('confirm/<username>/', views.confirm, name='confirm'),
+    path('admin/pass', views.admin_pass_change, name='admin_pass_change'),
+    path('admin/email', views.admin_email_change, name='admin_email_change'),
 
     #filip dodao
     path('profile', views.profile, name='profile'),

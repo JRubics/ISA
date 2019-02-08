@@ -10,8 +10,10 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 import datetime
+from django.utils.decorators import method_decorator
 
 
+@method_decorator(login_required, name='dispatch')
 class ListProfiles(generic.ListView):
     template_name = 'user/profile_people_list.html'
 
@@ -24,8 +26,9 @@ class ListProfiles(generic.ListView):
             if len(name) == 0:
                 return render(request, self.template_name, {'q_profiles': profiles})
 
+            name = name.split(" ", 1)
             first_name = name[0]
-            last_name = ('',name[1])[len(name)==2]
+            last_name = name[1] if len(name) >= 2 else ""
             profiles = profiles.filter(user__first_name__icontains=first_name, user__last_name__icontains=last_name)
         return render(request, self.template_name, {'q_profiles': profiles})
 
@@ -35,6 +38,7 @@ class ListProfiles(generic.ListView):
         return redirect('user:profile_people_list')
 
 
+@method_decorator(login_required, name='dispatch')
 class ListFriendRequests(generic.ListView):
     template_name = 'user/profile_friend_requests.html'
 
@@ -79,12 +83,15 @@ def cancel_reservation(request):
 
 @login_required()
 def profile(request):
+    if not Profile.objects.filter(user=request.user).exists():
+        return render(request, 'user/admin_edit_page.html')
     q1 = UserRelationship.objects.filter(user_1 = request.user, status = 'FF').values_list('user_2', flat=True)
     q2 = UserRelationship.objects.filter(user_2 = request.user, status = 'FF').values_list('user_1', flat=True)
     profiles = Profile.objects.all().filter(user__id__in=q1) | Profile.objects.all().filter(user__id__in=q2)
     return render(request, 'user/profile_page.html', {'q_profiles': profiles})
 
 
+@method_decorator(login_required, name='dispatch')
 class Unfriend(generic.ListView):
     template_name = 'user/profile_unfriend.html'
 
@@ -92,6 +99,15 @@ class Unfriend(generic.ListView):
         q1 = UserRelationship.objects.filter(user_1 = request.user, status = 'FF').values_list('user_2', flat=True)
         q2 = UserRelationship.objects.filter(user_2 = request.user, status = 'FF').values_list('user_1', flat=True)
         profiles = Profile.objects.all().filter(user__id__in=q1) | Profile.objects.all().filter(user__id__in=q2)
+        name = request.GET.get('src')
+        if name != None:
+            if len(name) == 0:
+                return render(request, self.template_name, {'q_profiles': profiles})
+
+            name = name.split(" ", 1)
+            first_name = name[0]
+            last_name = name[1] if len(name) >= 2 else ""
+            profiles = profiles.filter(user__first_name__icontains=first_name, user__last_name__icontains=last_name)
         return render(request, self.template_name, {'q_profiles': profiles})
 
     def post(self, request):
@@ -112,6 +128,7 @@ class UserForm(forms.ModelForm):
         fields = ['first_name', 'last_name', 'email']
 
 
+@method_decorator(login_required, name='dispatch')
 class ProfileEdit(View):
     template_name = 'user/profile_edit.html'
     
@@ -131,7 +148,7 @@ class ProfileEdit(View):
         return redirect('user:profile')
 
 
-@login_required()
+@login_required() 
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
@@ -145,10 +162,12 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
     return render(request, 'user/profile_pass_change.html', {'form': form})
 
+
 class PassportForm(forms.Form):
     passport = forms.CharField(label='passport', max_length=15, )
 
 
+@method_decorator(login_required, name='dispatch')
 class Invitation(generic.ListView):
     template_name = 'user/profile_invitations.html'
 
@@ -158,7 +177,7 @@ class Invitation(generic.ListView):
             if tic.invitation_too_long():
                 tic.cancelTicket()
                 tic.delete()
-            if tic.package_reservation.canBeCanceled:
+            if not tic.package_reservation.canBeCanceled:
                 tic.cancelTicket() 
                 tic.delete()
         return qs
