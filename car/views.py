@@ -528,7 +528,6 @@ def service_home_page_unregistered(request, service_id):
       model = form.cleaned_data['model']
       year = form.cleaned_data['year']
       seats = form.cleaned_data['seats']
-
       if name:
         vehicles = vehicles.filter(name__icontains=name)
       if manufacturer:
