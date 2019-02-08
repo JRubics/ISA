@@ -38,7 +38,7 @@ class AvioReservation(TestCase):
         self.client.login(username="Orion", password="wdvhu098")
         context = {}
         context['arrival_date'] = "2019-02-19"
-        context["departure_date"] = "2019-02-07"
+        context["departure_date"] = "2019-02-11"
         context["departure_city"] = "1"
         context["arrival_city"] = "7"
         context["passenger_numbers"] = "1"
