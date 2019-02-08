@@ -8,8 +8,11 @@
             <div id="map"></div>
         </div>
         <div class="col-lg-4">
+            <a href="{%url 'avio:fast_reservation' acomp.id%}" class="btn btn-warning" type="submit">Discount Flights</a>
+            <br>
             <label>Rating:</label> {{acomp.get_rate}}<br />
-            <label>Address:</label> {{acomp.address}} {{acomp.number}}, {{acomp.city.name}}, {{acomp.city.country.name}}<br />
+            <label>Address:</label> {{acomp.address}} {{acomp.number}}, {{acomp.city.name}},
+            {{acomp.city.country.name}}<br />
             <h4>Descritpion</h4>
             <div class="panel panel-default">
                 <div class="panel-body">{{acomp.promo_description}}</div>
