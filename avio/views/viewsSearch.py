@@ -4,7 +4,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView
 from django.shortcuts import redirect, render
 from avio.models import Flight, Ticket, Seat, FlightLeg, FlightRate, PackageReservation
-from user.models import Profile, UserRelationship
+from user.models import Profile, UserRelationship, DiscountPointReference
 from django import forms
 import datetime
 from django.contrib.auth.decorators import login_required
@@ -243,7 +243,7 @@ class AvioReservation(TemplateView):
                     person.save()
             else:
                 seat.seat_status = "T"
-                ticket = Ticket.objects.create(passport = f['passport'].value(),first_name = f['first_name'].value(), last_name = f['last_name'].value(), time =  datetime.datetime.now(), price = flight.base_price * seat.price_factor, flight = flight, seat = seat, status = "B")
+                ticket = Ticket.objects.create(package_reservation = new_package_reservation, passport = f['passport'].value(),first_name = f['first_name'].value(), last_name = f['last_name'].value(), time =  datetime.datetime.now(), price = flight.base_price * seat.price_factor, flight = flight, seat = seat, status = "B")
                 if if_request_user:
                     if_request_user = False
                     ticket.package_reservation = new_package_reservation
@@ -259,7 +259,7 @@ class AvioReservation(TemplateView):
         request.user.profile.active_package = new_package_reservation
         request.user.profile.save()
 
-        return redirect('user:profile_unfriend')
+        return redirect('avio:package_forward')
 
 
 class DateReservationForm(forms.Form):
@@ -306,5 +306,9 @@ def flight_rate(request, id=None):
     context = {'reservation':reservation}
     return render(request, 'avio/rate_flight.html',context)
 
-
+@login_required()
+def package_forward(request):
+    if request.method == "GET":
+        context = {'discount': DiscountPointReference.objects.first().hotel_discount}
+        return render(request, 'avio/forward_package.html', context)
 

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Finished reserving flight!</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    Would you like to book a hotel as well?
+                    We offer a {{discount}}% discount if you choose to book a hotel along with your flight.
+                    Also, some hotels offer special discounts for some rooms, but only if you fly with us!
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <a class="btn btn-primary" href="{% url 'hotels:view_hotels' %}">Book now!</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    Need transport at your destination? We're here to help!
+                    See discounted prices for rent-a-car services, only available now.
+                    Guaranteed quality of service.
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <a class="btn btn-primary" href="#">Ride now!</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    Or you can just finish you reservation package immediately. Your choice.
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <a class="btn btn-primary" href="#">Finalize :(</a>
+        </div>
+    </div>
+</div>
+{% endblock content %}
