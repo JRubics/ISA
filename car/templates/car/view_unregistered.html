@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Hotel {{hotel.name}}</h2>
+<h2>{{service.name}}</h2>
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-6">
             <div id="map"></div>
         </div>
         <div class="col-lg-4">
-            <label>Rating:</label> {{hotel.get_rate}}<br />
-            <label>Address:</label> {{hotel.address}} {{hotel.address_number}}, {{hotel.city}}, {{hotel.country}}<br />
+            <label>Rating:</label> {{service.get_rate}}<br />
+            <label>Address:</label> {{service.address}} {{service.number}}, {{service.city}}, {{service.country}}<br />
             <h4>Descritpion</h4>
             <div class="panel panel-default">
-                <div class="panel-body">{{hotel.description}}</div>
+                <div class="panel-body">{{service.promo_description}}</div>
             </div>
         </div>
     </div>
@@ -20,41 +20,35 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col">
-            <h3>Rooms</h3>
+            <h3>Offices</h3>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            {% if hotel.hotelroom_set.all %}
+            {% if service.branchoffice_set.all %}
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Room No</th>
-                        <th>Type</th>
-                        <th>Floor Number</th>
-                        <th>Capacity</th>
-                        <th>Balcony</th>
-                        <th>Usual Price</th>
-                        <th>Rating</th>
+                        <th>Name</th>
+                        <th>City</th>
+                        <th>Country</th>
+                        <th>Address</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for room in hotel.hotelroom_set.all %}
+                    {% for bo in service.branchoffice_set.all %}
                     <tr>
-                        <td>{{room.number}}</td>
-                        <td>{{room.name}}</td>
-                        <td>{{room.floor_number}}</td>
-                        <td>{{room.capacity}}</td>
-                        <td>{{room.has_balcony|yesno:"Yes,No,N/A"}}</td>
-                        <td>{{room.default_price_per_day}}</td>
-                        <td>{{room.get_rate}}</td>
+                        <td>{{bo.name}}</td>
+                        <td>{{bo.city}}</td>
+                        <td>{{bo.country}}</td>
+                        <td>{{bo.address}} {{bo.number}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
             {% else %}
             <div class="panel panel-default">
-                <div class="panel-body">No rooms have been added</div>
+                <div class="panel-body">No branch offices have been added</div>
             </div>
             {% endif %}
         </div>
@@ -64,33 +58,50 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col">
-            <h3>Services</h3>
+            <h3>Vehicles</h3>
         </div>
     </div>
     <div class="row">
+        <form class="form-inline" action="#" method="POST">
+            {% csrf_token %}
+            {{search_form}}
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+    <div class="row">
         <div class="col">
-            {% if hotel.hotelservice_set.all %}
+            {% if vehicles.exists %}
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Price</th>
-                        <th>Type of Charge</th>
+                        <th>Manufacturer</th>
+                        <th>Model</th>
+                        <th>Year of make</th>
+                        <th>Seats</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for service in hotel.hotelservice_set.all %}
+                    {% for vehicle in vehicles.all %}
                     <tr>
-                        <td>{{service.name}}</td>
-                        <td>{{service.price}}</td>
-                        <td>{{service.type_of_charge}}</td>
+                        <td>{{vehicle.name}}</td>
+                        <td>
+                        {% for k, v in helper.items %}
+                            {% if k == vehicle.manufacturer %}
+                            {{v}}
+                            {% endif %}
+                        {% endfor %}
+                        </td>
+                        <td>{{vehicle.model}}</td>
+                        <td>{{vehicle.year}}</td>
+                        <td>{{vehicle.seats}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
             {% else %}
             <div class="panel panel-default">
-                <div class="panel-body">No services have been added</div>
+                <div class="panel-body">No vehicles match your search</div>
             </div>
             {% endif %}
         </div>
@@ -109,7 +120,7 @@
     }
 
     function geocodeAddress(geocoder, resultsMap) {
-        var address = '{{hotel.address}} {{hotel.address_number}}, {{hotel.city}}, {{hotel.country}}';
+        var address = '{{service.address}} {{service.number}}, {{service.city}}, {{service.country}}';
         geocoder.geocode({ 'address': address }, function (results, status) {
             if (status === 'OK') {
                 resultsMap.setCenter(results[0].geometry.location);

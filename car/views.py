@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
@@ -15,6 +15,7 @@ from user.models import User, DiscountPointReference
 from avio.models import PackageReservation, Ticket
 from django.conf import settings
 from django.db import IntegrityError, transaction
+from .forms import VehicleSearchForm
 
 
 @login_required()
@@ -508,3 +509,41 @@ def incomes(request):
     'income':income
   }
   return render(request, 'car/incomes.html', context)
+
+
+def service_home_page_unregistered(request, service_id):
+  service = get_object_or_404(Service, pk=service_id)
+  search_form = VehicleSearchForm()
+  helper = dict(Car.MANUFACTURER)
+  if request.method == 'GET':
+    vehicles = service.car_set.all()
+    context = {'service': service, 'vehicles': vehicles.all(), 'search_form': search_form, 'helper': helper}
+    return render(request, 'car/view_unregistered.html', context)
+  elif request.method == 'POST':
+    vehicles = Car.objects.filter(service_id=service.id)
+    form = VehicleSearchForm(request.POST)
+    if form.is_valid():
+      name = form.cleaned_data['name']
+      manufacturer = form.cleaned_data['manufacturer']
+      model = form.cleaned_data['model']
+      year = form.cleaned_data['year']
+      seats = form.cleaned_data['seats']
+
+      if name:
+        vehicles = vehicles.filter(name__icontains=name)
+      if manufacturer:
+         vehicles = vehicles.filter(manufacturer__exact=manufacturer)
+      if model:
+        vehicles = vehicles.filter(model__icontains=model)
+      if year:
+        vehicles = vehicles.filter(year=year)
+      if seats:
+        vehicles = vehicles.filter(seats=seats)
+    context = {'service': service, 'vehicles': vehicles.all(), 'search_form': search_form, 'helper': helper}
+    return render(request, 'car/view_unregistered.html', context)
+
+
+def all_services_unregistered(request):
+  services = Service.objects.all()
+  context = {'services': services}
+  return render(request, 'car/all_services_unregistered.html', context)

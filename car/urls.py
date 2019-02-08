@@ -25,4 +25,6 @@ urlpatterns = [
     path('confirm', views.confirmation, name='confirmation'),
     path('confirm_package', views.confirm_package, name='confirm_package'),
     path('close_package', views.close_package, name='close_package'),
+    path('<int:service_id>/view', views.service_home_page_unregistered, name='service_home_page_unregistered'),
+    path('all/view', views.all_services_unregistered, name='all_services_unregistered'),
 ]

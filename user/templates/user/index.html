@@ -1,5 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-BORISOVA STRANICA
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <h2 class="display-1">
+                Planning a trip?
+                <small class="text-muted">Let us give you a hand.</small>
+            </h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p class="lead">
+                    Reserve tickets from a wide selection of air carriers, book hotels at your destination and get transport, all in the same package!
+                    We offer special discounts for our long-term users, so don't be shy, <a href="{% url 'user:registration_submit' %}">register now</a>!
+                    By select two or more services in the same package, special discounts may apply! We are here to help your trip become truly special.
+            </p>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col text-center">
+            <a href="#"><img src="/media/airplane.png" style="max-width:80%; max-height:80%;" alt="" /></a>
+        </div>
+        <div class="col text-center">
+            <a href="{% url 'hotels:view_hotels_unregistered' %}"><img src="/media/sleep.png" style="max-width:80%; max-height:80%;" alt="" /></a>
+        </div>
+        <div class="col text-center">
+            <a href="{% url 'car:all_services_unregistered' %}"><img src="/media/rent-a-car.png" style="max-width:80%; max-height:80%;" alt="" /></a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <h3>Fly with us!</h3>
+        </div>
+        <div class="col text-center">
+            <h3>Book with us!</h3>
+        </div>
+        <div class="col text-center">
+            <h3>Ride with us!</h3>
+        </div>
+    </div>
+</div>
 {% endblock content %}
