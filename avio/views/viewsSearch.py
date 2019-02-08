@@ -3,7 +3,7 @@ from django.views.generic.edit import View
 from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView
 from django.shortcuts import redirect, render
-from avio.models import Flight, Ticket, Seat, FlightLeg, FlightRate, PackageReservation
+from avio.models import Flight, Ticket, Seat, FlightLeg, FlightRate, PackageReservation, Airport
 from user.models import Profile, UserRelationship, DiscountPointReference
 from django import forms
 import datetime
@@ -14,6 +14,7 @@ from django.db.models import F, ExpressionWrapper, fields
 import json
 from django.contrib import messages 
 from django.core.mail import send_mail
+from django.core.exceptions import ValidationError
 
 
 class RefineSearchForm(forms.ModelForm):
@@ -36,19 +37,28 @@ class DateInput(forms.DateInput):
 
 
 class AirportForm(forms.ModelForm):
-    TRIP_TYPE = (("One-way", "One-way"), ("Return", "Return"),)
-    trip_type = forms.ChoiceField(choices=TRIP_TYPE)
+    TRIP_TYPE = (("One-way", "One-way"),)
+    trip_type = forms.ChoiceField(choices=TRIP_TYPE,)
     SEAT_TYPE = (("Economy", "Economy"), ("Business", "Business"), ("First class", "First class"))
     seat = forms.ChoiceField(choices=SEAT_TYPE)
-    passenger_numbers = forms.IntegerField(min_value=1)
+    passenger_numbers = forms.IntegerField(min_value=1, initial = 1)
 
     class Meta:
         model = Flight
         fields = ['departure_airport', 'arrival_airport', 'departure_date', 'arrival_date', 'departure_city', 'arrival_city']
         widgets = {'departure_date': DateInput(), 'arrival_date': DateInput(),}
-        labels = {"departure_airport": "From", "departure_city": "From", "arrival_airport": "To", "arrival_city": "To", "departure_date": "Depart", "arrival_date": "Return",}
+        labels = {"departure_city": "From", "arrival_city": "To", "departure_date": "Depart", "arrival_date": "Return",}
         
-
+    def is_valid(self):
+        depart = self.data['departure_date']
+        depart = datetime.datetime.strptime(depart, '%Y-%m-%d')
+        arr = self.data['arrival_date']
+        arr = datetime.datetime.strptime(arr, '%Y-%m-%d')
+        if arr.date() <= depart.date() or depart < datetime.datetime.now():
+            return False
+        return True
+    
+    
 
 class AvioSearch(View):
     def get(self, request, *args, **kwargs):
@@ -66,6 +76,11 @@ class AvioSearch(View):
 
 class AvioSearchResults(View):
     def get(self, request, *args, **kwargs): 
+        form = AirportForm(request.GET)
+        if not form.is_valid():
+            messages.error(request, "Invalid dates")
+            return render(request, 'avio/avio_search.html', {'form':form})
+
         request.session['date_to'] = request.GET["arrival_date"]
         depart_date = request.GET["departure_date"]
         depart_city = request.GET["departure_city"]
