@@ -60,23 +60,24 @@ def seat_change(request, id):
         else:
             seat_type = update_seat['seat_type'].value()
             seat_status = update_seat['seat_status'].value()
-            number = int(update_seat['seat_number'].value())
-            try:
-                this_flight = Flight.objects.get(pk=id)
-                obj = Seat.objects.get(flight = id, seat_type = seat_type, seat_number = number)
-                
-                # ako se menja iz promocije u nesto drugo obrisi kartu sa promocijom
-                if obj.seat_status == "P":
-                    Ticket.objects.filter(flight=this_flight, seat=obj).delete()
-                
-                #  ako se sediste menja u promociju napravi kartu sa promocijom
-                if seat_status == "P":
-                    Ticket.objects.create(flight=this_flight, seat=obj, status="P")
-                
-                obj.seat_status = seat_status
-                obj.save()
-            except Seat.DoesNotExist:
-                raise Http404("No Seat matches the given query.")
+            if seat_status != "R" and not request.user.is_superuser:
+                number = int(update_seat['seat_number'].value())
+                try:
+                    this_flight = Flight.objects.get(pk=id)
+                    obj = Seat.objects.get(flight = id, seat_type = seat_type, seat_number = number)
+                    
+                    # ako se menja iz promocije u nesto drugo obrisi kartu sa promocijom
+                    if obj.seat_status == "P":
+                        Ticket.objects.filter(flight=this_flight, seat=obj).delete()
+                    
+                    #  ako se sediste menja u promociju napravi kartu sa promocijom
+                    if seat_status == "P":
+                        Ticket.objects.create(flight=this_flight, seat=obj, status="P")
+                    
+                    obj.seat_status = seat_status
+                    obj.save()
+                except Seat.DoesNotExist:
+                    raise Http404("No Seat matches the given query.")
 
         return redirect('avio:seats_change', id)
     else:
