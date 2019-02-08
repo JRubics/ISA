@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Avio Companies</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {% if acomps.exists %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>City</th>
+                        <th>Address</th>
+                        <th>Country</th>
+                        <th>Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for acomp in acomps.all %}
+                    <tr>
+                        <td><a href="{% url 'avio:view_unregistered' acomp.id %}">{{acomp.name}}</a></td>
+                        <td>{{acomp.city}}</td>
+                        <td>{{acomp.address}} {{acomp.number}}</td>
+                        <td>{{acomp.country}}</td>
+                        <td>{{acomp.get_rate}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="panel panel-default">
+                <div class="panel-body">No avio companies on server</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
