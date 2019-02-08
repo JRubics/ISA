@@ -5,40 +5,40 @@ import datetime
 
 
 class AvioReservation(TestCase):
-    fixtures = ['avio/fixtures/avio.json']
+    fixtures = ['avio/fixtures/avio2020.json']
 
     # testovi za AvioSearch rezultate
     def test_avio_seach_results_found_1(self):
         self.client.login(username="Orion", password="wdvhu098")
         context = {}
-        context['arrival_date'] = "2019-02-19"
-        context["departure_date"] = "2019-02-10"
+        context['arrival_date'] = "2020-02-19"
+        context["departure_date"] = "2020-02-10"
         context["departure_city"] = "1"
         context["arrival_city"] = "7"
         context["passenger_numbers"] = "2"
         context["seat"] = "Economy"
         context["trip_type"] = "One-way"
         response = self.client.get(reverse('avio:search_results_avio'),data=context)
-        self.assertQuerysetEqual(response.context['ret'], ["(<Flight: FTN AIR - Novi Sad -> Porto - 2019-02-10 18:04>, 'Direct')"])
+        self.assertQuerysetEqual(response.context['ret'], ["(<Flight: FTN AIR - Novi Sad -> Porto - 2020-02-10 18:04>, 'Direct')"])
 
     def test_avio_seach_results_found_2(self):
         self.client.login(username="Orion", password="wdvhu098")
         context = {}
-        context['arrival_date'] = "2019-02-19"
-        context["departure_date"] = "2019-02-10"
+        context['arrival_date'] = "2020-02-19"
+        context["departure_date"] = "2020-02-10"
         context["departure_city"] = "1"
         context["arrival_city"] = "7"
         context["passenger_numbers"] = "1"
         context["seat"] = "Economy"
         context["trip_type"] = "One-way"
         response = self.client.get(reverse('avio:search_results_avio'),data=context)
-        self.assertQuerysetEqual(response.context['ret'], ["(<Flight: FTN AIR - Novi Sad -> Porto - 2019-02-10 18:04>, 'Direct')", "(<Flight: TAP AIR PROTUGAL - Novi Sad -> Porto - 2019-02-10 20:55>, 'Direct')"])
+        self.assertQuerysetEqual(response.context['ret'], ["(<Flight: FTN AIR - Novi Sad -> Porto - 2020-02-10 18:04>, 'Direct')", "(<Flight: TAP AIR PROTUGAL - Novi Sad -> Porto - 2020-02-10 20:55>, 'Direct')"])
 
     def test_avio_seach_results_found_0(self):
         self.client.login(username="Orion", password="wdvhu098")
         context = {}
-        context['arrival_date'] = "2019-02-19"
-        context["departure_date"] = "2019-02-11"
+        context['arrival_date'] = "2020-02-19"
+        context["departure_date"] = "2020-02-11"
         context["departure_city"] = "1"
         context["arrival_city"] = "7"
         context["passenger_numbers"] = "1"
@@ -50,8 +50,8 @@ class AvioReservation(TestCase):
     def test_avio_seach_results_not_enogh_seats_0(self):
         self.client.login(username="Orion", password="wdvhu098")
         context = {}
-        context['arrival_date'] = "2019-02-19"
-        context["departure_date"] = "2019-02-10"
+        context['arrival_date'] = "2020-02-19"
+        context["departure_date"] = "2020-02-10"
         context["departure_city"] = "1"
         context["arrival_city"] = "7"
         context["passenger_numbers"] = "21"
@@ -67,8 +67,8 @@ class AvioReservation(TestCase):
         context['sort'] = "3" # sortiranje po ceni
         context["avio_company"] = ""
         context["fly_type"] = ""
-        context['arrival_date'] = "2019-02-19"
-        context["departure_date"] = "2019-02-10"
+        context['arrival_date'] = "2020-02-19"
+        context["departure_date"] = "2020-02-10"
         context["departure_city"] = "1"
         context["arrival_city"] = "7"
         context["passenger_numbers"] = "1"
@@ -76,7 +76,7 @@ class AvioReservation(TestCase):
         context["trip_type"] = "One-way"
         response = self.client.get(reverse('avio:search_results_avio'),data=context)
         response = self.client.post(reverse('avio:search_results_avio'),data=context)
-        self.assertQuerysetEqual(response.context['ret'], ["(<Flight: TAP AIR PROTUGAL - Novi Sad -> Porto - 2019-02-10 20:55>, 'Direct')", "(<Flight: FTN AIR - Novi Sad -> Porto - 2019-02-10 18:04>, 'Direct')"])
+        self.assertQuerysetEqual(response.context['ret'], ["(<Flight: TAP AIR PROTUGAL - Novi Sad -> Porto - 2020-02-10 20:55>, 'Direct')", "(<Flight: FTN AIR - Novi Sad -> Porto - 2020-02-10 18:04>, 'Direct')"])
 
     def test_avio_seach_results_sorted_price_low_high(self):
         self.client.login(username="Orion", password="wdvhu098")
@@ -84,8 +84,8 @@ class AvioReservation(TestCase):
         context['sort'] = "2" # sortiranje po ceni
         context["avio_company"] = ""
         context["fly_type"] = ""
-        context['arrival_date'] = "2019-02-19"
-        context["departure_date"] = "2019-02-10"
+        context['arrival_date'] = "2020-02-19"
+        context["departure_date"] = "2020-02-10"
         context["departure_city"] = "1"
         context["arrival_city"] = "7"
         context["passenger_numbers"] = "1"
@@ -93,7 +93,7 @@ class AvioReservation(TestCase):
         context["trip_type"] = "One-way"
         response = self.client.get(reverse('avio:search_results_avio'),data=context)
         response = self.client.post(reverse('avio:search_results_avio'),data=context)
-        self.assertQuerysetEqual(response.context['ret'], ["(<Flight: FTN AIR - Novi Sad -> Porto - 2019-02-10 18:04>, 'Direct')", "(<Flight: TAP AIR PROTUGAL - Novi Sad -> Porto - 2019-02-10 20:55>, 'Direct')"])
+        self.assertQuerysetEqual(response.context['ret'], ["(<Flight: FTN AIR - Novi Sad -> Porto - 2020-02-10 18:04>, 'Direct')", "(<Flight: TAP AIR PROTUGAL - Novi Sad -> Porto - 2020-02-10 20:55>, 'Direct')"])
 
     def test_avio_seach_results_sorted_flight_duration(self):
         self.client.login(username="Orion", password="wdvhu098")
@@ -101,8 +101,8 @@ class AvioReservation(TestCase):
         context['sort'] = "4" # sortiranje po trajanju
         context["avio_company"] = ""
         context["fly_type"] = ""
-        context['arrival_date'] = "2019-02-19"
-        context["departure_date"] = "2019-02-10"
+        context['arrival_date'] = "2020-02-19"
+        context["departure_date"] = "2020-02-10"
         context["departure_city"] = "1"
         context["arrival_city"] = "7"
         context["passenger_numbers"] = "1"
@@ -110,7 +110,7 @@ class AvioReservation(TestCase):
         context["trip_type"] = "One-way"
         response = self.client.get(reverse('avio:search_results_avio'),data=context)
         response = self.client.post(reverse('avio:search_results_avio'),data=context)
-        self.assertQuerysetEqual(response.context['ret'], ["(<Flight: TAP AIR PROTUGAL - Novi Sad -> Porto - 2019-02-10 20:55>, 'Direct')", "(<Flight: FTN AIR - Novi Sad -> Porto - 2019-02-10 18:04>, 'Direct')"])
+        self.assertQuerysetEqual(response.context['ret'], ["(<Flight: TAP AIR PROTUGAL - Novi Sad -> Porto - 2020-02-10 20:55>, 'Direct')", "(<Flight: FTN AIR - Novi Sad -> Porto - 2020-02-10 18:04>, 'Direct')"])
 
     def test_avio_seach_results_filter_by_avio_company(self):
         self.client.login(username="Orion", password="wdvhu098")
@@ -118,8 +118,8 @@ class AvioReservation(TestCase):
         context['sort'] = "4" # sortiranje po trajanju
         context["avio_company"] = "1" # ftn air
         context["fly_type"] = ""
-        context['arrival_date'] = "2019-02-19"
-        context["departure_date"] = "2019-02-10"
+        context['arrival_date'] = "2020-02-19"
+        context["departure_date"] = "2020-02-10"
         context["departure_city"] = "1"
         context["arrival_city"] = "7"
         context["passenger_numbers"] = "1"
@@ -127,7 +127,7 @@ class AvioReservation(TestCase):
         context["trip_type"] = "One-way"
         response = self.client.get(reverse('avio:search_results_avio'),data=context)
         response = self.client.post(reverse('avio:search_results_avio'),data=context)
-        self.assertQuerysetEqual(response.context['ret'], ["(<Flight: FTN AIR - Novi Sad -> Porto - 2019-02-10 18:04>, 'Direct')"])
+        self.assertQuerysetEqual(response.context['ret'], ["(<Flight: FTN AIR - Novi Sad -> Porto - 2020-02-10 18:04>, 'Direct')"])
 
     # test rezervacije sedista
     def test_avio_seach_reserve_ticket(self):
@@ -142,8 +142,8 @@ class AvioReservation(TestCase):
         num_of_pac = len(PackageReservation.objects.all())
 
         context = {}
-        context['arrival_date'] = "2019-02-19"
-        context["departure_date"] = "2019-02-10"
+        context['arrival_date'] = "2020-02-19"
+        context["departure_date"] = "2020-02-10"
         context["departure_city"] = "1"
         context["arrival_city"] = "7"
         context["passenger_numbers"] = "1"
@@ -195,11 +195,11 @@ class AvioReservation(TestCase):
         self.assertEqual(PackageReservation.objects.get(pk = 11).master_user, response.wsgi_request.user)
 
         # date from u paket je iz prve forme u searcu
-        dat = datetime.date(2019, 2, 10)
+        dat = datetime.date(2020, 2, 10)
         self.assertEqual(PackageReservation.objects.get(pk = 11).date_from.date(), dat)
 
         # date to u paket je iz prve forme u searcu
-        dat = datetime.date(2019, 2, 19)
+        dat = datetime.date(2020, 2, 19)
         self.assertEqual(PackageReservation.objects.get(pk = 11).date_to.date(), dat)
 
         # grad je sa pk 7 sto je prosledjen u search formi kao destinacija
