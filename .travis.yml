@@ -6,3 +6,5 @@ install:
 script:
   - python manage.py test user.tests
   - python manage.py test car.tests
+  - python manage.py test car.avio
+  - python manage.py test car.hotels
