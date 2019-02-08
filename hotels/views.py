@@ -173,12 +173,24 @@ def edit_hotel_info(request, hotel_id):
         raise PermissionDenied
 
 
+@login_required()
 def view_hotels(request):
-    hotels = Hotel.objects.all()
-    context = {'hotels': hotels}
-    return render(request, 'hotels/view_hotels.html', context)
+    user = request.user
+    package = user.profile.active_package
+    if package:
+        hsc = HotelShoppingCart()
+        hsc.user = user
+        hsc.check_in = package.date_from
+        hsc.check_out = package.date_to
+        hsc.guest_number = package.ticket_set.count()
+        hotels = Hotel.objects.all()
+        context = {'hotels': hotels}
+        return render(request, 'hotels/view_hotels.html', context)
+    else:
+        return redirect('user:home')
 
 
+@login_required()
 def search_hotels(request):
     hotels = Hotel.objects.all()
     if request.method == 'POST':
@@ -197,6 +209,32 @@ def search_hotels(request):
             hotels = filter_available_hotels(hotels, checkin, checkout)
     context = {'hotels': hotels}
     return render(request, 'hotels/view_hotels.html', context)
+
+
+def view_hotels_unregistered(request):
+    hotels = Hotel.objects.all()
+    context = {'hotels': hotels}
+    return render(request, 'hotels/view_hotels_unregistered.html', context)
+
+
+def search_hotels_unregistered(request):
+    hotels = Hotel.objects.all()
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        country = request.POST.get('country')
+        city = request.POST.get('city')
+        checkin = request.POST.get('checkin')
+        checkout = request.POST.get('checkout')
+        if name:
+            hotels = hotels.filter(name__icontains=name)
+        if country:
+            hotels = hotels.filter(country__iexact=country)
+        if city:
+            hotels = hotels.filter(city__icontains=city)
+        if checkin and checkout:
+            hotels = filter_available_hotels(hotels, checkin, checkout)
+    context = {'hotels': hotels}
+    return render(request, 'hotels/view_hotels_unregistered.html', context)
 
 
 def view_hotel_unregistered(request, hotel_id):
@@ -547,6 +585,12 @@ def delete_room_price(request, hotel_id, room_id, price_id):
 
 # Hotel Reservation
 
+def calculate_total_capacity(rooms):
+    tmp = 0
+    for room in rooms.all():
+        tmp += room.capacity
+    return tmp
+
 
 @login_required()
 def reservation_step_1(request, hotel_id):
@@ -561,6 +605,13 @@ def reservation_step_1(request, hotel_id):
         room_num = request.POST.get('room_num')
         min_price = request.POST.get('min_price')
         max_price = request.POST.get('max_price')
+        import pdb; pdb.set_trace()
+        user = request.user
+        package = user.profile.active_package
+        if package.ticket_set.count() < int(guest_num):
+            messages.error(request, 'Cannot book for more people than are flying!')
+            context = {'hotel': hotel}
+            return render(request, 'hotels/reservation_step_1.html', context)
 
         hsc = HotelShoppingCart()
         if not (check_in and check_out and guest_num and room_num):
@@ -611,7 +662,7 @@ def reservation_step_2(request, hotel_id):
     user = request.user
     hsc = user.hotelshoppingcart
     if request.method == 'GET':
-        rooms = HotelRoom.objects.filter(hotel_id=hotel.id)
+        rooms = hotel.hotelroom_set.filter(capacity__lte=hsc.guest_number)
         rooms = list(rooms)
         rooms = filter_avialable_rooms(rooms, hsc.check_in, hsc.check_out)
         rooms = filter_out_discounted_and_calculate_price(
@@ -635,6 +686,26 @@ def reservation_step_2(request, hotel_id):
             hsc.rooms.clear()
             for room in hscform.cleaned_data['rooms'].all():
                 hsc.rooms.add(room)
+            if calculate_total_capacity(hsc.rooms) > user.profile.active_package.ticket_set.count():
+                messages.error(request, 'Cannot book for more people than are flying!')
+                rooms = hotel.hotelroom_set.filter(capacity__lte=hsc.guest_number)
+                rooms = list(rooms)
+                rooms = filter_avialable_rooms(rooms, hsc.check_in, hsc.check_out)
+                rooms = filter_out_discounted_and_calculate_price(
+                    rooms, hsc.check_in, hsc.check_out)
+                rooms = filter_rooms_by_guest_and_room_number(
+                    rooms, hsc.guest_number, hsc.room_number)
+                if hsc.min_room_price and hsc.max_room_price:
+                    rooms = filter_rooms_by_price(
+                        rooms, hsc.min_room_price, hsc.max_room_price)
+
+                hscform = HSCHelpFormRooms()
+                hscform.fields['rooms'].queryset = HotelRoom.objects.filter(
+                    id__in=get_rids_from_list(rooms))
+
+                context = {'hotel': hotel, 'hsc': hsc,
+                        'hscform': hscform, 'rooms': rooms}
+                return render(request, 'hotels/reservation_step_2.html', context)
             hsc.save()
             return redirect('hotels:reservation_step_3', hotel_id=hotel.id)
 
@@ -712,8 +783,9 @@ def reservation_step_4(request, hotel_id):
             reservation.services.add(service)
         reservation.save()
         hsc.delete()
-        # TODO: reroute
-        return redirect('hotels:view_hotels')
+        package = user.profile.active_package
+        package.hotel_reservation = reservation
+        return redirect('hotels:forward_package')
 
 
 def filter_discounted_rooms_and_prepare(rooms, check_in, check_out):
@@ -746,12 +818,11 @@ def quick_reservation(request, hotel_id):
     user = request.user
     hsc = user.hotelshoppingcart
     if request.method == 'GET':
-        rooms = hotel.hotelroom_set.all()
+        rooms = hotel.hotelroom_set.filter(capacity__lte=hsc.guest_number)
         rooms = list(rooms)
         rooms = filter_avialable_rooms(rooms, hsc.check_in, hsc.check_out)
         rooms = filter_discounted_rooms_and_prepare(
             rooms, hsc.check_in, hsc.check_out)
-        # TODO: izbaci sobe sa vecim kapacitetom od broja karata
         for room in rooms:
             qro = QuickReservationOption()
             qro.shopping_cart = hsc
@@ -781,8 +852,6 @@ def quick_reservation(request, hotel_id):
             reservation.rooms_charge = qro.rooms_charge * (Decimal(100) - get_hotel_discount()) / Decimal(100)
             reservation.services_charge = qro.services_charge * (Decimal(100) - get_hotel_discount()) / Decimal(100)
             reservation.guest_number = hsc.guest_number
-            import pdb
-            pdb.set_trace()
             try:
                 reservation.full_clean()
                 reservation.save()
@@ -795,8 +864,9 @@ def quick_reservation(request, hotel_id):
             for service in qro.services.all():
                 reservation.services.add(service)
             hsc.delete()
-            # TODO: reroute
-            return redirect('hotels:view_hotels')
+            package = user.profile.active_package
+            package.hotel_reservation = reservation
+            return redirect('hotels:forward_package')
         else:
             messages.error(
                 request, 'Error during reservation. Please try again')
@@ -935,7 +1005,6 @@ def earnings_statistic(request, hotel_id):
         raise PermissionDenied
 
 
-
 @login_required()
 def hotel_rate(request, id=None):
     reservation = HotelReservation.objects.get(id=id)
@@ -957,3 +1026,10 @@ def hotel_rate(request, id=None):
     else:
         context = {'reservation':reservation, 'rooms':rooms }
         return render(request, 'hotels/rate_hotel.html',context)
+
+
+@login_required()
+def package_forward(request):
+    if request.method == "GET":
+        context = {'discount': DiscountPointReference.objects.first().carservice_discount}
+        return render(request, 'hotels/forward_package.html', context)

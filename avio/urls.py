@@ -12,4 +12,5 @@ urlpatterns = [
     # za ko god radi profilne stranice kompanija
     path('avio/fast/reservation/<id>', views.FastReservation.as_view(), name='fast_reservation'),
     path('rate/<id>', views.flight_rate, name='flight_rate'),
+    path('booking/', views.package_forward, name='package_forward'),
 ]

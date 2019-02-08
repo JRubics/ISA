@@ -12,7 +12,7 @@
                 <div class="row">
                     <div class="col">
                         <label>Name:</label> {{hotel.name}}<br />
-                        <label>Ratinga:</label> {{hotel.get_rate}}<br />
+                        <label>Rating:</label> {{hotel.get_rate}}<br />
                         <label>Address:</label> {{hotel.address}} {{hotel.address_number}}, {{hotel.city}}, {{hotel.country}}<br />
                         <a class="btn btn-primary" href="{% url 'hotels:edit_hotel_info' hotel.id%}" role="button">Edit</a>
                         <h4>Descritpion</h4>
