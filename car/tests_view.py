@@ -225,6 +225,8 @@ class CarSeleniumTestCase(LiveServerTestCase):
       selenium.find_element_by_name('seats').send_keys('1')
       selenium.find_element_by_name('find').click()
 
+      print(selenium.page_source)
+      print(len(selenium.find_elements_by_name('make_reservation')))
       assert len(selenium.find_elements_by_name('make_reservation')) is 2
       assert 'Available cars:' in selenium.page_source
 

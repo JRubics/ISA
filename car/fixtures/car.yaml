@@ -230,7 +230,7 @@
 - model: car.branchoffice
   pk: 3
   fields:
-    name: Obbice Takovska
+    name: Office Takovska
     service: 1
     country: Serbia
     city: Beograd
