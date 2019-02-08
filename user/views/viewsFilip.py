@@ -131,7 +131,7 @@ class ProfileEdit(View):
         return redirect('user:profile')
 
 
-@login_required()
+@login_required() 
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
@@ -144,6 +144,7 @@ def change_password(request):
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'user/profile_pass_change.html', {'form': form})
+
 
 class PassportForm(forms.Form):
     passport = forms.CharField(label='passport', max_length=15, )
