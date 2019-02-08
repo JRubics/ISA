@@ -263,7 +263,7 @@ ERROR: {{ message }}
           <td>{{package.hotel_reservation.rooms_charge|add:package.hotel_reservation.services_charge}}</td>
           <td>
             {% if package.hotel_reservation.can_be_closed%}
-              BORISE dodaj cancel
+              <a href="{% url 'hotels:cancel_reservation' package.hotel_reservation.id %}" class="btn btn-danger">Cancel</a>
             {% endif %}
           </td>
         </tr>

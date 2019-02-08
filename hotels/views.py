@@ -10,8 +10,6 @@ from django.contrib.auth.decorators import permission_required
 from django.core.exceptions import PermissionDenied
 from user.models import DiscountPointReference
 
-# import pdb; pdb.set_trace()
-
 
 def get_room_total(room, check_in, check_out):
     prices = HotelRoomPrice.objects.filter(room_id=room.id)
@@ -183,6 +181,7 @@ def view_hotels(request):
         hsc.check_in = package.date_from
         hsc.check_out = package.date_to
         hsc.guest_number = package.ticket_set.count()
+        hsc.save()
         hotels = Hotel.objects.all()
         context = {'hotels': hotels}
         return render(request, 'hotels/view_hotels.html', context)
@@ -605,7 +604,6 @@ def reservation_step_1(request, hotel_id):
         room_num = request.POST.get('room_num')
         min_price = request.POST.get('min_price')
         max_price = request.POST.get('max_price')
-        import pdb; pdb.set_trace()
         user = request.user
         package = user.profile.active_package
         if package.ticket_set.count() < int(guest_num):
@@ -785,7 +783,8 @@ def reservation_step_4(request, hotel_id):
         hsc.delete()
         package = user.profile.active_package
         package.hotel_reservation = reservation
-        return redirect('hotels:forward_package')
+        package.save()
+        return redirect('hotels:package_forward')
 
 
 def filter_discounted_rooms_and_prepare(rooms, check_in, check_out):
@@ -807,6 +806,7 @@ def filter_discounted_rooms_and_prepare(rooms, check_in, check_out):
             room.services = service_package.services.all()
             room.total = room.disprice + \
                 get_total_services(room.services, daynum, room.capacity, 1)
+            room.total2 = room.total
             room.total = room.total * (Decimal(100) - get_hotel_discount()) / Decimal(100)
             tmp.append(room)
     return tmp
@@ -827,7 +827,7 @@ def quick_reservation(request, hotel_id):
             qro = QuickReservationOption()
             qro.shopping_cart = hsc
             qro.rooms_charge = room.disprice
-            qro.services_charge = room.total - room.disprice
+            qro.services_charge = room.total2 - room.disprice
             qro.room = get_object_or_404(HotelRoom, pk=room.id)
             qro.save()
             for service in room.services:
@@ -858,19 +858,19 @@ def quick_reservation(request, hotel_id):
             except ValidationError:
                 messages.error(request, 'Error during reservation')
                 context = {'hotel': hotel}
-                # TODO: reroute
                 return render(request, 'hotels/quick_reservation.html', context)
             reservation.rooms.add(qro.room)
             for service in qro.services.all():
                 reservation.services.add(service)
+            reservation.save()
             hsc.delete()
             package = user.profile.active_package
             package.hotel_reservation = reservation
-            return redirect('hotels:forward_package')
+            package.save()
+            return redirect('hotels:package_forward')
         else:
             messages.error(
                 request, 'Error during reservation. Please try again')
-            # TODO: reroute
             return render(request, 'hotels/quick_reservation.html', context)
 
 
@@ -1033,3 +1033,14 @@ def package_forward(request):
     if request.method == "GET":
         context = {'discount': DiscountPointReference.objects.first().carservice_discount}
         return render(request, 'hotels/forward_package.html', context)
+
+
+@login_required()
+def cancel_reservation(request, reservation_id):
+    user = request.user
+    reser = get_object_or_404(HotelReservation, pk=reservation_id)
+    if reser.user == user:
+        reser.delete()
+        return redirect('user:home')
+    else:
+        raise PermissionDenied
