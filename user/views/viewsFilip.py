@@ -24,8 +24,9 @@ class ListProfiles(generic.ListView):
             if len(name) == 0:
                 return render(request, self.template_name, {'q_profiles': profiles})
 
+            name = name.split(" ", 1)
             first_name = name[0]
-            last_name = ('',name[1])[len(name)==2]
+            last_name = name[1] if len(name) >= 2 else ""
             profiles = profiles.filter(user__first_name__icontains=first_name, user__last_name__icontains=last_name)
         return render(request, self.template_name, {'q_profiles': profiles})
 
@@ -92,6 +93,15 @@ class Unfriend(generic.ListView):
         q1 = UserRelationship.objects.filter(user_1 = request.user, status = 'FF').values_list('user_2', flat=True)
         q2 = UserRelationship.objects.filter(user_2 = request.user, status = 'FF').values_list('user_1', flat=True)
         profiles = Profile.objects.all().filter(user__id__in=q1) | Profile.objects.all().filter(user__id__in=q2)
+        name = request.GET.get('src')
+        if name != None:
+            if len(name) == 0:
+                return render(request, self.template_name, {'q_profiles': profiles})
+
+            name = name.split(" ", 1)
+            first_name = name[0]
+            last_name = name[1] if len(name) >= 2 else ""
+            profiles = profiles.filter(user__first_name__icontains=first_name, user__last_name__icontains=last_name)
         return render(request, self.template_name, {'q_profiles': profiles})
 
     def post(self, request):

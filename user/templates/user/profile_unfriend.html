@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 
+{% block search %}  
+    <div class="form-group">
+        <input type="text" class="form-control" name="src" value="">
+    </div>
+    <button type="submit" class="btn btn-default">Search</button>
+{% endblock search %}
+
+
 {% block content %}
 <ul>
     {% for profile in q_profiles %}
