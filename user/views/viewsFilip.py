@@ -159,7 +159,7 @@ class Invitation(generic.ListView):
             if tic.invitation_too_long():
                 tic.cancelTicket()
                 tic.delete()
-            if tic.package_reservation.canBeCanceled:
+            if not tic.package_reservation.canBeCanceled:
                 tic.cancelTicket() 
                 tic.delete()
         return qs
