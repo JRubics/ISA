@@ -14,6 +14,7 @@ from django.contrib.auth.models import Permission
 from car.models import Car
 from django.contrib.contenttypes.models import ContentType
 from avio.models import PackageReservation, Ticket
+from django.contrib.auth import update_session_auth_hash
 
 
 def login_submit(request):
@@ -139,6 +140,26 @@ def home(request):
 
         return render(request, 'user/home_page.html', context)
 
+@login_required()
+def admin_pass_change(request):
+    if request.POST['password1'] != request.POST['password2']:
+        messages.error(request, "Passwords must be same.")
+        return render(request, 'user/admin_edit_page.html')
+    user = User.objects.get(id=request.user.id)
+    user.set_password(request.POST['password1'])
+    user.save()
+    update_session_auth_hash(request, user)
+    return redirect('/user/home')
+
+@login_required()
+def admin_email_change(request):
+    if User.objects.filter(email=request.POST['email']).exists():
+        messages.error(request, "Email already exists")
+        return render(request, 'user/admin_edit_page.html')
+    user = User.objects.get(id=request.user.id)
+    user.email = request.POST['email']
+    user.save()
+    return redirect('/user/home')
 
 def first_login(request):
     if request.method == 'POST':

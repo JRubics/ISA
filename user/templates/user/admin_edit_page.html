@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+ERROR: {{ message }}
+{% endfor %}
+{% endif %}
+  <form action="{% url 'user:admin_email_change' %}" method="post">
+    {% csrf_token %}
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-4" style="text-align: center">
+        <h2>Change data</h2>
+        </div>
+        <div class="col-md-5"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+          <div>email:</div>
+            <input type="email" name="email" id="email" required value='{{user.email}}'>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                  <br>
+                  <button name="change" type="submit" value="change" onclick="" class="btn btn-primary">Change</button>
+                </div>
+                <div class="col-md-2"></div>
+              </div>
+            </div>
+          <div class="col-md-4"></div>
+        </div>
+      </div>
+    </form>
+    <br>
+    <form action="{% url 'user:admin_pass_change' %}" method="post">
+        {% csrf_token %}
+    <div class="container">
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <div>password:</div>
+              <input type="password" name="password1" id="password1" required>
+              <input type="password" name="password2" id="password2" required>
+              <div class="row">
+                  <div class="col-md-2"></div>
+                  <div class="col-md-8">
+                    <br>
+                    <button name="change" type="submit" value="change" onclick="" class="btn btn-primary">Change</button>
+                  </div>
+                  <div class="col-md-2"></div>
+                </div>
+              </div>
+            <div class="col-md-4"></div>
+          </div>
+        </div>
+  </form>
+{% endblock content %}
