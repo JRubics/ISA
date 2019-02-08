@@ -60,12 +60,13 @@ def seat_change(request, id):
         else:
             seat_type = update_seat['seat_type'].value()
             seat_status = update_seat['seat_status'].value()
-            if seat_status != "R" and not request.user.is_superuser:
-                number = int(update_seat['seat_number'].value())
-                try:
-                    this_flight = Flight.objects.get(pk=id)
-                    obj = Seat.objects.get(flight = id, seat_type = seat_type, seat_number = number)
-                    
+            number = int(update_seat['seat_number'].value())
+
+            try:
+                this_flight = Flight.objects.get(pk=id)
+                obj = Seat.objects.get(flight = id, seat_type = seat_type, seat_number = number)
+                
+                if obj.seat_status != "R" or request.user.is_superuser:
                     # ako se menja iz promocije u nesto drugo obrisi kartu sa promocijom
                     if obj.seat_status == "P":
                         Ticket.objects.filter(flight=this_flight, seat=obj).delete()
@@ -76,8 +77,10 @@ def seat_change(request, id):
                     
                     obj.seat_status = seat_status
                     obj.save()
-                except Seat.DoesNotExist:
-                    raise Http404("No Seat matches the given query.")
+                else:
+                    messages.error(request, "Seat is reserved. It can not be changed")
+            except Seat.DoesNotExist:
+                raise Http404("No Seat matches the given query.")
 
         return redirect('avio:seats_change', id)
     else:
