@@ -23,7 +23,7 @@ def login_submit(request):
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            if (user.has_perm('user.is_avio_admin') or user.has_perm('user.is_hotel_admin') or user.has_perm('user.is_car_admin') or user.has_perm('user.is_master_admin')) and user.adminuser.first_login:
+            if (user.has_perm('user.is_flight_admin') or user.has_perm('user.is_hotel_admin') or user.has_perm('user.is_car_admin') or user.has_perm('user.is_master_admin')) and user.adminuser.first_login:
                 context = {'username': username, 'password': password}
                 return render(request, 'user/first_login.html', context)
             login(request, user)

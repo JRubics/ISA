@@ -20,7 +20,7 @@ class SeatUpdateForm(forms.ModelForm):
 
 
 @login_required()
-@permission_required('user.is_avio_admin')
+@permission_required('user.is_flight_admin')
 def seat_change(request, id):
     querry = Seat.objects.filter(flight = id)
     fligth = Flight.objects.get(pk=id)
