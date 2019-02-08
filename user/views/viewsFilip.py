@@ -10,8 +10,10 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 import datetime
+from django.utils.decorators import method_decorator
 
 
+@method_decorator(login_required, name='dispatch')
 class ListProfiles(generic.ListView):
     template_name = 'user/profile_people_list.html'
 
@@ -36,6 +38,7 @@ class ListProfiles(generic.ListView):
         return redirect('user:profile_people_list')
 
 
+@method_decorator(login_required, name='dispatch')
 class ListFriendRequests(generic.ListView):
     template_name = 'user/profile_friend_requests.html'
 
@@ -86,6 +89,7 @@ def profile(request):
     return render(request, 'user/profile_page.html', {'q_profiles': profiles})
 
 
+@method_decorator(login_required, name='dispatch')
 class Unfriend(generic.ListView):
     template_name = 'user/profile_unfriend.html'
 
@@ -122,6 +126,7 @@ class UserForm(forms.ModelForm):
         fields = ['first_name', 'last_name', 'email']
 
 
+@method_decorator(login_required, name='dispatch')
 class ProfileEdit(View):
     template_name = 'user/profile_edit.html'
     
@@ -160,6 +165,7 @@ class PassportForm(forms.Form):
     passport = forms.CharField(label='passport', max_length=15, )
 
 
+@method_decorator(login_required, name='dispatch')
 class Invitation(generic.ListView):
     template_name = 'user/profile_invitations.html'
 
