@@ -136,7 +136,8 @@ def home(request):
                    'tickets': tickets,
                    'is_flight_rated': is_flight_rated,
                    'packages': packages,
-                   'package_tickets': package_tickets}
+                   'package_tickets': package_tickets,
+                   'ticket_type':Ticket.TYPE}
 
         return render(request, 'user/home_page.html', context)
 

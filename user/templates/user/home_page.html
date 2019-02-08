@@ -44,7 +44,13 @@ ERROR: {{ message }}
       <td>{{reservation.passport}}</td>
       <td>{{reservation.price}}</td>
       <td>{{reservation.seat}}</td>
-      <td>{{reservation.status}}</td>
+      <td>
+        {% for key, tuple in ticket_type %}
+          {% if reservation.status == key %}
+            {{tuple}}
+           {% endif %}
+        {% endfor %}
+      </td>
       <td>
         {% if reservation.is_done %}
         {% for key, value in is_flight_rated.items %}
@@ -199,7 +205,13 @@ ERROR: {{ message }}
           <td>{{t.passport}}</td>
           <td>{{t.seat}}</td>
           <td>{{t.flight}}</td>
-          <td>{{t.status}}</td>
+          <td>
+              {% for key, tuple in ticket_type %}
+              {% if t.status == key %}
+                {{tuple}}
+               {% endif %}
+            {% endfor %}
+          </td>
           <td>{{t.price}}</td>
           <td>
             {% if package.canBeCanceled %}
