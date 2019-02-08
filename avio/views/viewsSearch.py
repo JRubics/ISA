@@ -170,10 +170,12 @@ class FastReservation(ListView):
         seat.save()
         return self.get(request, id)
 
+
 class AvioFlightDetails(DetailView):
     model = Flight
         
 
+@method_decorator(login_required, name='dispatch')
 class AvioReservation(TemplateView):
     template_name = 'avio/avio_reservation.html'
 
