@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{acomp.name}}</h2>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-6">
+            <div id="map"></div>
+        </div>
+        <div class="col-lg-4">
+            <label>Rating:</label> {{acomp.get_rate}}<br />
+            <label>Address:</label> {{acomp.address}} {{acomp.number}}, {{acomp.city.name}}, {{acomp.city.country.name}}<br />
+            <h4>Descritpion</h4>
+            <div class="panel panel-default">
+                <div class="panel-body">{{acomp.promo_description}}</div>
+            </div>
+            <h4>Destinations</h4>
+            <div class="panel panel-default">
+                <div class="panel-body">{{acomp.destination_string}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <h3>Flights</h3>
+        </div>
+    </div>
+    <div class="row">
+        <form class="form-inline" action="#" method="POST">
+            {% csrf_token %}
+            {{search_form}}
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col">
+            {% if flights.exists %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Departure City</th>
+                        <th>Departure Airport</th>
+                        <th>Departure Date</th>
+                        <th>Arrival City</th>
+                        <th>Arrival Airport</th>
+                        <th>Arrival Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for flight in flights.all %}
+                    <tr>
+                        <td>{{flight.departure_city.name}}</td>
+                        <td>{{flight.departure_airport.name}}</td>
+                        <td>{{flight.departure_date}}</td>
+                        <td>{{flight.arrival_city}}</td>
+                        <td>{{flight.arrival_airport}}</td>
+                        <td>{{flight.arrival_date}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="panel panel-default">
+                <div class="panel-body">No flights match your search</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: { lat: -34.397, lng: 150.644 }
+        });
+        var geocoder = new google.maps.Geocoder();
+
+        geocodeAddress(geocoder, map);
+    }
+
+    function geocodeAddress(geocoder, resultsMap) {
+        var address = '{{acomp.address}} {{acomp.number}}, {{acomp.city}}, {{acomp.country}}';
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status === 'OK') {
+                resultsMap.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: resultsMap,
+                    position: results[0].geometry.location
+                });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAs3ycqXIpzB9Clcc9E4nb8Tsoxppz400A&callback=initMap"></script>
+{% endblock content %}

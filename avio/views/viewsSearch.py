@@ -2,8 +2,8 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import View
 from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView
-from django.shortcuts import redirect, render
-from avio.models import Flight, Ticket, Seat, FlightLeg, FlightRate, PackageReservation, Airport
+from django.shortcuts import redirect, render, get_object_or_404
+from avio.models import Flight, Ticket, Seat, FlightLeg, FlightRate, PackageReservation, AvioCompany, Airport
 from user.models import Profile, UserRelationship, DiscountPointReference
 from django import forms
 import datetime
@@ -14,8 +14,8 @@ from django.db.models import F, ExpressionWrapper, fields
 import json
 from django.contrib import messages 
 from django.core.mail import send_mail
+from avio.forms import FlightSearchForm
 from django.core.exceptions import ValidationError
-
 
 class RefineSearchForm(forms.ModelForm):
     FLY_TYPE = (("1", "None"), ("2", "With stops"), ("3", "Direct"), )
@@ -329,3 +329,47 @@ def package_forward(request):
         context = {'discount': DiscountPointReference.objects.first().hotel_discount, 'discount_car': DiscountPointReference.objects.first().carservice_discount}
         return render(request, 'avio/forward_package.html', context)
 
+
+def view_unregistered(request, avio_id):
+    acomp = get_object_or_404(AvioCompany, pk=avio_id)
+    search_form = FlightSearchForm()
+    tmp = ""
+    for dest in acomp.destinations.all():
+        tmp += dest.name + ' (' + dest.country.name + '), '
+    if len(tmp) > 1:
+        acomp.destination_string = tmp[:-2]
+    if request.method == 'GET':
+        flights = acomp.flight_set.filter(departure_date__gte=datetime.date.today())
+        context = {'acomp': acomp, 'search_form': search_form, 'flights': flights}
+        return render(request, 'avio/view_unregistered.html', context)
+    if request.method == 'POST':
+        flights = acomp.flight_set.filter(departure_date__gte=datetime.date.today())
+        form = FlightSearchForm(request.POST)
+        dcit = form.data['departure_city']
+        dair = form.data['departure_airport']
+        ddat = form.data['departure_date']
+        aair = form.data['arrival_city']
+        acit = form.data['arrival_airport']
+        adat = form.data['arrival_date']
+
+        if dcit:
+            flights = flights.filter(departure_city=dcit)
+        if dair:
+            flights = flights.filter(departure_airport=dair)
+        if ddat:
+            flights = flights.filter(departure_date__startswith=ddat)
+        if aair:
+            flights = flights.filter(arrival_city=aair)
+        if acit:
+            flights = flights.filter(arrival_airport=acit)
+        if adat:
+            flights = flights.filter(arrival_date__startswith=adat)
+            
+        context = {'acomp': acomp, 'search_form': search_form, 'flights': flights}
+        return render(request, 'avio/view_unregistered.html', context)
+            
+
+def all_acomps_unregistered(request):
+    acomps = AvioCompany.objects.all()
+    context = {'acomps': acomps}
+    return render(request, 'avio/all_acomps.html', context)

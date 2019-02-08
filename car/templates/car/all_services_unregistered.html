@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Rent-a-car Services</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {% if services.exists %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>City</th>
+                        <th>Address</th>
+                        <th>Country</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for service in services.all %}
+                    <tr>
+                        <td><a href="{% url 'car:service_home_page_unregistered' service.id %}">{{service.name}}</a></td>
+                        <td>{{service.city}}</td>
+                        <td>{{service.address}} {{service.number}}</td>
+                        <td>{{service.country}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="panel panel-default">
+                <div class="panel-body">No services on server</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

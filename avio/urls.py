@@ -13,4 +13,6 @@ urlpatterns = [
     path('avio/fast/reservation/<id>', views.FastReservation.as_view(), name='fast_reservation'),
     path('rate/<id>', views.flight_rate, name='flight_rate'),
     path('booking/', views.package_forward, name='package_forward'),
+    path('<int:avio_id>/view', views.view_unregistered, name='view_unregistered'),
+    path('all/view', views.all_acomps_unregistered, name='all_acomps_unregistered')
 ]
