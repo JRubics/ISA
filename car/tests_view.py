@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate
 from seleniumlogin import force_login
 from .models import Service, Car, BranchOffice, Reservation, CarRate
 from avio.models import PackageReservation
-from user.models import User, Profile
+from user.models import User, Profile, DiscountPointReference
 from datetime import datetime, timedelta
 from selenium.webdriver.support.ui import Select
 
@@ -46,6 +46,9 @@ class CarSeleniumTestCase(LiveServerTestCase):
       self.package.save()
       self.user1.profile.active_package = self.package
       self.user1.profile.save()
+
+      self.discount = DiscountPointReference()
+      self.discount.save()
 
     def tearDown(self):
       self.selenium.quit()
@@ -225,8 +228,6 @@ class CarSeleniumTestCase(LiveServerTestCase):
       selenium.find_element_by_name('seats').send_keys('1')
       selenium.find_element_by_name('find').click()
 
-      print(selenium.page_source)
-      print(len(selenium.find_elements_by_name('make_reservation')))
       assert len(selenium.find_elements_by_name('make_reservation')) is 2
       assert 'Available cars:' in selenium.page_source
 
