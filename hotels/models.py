@@ -222,13 +222,13 @@ class HotelReservation(models.Model):
 class HotelShoppingCart(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE)
-    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, null=True)
     rooms = models.ManyToManyField(HotelRoom)
     services = models.ManyToManyField(HotelService, blank=True)
-    check_in = models.DateField()
-    check_out = models.DateField()
-    guest_number = models.PositiveIntegerField()
-    room_number = models.PositiveIntegerField()
+    check_in = models.DateField(null=True)
+    check_out = models.DateField(null=True)
+    guest_number = models.PositiveIntegerField(null=True)
+    room_number = models.PositiveIntegerField(null=True)
     min_room_price = models.DecimalField(
         decimal_places=2,
         max_digits=8,

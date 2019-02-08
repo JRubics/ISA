@@ -93,7 +93,9 @@ def index(request):
 
 @login_required()
 def home(request):
-    if request.user.has_perm('user.is_car_admin'):
+    if request.user.has_perm('user.is_master_admin'):
+        return redirect('/admin')
+    elif request.user.has_perm('user.is_car_admin'):
         return redirect('/car/service')
     elif request.user.has_perm('user.is_hotel_admin'):
         return redirect('hotels:admin_view_hotel', hotel_id=request.user.hotel.id)
