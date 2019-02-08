@@ -79,6 +79,8 @@ def cancel_reservation(request):
 
 @login_required()
 def profile(request):
+    if not Profile.objects.filter(user=request.user).exists():
+        return render(request, 'user/admin_edit_page.html')
     q1 = UserRelationship.objects.filter(user_1 = request.user, status = 'FF').values_list('user_2', flat=True)
     q2 = UserRelationship.objects.filter(user_2 = request.user, status = 'FF').values_list('user_1', flat=True)
     profiles = Profile.objects.all().filter(user__id__in=q1) | Profile.objects.all().filter(user__id__in=q2)
