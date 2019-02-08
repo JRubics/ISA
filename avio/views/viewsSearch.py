@@ -309,6 +309,6 @@ def flight_rate(request, id=None):
 @login_required()
 def package_forward(request):
     if request.method == "GET":
-        context = {'discount': DiscountPointReference.objects.first().hotel_discount}
+        context = {'discount': DiscountPointReference.objects.first().hotel_discount, 'discount_car': DiscountPointReference.objects.first().carservice_discount}
         return render(request, 'avio/forward_package.html', context)
 

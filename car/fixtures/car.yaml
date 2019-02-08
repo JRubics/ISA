@@ -61,7 +61,7 @@
     manufacturer: 1
     model: Klio
     car_type: 1
-    price: 9000
+    price: 60
     year: 2007
     seats: 4
     is_taken: 0
@@ -75,7 +75,7 @@
     manufacturer: 3
     model: Fokus
     car_type: 1
-    price: 8000
+    price: 80
     year: 2009
     seats: 5
     is_taken: 0
@@ -89,7 +89,7 @@
     manufacturer: 2
     model: Vektra
     car_type: 2
-    price: 8400
+    price: 106
     year: 2009
     seats: 5
     is_taken: 0
@@ -103,7 +103,7 @@
     manufacturer: 2
     model: Astra
     car_type: 1
-    price: 12000
+    price: 85
     year: 2016
     seats: 5
     is_taken: 0
@@ -117,7 +117,7 @@
     manufacturer: 2
     model: Insignia
     car_type: 2
-    price: 14800
+    price: 140
     year: 2008
     seats: 5
     is_taken: 0
@@ -131,7 +131,7 @@
     manufacturer: 6
     model: A2
     car_type: 1
-    price: 22000
+    price: 176
     year: 2017
     seats: 5
     is_taken: 0
@@ -145,7 +145,7 @@
     manufacturer: 5
     model: Yaris
     car_type: 1
-    price: 2200
+    price: 44
     year: 2002
     seats: 4
     is_taken: 0
@@ -159,7 +159,7 @@
     manufacturer: 7
     model: K12
     car_type: 3
-    price: 24000
+    price: 220
     year: 2004
     seats: 2
     is_taken: 0
@@ -173,7 +173,7 @@
     manufacturer: 8
     model: Bus1
     car_type: 3
-    price: 33000
+    price: 330
     year: 2000
     seats: 30
     is_taken: 0
@@ -187,7 +187,7 @@
     manufacturer: 1
     model: Megan
     car_type: 2
-    price: 13000
+    price: 130
     year: 2002
     seats: 5
     is_taken: 0
@@ -201,7 +201,7 @@
     manufacturer: 1
     model: Suzuki
     car_type: 2
-    price: 14000
+    price: 140
     year: 2012
     seats: 5
     is_taken: 0

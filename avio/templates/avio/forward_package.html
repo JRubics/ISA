@@ -13,7 +13,8 @@
                 <div class="panel-body">
                     Would you like to book a hotel as well?
                     We offer a {{discount}}% discount if you choose to book a hotel along with your flight.
-                    Also, some hotels offer special discounts for some rooms, but only if you fly with us!
+                    Also, some hotels offer special discounts for some rooms, but only if you fly with us! Need
+                    a car too? You can book it later with a special offer!
                 </div>
             </div>
         </div>
@@ -27,24 +28,25 @@
                 <div class="panel-body">
                     Need transport at your destination? We're here to help!
                     See discounted prices for rent-a-car services, only available now.
-                    Guaranteed quality of service.
+                    Guaranteed quality of service. PS. You get {{discount_car}}% discount
+                    if you book a hotel first. You can't book it later.
                 </div>
             </div>
         </div>
         <div class="col-lg-3">
-            <a class="btn btn-primary" href="#">Ride now!</a>
+            <a class="btn btn-primary" href="{% url 'car:choose_service' %}">Ride now!</a>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-9">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    Or you can just finish you reservation package immediately. Your choice.
+                    Or you can just finish your reservation package immediately. Your choice.
                 </div>
             </div>
         </div>
         <div class="col-lg-3">
-            <a class="btn btn-primary" href="#">Finalize :(</a>
+            <a class="btn btn-primary" href="{% url 'car:confirmation' %}">Finalize :(</a>
         </div>
     </div>
 </div>
