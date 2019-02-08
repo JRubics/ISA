@@ -294,10 +294,10 @@
   "fields": {
     "avio_company": 1,
     "departure_airport": 1,
-    "departure_date": "2019-02-10T18:04:02Z",
+    "departure_date": "2020-02-10T18:04:02Z",
     "departure_city": 1,
     "arrival_airport": 4,
-    "arrival_date": "2019-02-10T22:04:26Z",
+    "arrival_date": "2020-02-10T22:04:26Z",
     "arrival_city": 7,
     "distance": 3247,
     "base_price": 123
@@ -309,10 +309,10 @@
   "fields": {
     "avio_company": 1,
     "departure_airport": 1,
-    "departure_date": "2019-02-11T10:04:52Z",
+    "departure_date": "2020-02-11T10:04:52Z",
     "departure_city": 1,
     "arrival_airport": 3,
-    "arrival_date": "2019-02-11T15:05:14Z",
+    "arrival_date": "2020-02-11T15:05:14Z",
     "arrival_city": 10,
     "distance": 3012,
     "base_price": 167
@@ -324,10 +324,10 @@
   "fields": {
     "avio_company": 1,
     "departure_airport": 4,
-    "departure_date": "2019-02-17T18:06:18Z",
+    "departure_date": "2020-02-17T18:06:18Z",
     "departure_city": 7,
     "arrival_airport": 1,
-    "arrival_date": "2019-02-17T21:06:28Z",
+    "arrival_date": "2020-02-17T21:06:28Z",
     "arrival_city": 1,
     "distance": 3457,
     "base_price": 230
@@ -339,10 +339,10 @@
   "fields": {
     "avio_company": 2,
     "departure_airport": 2,
-    "departure_date": "2019-02-08T14:07:07Z",
+    "departure_date": "2020-02-08T14:07:07Z",
     "departure_city": 4,
     "arrival_airport": 1,
-    "arrival_date": "2019-02-08T17:07:27Z",
+    "arrival_date": "2020-02-08T17:07:27Z",
     "arrival_city": 1,
     "distance": 1879,
     "base_price": 138
@@ -354,10 +354,10 @@
   "fields": {
     "avio_company": 2,
     "departure_airport": 1,
-    "departure_date": "2019-02-09T09:08:04Z",
+    "departure_date": "2020-02-09T09:08:04Z",
     "departure_city": 1,
     "arrival_airport": 2,
-    "arrival_date": "2019-02-09T12:08:14Z",
+    "arrival_date": "2020-02-09T12:08:14Z",
     "arrival_city": 4,
     "distance": 1675,
     "base_price": 79
@@ -369,10 +369,10 @@
   "fields": {
     "avio_company": 2,
     "departure_airport": 2,
-    "departure_date": "2019-02-10T20:09:00Z",
+    "departure_date": "2020-02-10T20:09:00Z",
     "departure_city": 4,
     "arrival_airport": 9,
-    "arrival_date": "2019-02-10T23:09:22Z",
+    "arrival_date": "2020-02-10T23:09:22Z",
     "arrival_city": 8,
     "distance": 2757,
     "base_price": 235
@@ -384,10 +384,10 @@
   "fields": {
     "avio_company": 3,
     "departure_airport": 4,
-    "departure_date": "2019-02-11T19:10:01Z",
+    "departure_date": "2020-02-11T19:10:01Z",
     "departure_city": 7,
     "arrival_airport": 1,
-    "arrival_date": "2019-02-11T21:10:53Z",
+    "arrival_date": "2020-02-11T21:10:53Z",
     "arrival_city": 1,
     "distance": 2763,
     "base_price": 143
@@ -399,10 +399,10 @@
   "fields": {
     "avio_company": 3,
     "departure_airport": 9,
-    "departure_date": "2019-02-11T12:11:37Z",
+    "departure_date": "2020-02-11T12:11:37Z",
     "departure_city": 8,
     "arrival_airport": 2,
-    "arrival_date": "2019-02-11T16:12:19Z",
+    "arrival_date": "2020-02-11T16:12:19Z",
     "arrival_city": 4,
     "distance": 1897,
     "base_price": 135
@@ -414,10 +414,10 @@
   "fields": {
     "avio_company": 3,
     "departure_airport": 1,
-    "departure_date": "2019-02-10T20:55:25Z",
+    "departure_date": "2020-02-10T20:55:25Z",
     "departure_city": 1,
     "arrival_airport": 4,
-    "arrival_date": "2019-02-10T23:55:36Z",
+    "arrival_date": "2020-02-10T23:55:36Z",
     "arrival_city": 7,
     "distance": 3221,
     "base_price": 187
@@ -429,8 +429,8 @@
   "fields": {
     "flight": 18,
     "airport": 6,
-    "arrival_date": "2019-02-08T15:14:09Z",
-    "departure_date": "2019-02-08T16:14:15Z"
+    "arrival_date": "2020-02-08T15:14:09Z",
+    "departure_date": "2020-02-08T16:14:15Z"
   }
 },
 {
@@ -4284,7 +4284,7 @@
   "pk": 1999,
   "fields": {
     "password": "pbkdf2_sha256$120000$ewjisaa5yKil$PyDzswMjS/oOO38Fe/EOPei6rKem7XjsNzMVx8PUiYQ=",
-    "last_login": "2019-02-07T12:08:59.991Z",
+    "last_login": "2020-02-07T12:08:59.991Z",
     "is_superuser": true,
     "username": "filip",
     "first_name": "Filip",
@@ -4292,7 +4292,7 @@
     "email": "fillix96@gmail.com",
     "is_staff": true,
     "is_active": true,
-    "date_joined": "2019-01-23T14:20:47Z",
+    "date_joined": "2020-01-23T14:20:47Z",
     "groups": [
       [
         "avioAdmin"
@@ -4306,7 +4306,7 @@
   "pk": 499,
   "fields": {
     "password": "pbkdf2_sha256$120000$4IPmAlYU2jP2$WOMVih9AbWCenxC6MZwnfs4XgAVLxjE6qlx+/ZPfIE4=",
-    "last_login": "2019-02-03T13:39:06.658Z",
+    "last_login": "2020-02-03T13:39:06.658Z",
     "is_superuser": false,
     "username": "admin",
     "first_name": "",
@@ -4314,7 +4314,7 @@
     "email": "",
     "is_staff": true,
     "is_active": true,
-    "date_joined": "2019-01-25T14:16:41Z",
+    "date_joined": "2020-01-25T14:16:41Z",
     "groups": [
       [
         "avioAdmin"
@@ -4328,7 +4328,7 @@
   "pk": 599,
   "fields": {
     "password": "pbkdf2_sha256$120000$LJSDqRYZpDTA$MXKtT37jvzmE4xdsuzYYa5ztVeaX9WohuikEBCLddGk=",
-    "last_login": "2019-01-26T17:18:08Z",
+    "last_login": "2020-01-26T17:18:08Z",
     "is_superuser": false,
     "username": "noc",
     "first_name": "Prelepa",
@@ -4336,7 +4336,7 @@
     "email": "fillix96@gmail.com",
     "is_staff": false,
     "is_active": true,
-    "date_joined": "2019-01-25T16:00:43Z",
+    "date_joined": "2020-01-25T16:00:43Z",
     "groups": [],
     "user_permissions": []
   }
@@ -4354,7 +4354,7 @@
     "email": "prelepa@prelepa.com",
     "is_staff": false,
     "is_active": true,
-    "date_joined": "2019-01-26T13:34:06Z",
+    "date_joined": "2020-01-26T13:34:06Z",
     "groups": [],
     "user_permissions": []
   }
@@ -4364,7 +4364,7 @@
   "pk": 799,
   "fields": {
     "password": "pbkdf2_sha256$120000$LBpNhNaI3LuV$4ymMumP0Y2qxTyo9Udro1B9T0Er4WYQ6YvEDdf4WhRA=",
-    "last_login": "2019-02-07T13:14:25.613Z",
+    "last_login": "2020-02-07T13:14:25.613Z",
     "is_superuser": false,
     "username": "Sky",
     "first_name": "Sky",
@@ -4372,7 +4372,7 @@
     "email": "sky@gmail.com",
     "is_staff": false,
     "is_active": true,
-    "date_joined": "2019-01-26T13:35:12Z",
+    "date_joined": "2020-01-26T13:35:12Z",
     "groups": [],
     "user_permissions": []
   }
@@ -4382,7 +4382,7 @@
   "pk": 899,
   "fields": {
     "password": "pbkdf2_sha256$120000$migGNyCDD4Mw$KQLBRjAmt3NGPtlhwVnJ8YSpEeifW7QQxQ6Cb9Rr/7A=",
-    "last_login": "2019-01-26T21:26:20Z",
+    "last_login": "2020-01-26T21:26:20Z",
     "is_superuser": false,
     "username": "Celestia",
     "first_name": "Celestia",
@@ -4390,7 +4390,7 @@
     "email": "celestia@gmail.com",
     "is_staff": false,
     "is_active": true,
-    "date_joined": "2019-01-26T13:36:43Z",
+    "date_joined": "2020-01-26T13:36:43Z",
     "groups": [],
     "user_permissions": []
   }
@@ -4400,7 +4400,7 @@
   "pk": 999,
   "fields": {
     "password": "pbkdf2_sha256$120000$thqbcWSy7lHm$DI8UsaMgPQezjVfbdjPD/zPk04+FCwXyBQA/HmmKBMQ=",
-    "last_login": "2019-02-07T18:27:47.345Z",
+    "last_login": "2020-02-07T18:27:47.345Z",
     "is_superuser": false,
     "username": "Orion",
     "first_name": "Orion",
@@ -4408,7 +4408,7 @@
     "email": "orion@gmail.com",
     "is_staff": false,
     "is_active": true,
-    "date_joined": "2019-01-26T13:37:51Z",
+    "date_joined": "2020-01-26T13:37:51Z",
     "groups": [],
     "user_permissions": []
   }
@@ -4426,7 +4426,7 @@
     "email": "gemini@gmail.com",
     "is_staff": false,
     "is_active": true,
-    "date_joined": "2019-01-26T13:38:54Z",
+    "date_joined": "2020-01-26T13:38:54Z",
     "groups": [],
     "user_permissions": []
   }
@@ -4444,7 +4444,7 @@
     "email": "zvezdasta@gmail.com",
     "is_staff": false,
     "is_active": true,
-    "date_joined": "2019-01-27T01:31:54Z",
+    "date_joined": "2020-01-27T01:31:54Z",
     "groups": [],
     "user_permissions": []
   }
@@ -4454,7 +4454,7 @@
   "pk": "18399b8s6ar4km4ezn4f5nm3umuvtkgd",
   "fields": {
     "session_data": "ZjA0MjY3MTE2NWNkZjVlMjY4NWE0Y2EwOTRkYTYyMTUxMTQ1ZWE3Zjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZTkwNDc3MTA0YWVlOTc3M2JiOWUzOGM2NWQ5ZjExMmQyZjBjMTRmIn0=",
-    "expire_date": "2019-02-20T23:29:26.406Z"
+    "expire_date": "2020-02-20T23:29:26.406Z"
   }
 },
 {
@@ -4462,7 +4462,7 @@
   "pk": "19hpss04mzrqi7dwdinby6thm2d7iog2",
   "fields": {
     "session_data": "ZjA0MjY3MTE2NWNkZjVlMjY4NWE0Y2EwOTRkYTYyMTUxMTQ1ZWE3Zjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZTkwNDc3MTA0YWVlOTc3M2JiOWUzOGM2NWQ5ZjExMmQyZjBjMTRmIn0=",
-    "expire_date": "2019-02-16T20:28:36.078Z"
+    "expire_date": "2020-02-16T20:28:36.078Z"
   }
 },
 {
@@ -4470,7 +4470,7 @@
   "pk": "5x6ix7jkwkivlv8swyj0ogfwsbf0dh54",
   "fields": {
     "session_data": "ZjA0MjY3MTE2NWNkZjVlMjY4NWE0Y2EwOTRkYTYyMTUxMTQ1ZWE3Zjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZTkwNDc3MTA0YWVlOTc3M2JiOWUzOGM2NWQ5ZjExMmQyZjBjMTRmIn0=",
-    "expire_date": "2019-02-18T15:24:31.551Z"
+    "expire_date": "2020-02-18T15:24:31.551Z"
   }
 },
 {
@@ -4478,7 +4478,7 @@
   "pk": "9t9jp6huwmu5reav8jsad1vg5acagl8k",
   "fields": {
     "session_data": "ZjA0MjY3MTE2NWNkZjVlMjY4NWE0Y2EwOTRkYTYyMTUxMTQ1ZWE3Zjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZTkwNDc3MTA0YWVlOTc3M2JiOWUzOGM2NWQ5ZjExMmQyZjBjMTRmIn0=",
-    "expire_date": "2019-02-17T15:46:33.123Z"
+    "expire_date": "2020-02-17T15:46:33.123Z"
   }
 },
 {
@@ -4486,7 +4486,7 @@
   "pk": "egoijix430m33fqlhk32xtcuh4e3w9ds",
   "fields": {
     "session_data": "ZjA0MjY3MTE2NWNkZjVlMjY4NWE0Y2EwOTRkYTYyMTUxMTQ1ZWE3Zjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZTkwNDc3MTA0YWVlOTc3M2JiOWUzOGM2NWQ5ZjExMmQyZjBjMTRmIn0=",
-    "expire_date": "2019-02-21T12:09:00.104Z"
+    "expire_date": "2020-02-21T12:09:00.104Z"
   }
 },
 {
@@ -4494,7 +4494,7 @@
   "pk": "isjneklmur10m94crgnnj5zo6217mako",
   "fields": {
     "session_data": "MDFmZDEyMDEwZTJmN2RiMTY0ZTJmZDliMjRhMzllOTU0ZmVlMjdhNTp7Il9hdXRoX3VzZXJfaWQiOiI5IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIxZTUyMDAzMjA5MjA3OGQ5YmQ5YzAxNmJlMGVjYjMyYjg5NzlkNGUxIn0=",
-    "expire_date": "2019-02-11T03:35:40.141Z"
+    "expire_date": "2020-02-11T03:35:40.141Z"
   }
 },
 {
@@ -4502,7 +4502,7 @@
   "pk": "p1xw6m4kimmnu5p7yhjy3bfsd8fqx1hq",
   "fields": {
     "session_data": "MjFkZTZlNzhiMjcwYWIzZjc3YjQ5MjlmMWMyMjNiODBhMjRlNTg3Yjp7Il9hdXRoX3VzZXJfaWQiOiI5IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIwNGU1MzIxN2EwODM0NjBiYzVhZGVmYTJlYWEyOWEwMGZjNGZlNzA3In0=",
-    "expire_date": "2019-02-10T01:35:31.131Z"
+    "expire_date": "2020-02-10T01:35:31.131Z"
   }
 },
 {
@@ -4510,7 +4510,7 @@
   "pk": "wvdek8cy7xllakqoflo2odor058bh4ku",
   "fields": {
     "session_data": "ZjA0MjY3MTE2NWNkZjVlMjY4NWE0Y2EwOTRkYTYyMTUxMTQ1ZWE3Zjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZTkwNDc3MTA0YWVlOTc3M2JiOWUzOGM2NWQ5ZjExMmQyZjBjMTRmIn0=",
-    "expire_date": "2019-02-16T15:41:56.095Z"
+    "expire_date": "2020-02-16T15:41:56.095Z"
   }
 },
 {
@@ -4518,7 +4518,7 @@
   "pk": "wwxur7l02fzb15txr1ux80bsnx1ysisp",
   "fields": {
     "session_data": "MWRlYWU4M2RjNTZlODhlYzczNjk5ZGRiZGEwYTI4NGNhMmE3YTI0NDp7Il9hdXRoX3VzZXJfaWQiOiI5IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIxZTUyMDAzMjA5MjA3OGQ5YmQ5YzAxNmJlMGVjYjMyYjg5NzlkNGUxIiwiZGF0ZV90byI6IjIwMTktMDItMjgiLCJyZXQiOlsxNV0sIm51bV9zZWF0cyI6IjEiLCJzZWF0X3R5cGUiOiJFY29ub215In0=",
-    "expire_date": "2019-02-21T20:47:21.752Z"
+    "expire_date": "2020-02-21T20:47:21.752Z"
   }
 },
 {
@@ -4532,7 +4532,7 @@
     "first_name": "Sky",
     "last_name": "Bright",
     "passport": "123456",
-    "time": "2019-02-07T18:23:13.387Z",
+    "time": "2020-02-07T18:23:13.387Z",
     "price": 135.0,
     "seat": 683,
     "flight": 22,
@@ -4550,7 +4550,7 @@
     "first_name": "Sky",
     "last_name": "Bright",
     "passport": "123456",
-    "time": "2019-02-07T18:26:02.713Z",
+    "time": "2020-02-07T18:26:02.713Z",
     "price": 167.0,
     "seat": 757,
     "flight": 16,
@@ -4566,7 +4566,7 @@
     "first_name": "Prva",
     "last_name": "Zvezdica",
     "passport": "654321",
-    "time": "2019-02-07T18:26:04.283Z",
+    "time": "2020-02-07T18:26:04.283Z",
     "price": 167.0,
     "seat": 755,
     "flight": 16,
@@ -4582,7 +4582,7 @@
     "first_name": "Druga",
     "last_name": "Mesec",
     "passport": "543216",
-    "time": "2019-02-07T18:26:04.290Z",
+    "time": "2020-02-07T18:26:04.290Z",
     "price": 167.0,
     "seat": 754,
     "flight": 16,
@@ -4598,7 +4598,7 @@
     "first_name": "Treca",
     "last_name": "Sunce",
     "passport": "432165",
-    "time": "2019-02-07T18:26:04.295Z",
+    "time": "2020-02-07T18:26:04.295Z",
     "price": 167.0,
     "seat": 753,
     "flight": 16,
@@ -4616,7 +4616,7 @@
     "first_name": "Orion",
     "last_name": "Strelac",
     "passport": "654321",
-    "time": "2019-02-07T18:30:42.252Z",
+    "time": "2020-02-07T18:30:42.252Z",
     "price": 138.0,
     "seat": 832,
     "flight": 18,
@@ -4634,7 +4634,7 @@
     "first_name": "Prelepa",
     "last_name": "Noc",
     "passport": null,
-    "time": "2019-02-07T18:30:42.257Z",
+    "time": "2020-02-07T18:30:42.257Z",
     "price": 138.0,
     "seat": 831,
     "flight": 18,
@@ -4652,7 +4652,7 @@
     "first_name": "Sky",
     "last_name": "Bright",
     "passport": null,
-    "time": "2019-02-07T18:30:43.838Z",
+    "time": "2020-02-07T18:30:43.838Z",
     "price": 138.0,
     "seat": 830,
     "flight": 18,
@@ -4670,7 +4670,7 @@
     "first_name": "Celestia",
     "last_name": "Ola",
     "passport": null,
-    "time": "2019-02-07T18:30:45.274Z",
+    "time": "2020-02-07T18:30:45.274Z",
     "price": 138.0,
     "seat": 829,
     "flight": 18,
@@ -4686,7 +4686,7 @@
     "first_name": "Cetvrta",
     "last_name": "Noc",
     "passport": "76543",
-    "time": "2019-02-07T18:30:46.701Z",
+    "time": "2020-02-07T18:30:46.701Z",
     "price": 138.0,
     "seat": 833,
     "flight": 18,
@@ -4700,8 +4700,8 @@
     "master_user": [
       "Sky"
     ],
-    "date_from": "2019-02-11T16:12:19Z",
-    "date_to": "2019-02-15T00:00:00Z",
+    "date_from": "2020-02-11T16:12:19Z",
+    "date_to": "2020-02-15T00:00:00Z",
     "country": "Poland",
     "city": "Warsaw",
     "car_reservation": null,
@@ -4715,8 +4715,8 @@
     "master_user": [
       "Sky"
     ],
-    "date_from": "2019-02-11T15:05:14Z",
-    "date_to": "2019-02-18T00:00:00Z",
+    "date_from": "2020-02-11T15:05:14Z",
+    "date_to": "2020-02-18T00:00:00Z",
     "country": "Spain",
     "city": "Barcelona",
     "car_reservation": null,
@@ -4730,8 +4730,8 @@
     "master_user": [
       "Orion"
     ],
-    "date_from": "2019-02-08T17:07:27Z",
-    "date_to": "2019-02-20T00:00:00Z",
+    "date_from": "2020-02-08T17:07:27Z",
+    "date_to": "2020-02-20T00:00:00Z",
     "country": "Serbia",
     "city": "Novi Sad",
     "car_reservation": null,
