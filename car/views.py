@@ -11,7 +11,7 @@ from .models import Car
 from .models import BranchOffice
 from .models import Reservation
 from .models import CarRate
-from user.models import User
+from user.models import User, DiscountPointReference
 from avio.models import PackageReservation, Ticket
 from django.conf import settings
 from django.db import IntegrityError, transaction
@@ -238,7 +238,7 @@ def choose_car(request, id):
     car_prices_for_user = {}
     for car in cars:
       car.is_car_taken(d1, d2)
-      car_prices_for_user[car.id] = car.price * days1 * Decimal((100-request.user.profile.bonus) * 0.01)
+      car_prices_for_user[car.id] = car.price * days1 * Decimal((100-make_discount(request, False)) * 0.01)
     cars = [c for c in cars if c.is_taken == 0 and c.on_sale == 0]
     context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,
               'cars':cars,'office1':office1, 'office2':office2,
@@ -248,6 +248,20 @@ def choose_car(request, id):
   else:
     return redirect('/car/choose')
 
+
+def make_discount(request, fast):
+  discount = DiscountPointReference.objects.all().first()
+  discount_value = request.user.profile.bonus * round(discount.travel_coefficient)
+  if fast:
+    discount_value = discount_value + 20
+  if request.user.profile.active_package:
+    if request.user.profile.active_package.hotel_reservation:
+      discount_value = discount_value + discount.carservice_discount
+    else:
+      discount_value = discount_value + discount.hotel_discount
+  if discount_value >= 90:
+    discount_value = 90
+  return discount_value
 
 @login_required()
 def fast_choose_car(request):
@@ -267,7 +281,7 @@ def fast_choose_car(request):
     car_prices_for_user = {}
     for car in cars:
       car.is_car_taken(d1, d2)
-      car_prices_for_user[car.id] = car.price * days1 * Decimal((100-request.user.profile.bonus - 5) * 0.01)
+      car_prices_for_user[car.id] = car.price * days1 * Decimal((100-make_discount(request, True)) * 0.01)
     cars = [c for c in cars if c.is_taken == 0 and c.on_sale == 1 and c.service.country == country and c.service.city == city]
     context = {'manufacturer':Car.MANUFACTURER, 'type':Car.TYPE,
               'cars':cars, 'days':days1,
