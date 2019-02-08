@@ -12,10 +12,10 @@
           <th scope="col">Manufacturer</th>
           <th scope="col">Model</th>
           <th scope="col">Type</th>
-          <th scope="col">Price</th>
           <th scope="col">Year of production</th>
           <th scope="col">Seats</th>
-          <th scope="col">Price</th>
+          <th scope="col">Price/Day</th>
+          <th scope="col">Full price with discount</th>
           <th scope="col">Rate</th>
         </tr>
       </thead>
@@ -39,9 +39,9 @@
                   {% endif %}
               {% endfor %}
             </td>
-            <td>{{car.price}}</td>
             <td>{{car.year}}</td>
             <td>{{car.seats}}</td>
+            <td>{{car.price}}</td>
             <td>
               {% for key, value in car_prices_for_user.items %}
                 {% if car.id == key %}

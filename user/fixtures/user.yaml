@@ -25,6 +25,7 @@
   fields:
     user: 2
     admin_type: car
+    first_login: False
 
 - model: auth.user
   pk: 3
@@ -43,6 +44,7 @@
   fields:
     user: 3
     admin_type: car
+    first_login: False
 
 - model: auth.user
   pk: 4
@@ -61,6 +63,7 @@
   fields:
     user: 4
     admin_type: car
+    first_login: False
 
 - model: auth.user
   pk: 5
@@ -89,6 +92,7 @@
   fields:
     user: 6
     admin_type: car
+    first_login: False
 
 
 - model: auth.user
@@ -108,6 +112,7 @@
   fields:
     user: 7
     admin_type: car
+    first_login: True
 
 - model: user.profile
   pk: 1
