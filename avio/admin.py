@@ -60,9 +60,10 @@ class FlightLegAdmin (admin.ModelAdmin):
         if request.user.is_superuser:
             return qs
 
-        for res in qs:
-            if res.flight.id != request.user.adminuser.avio_admin.id:
-                qs.exclude(res)
+#         for res in qs:
+#             if res.flight.id != request.user.adminuser.avio_admin.id:
+#                 qs.exclude(res)
+        qs = qs.filter(flight = request.user.adminuser.avio_admin.id)
         return qs
 
 
