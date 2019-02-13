@@ -91,14 +91,14 @@ ERROR: {{ message }}
     <tr>
       <td>{{reservation.hotel}}</td>
       <td>
-        {% for room in hotel_rooms %}
+        {% for room in reservation.rooms.all %}
         {% if room.hotel == reservation.hotel %}
         Room no {{room.number}}<br>
         {% endif %}
         {% endfor %}
       </td>
       <td>
-        {% for service in hotel_services %}
+        {% for service in reservation.services.all %}
         {% if service.hotel == reservation.hotel %}
         {{service.name}}<br>
         {% endif %}
