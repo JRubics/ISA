@@ -165,6 +165,7 @@ class FastReservation(ListView):
 
     def post(self, request, *args, **kwargs):
         ticket = Ticket.objects.filter(pk=request.POST.get('buy')).update(user = request.user, first_name = request.user.first_name, last_name = request.user.last_name, passport = request.POST.get('passport'), time = datetime.datetime.now(), status = 'B')   
+        ticket = Ticket.objects.get(pk=request.POST.get('buy'))
         seat = ticket.seat
         seat.seat_status = "T"
         seat.save()

@@ -93,7 +93,7 @@
               <td>{{package.hotel_reservation.check_in|date:"M-d-Y"}}</td>
               <td>{{package.hotel_reservation.check_out|date:"M-d-Y"}}</td>
               <td>{{package.hotel_reservation.guest_number}}</td>
-              <td>{{package.hotel_reservation.rooms|length}}</td>
+              <td>{{package.hotel_reservation.rooms.count}}</td>
               <td>{{package.hotel_reservation.rooms_charge|add:package.hotel_reservation.services_charge}}</td>
             </tr>
           </tbody>

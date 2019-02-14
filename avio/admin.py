@@ -32,7 +32,7 @@ class FlightAdmin (admin.ModelAdmin):
     def get_form(self, request, obj=None, **kwargs):
         form = super(FlightAdmin, self).get_form(request, obj, **kwargs)
         if not request.user.is_superuser:
-            form.base_fields['avio_company'].initial = request.user.adminuser.avio_admin
+            form.base_fields['avio_company'].initial = request.user.adminuser.avio_admin.id
             form.base_fields['avio_company'].disabled = True
         return form
 
@@ -60,9 +60,10 @@ class FlightLegAdmin (admin.ModelAdmin):
         if request.user.is_superuser:
             return qs
 
-        for res in qs:
-            if res.flight.id != request.user.adminuser.avio_admin.id:
-                qs.exclude(res)
+#         for res in qs:
+#             if res.flight.id != request.user.adminuser.avio_admin.id:
+#                 qs.exclude(res)
+        qs = qs.filter(flight = request.user.adminuser.avio_admin.id)
         return qs
 
 

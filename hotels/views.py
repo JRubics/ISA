@@ -176,6 +176,8 @@ def view_hotels(request):
     user = request.user
     package = user.profile.active_package
     if package:
+        if hasattr(user, 'hotelshoppingcart'):
+            user.hotelshoppingcart.delete()
         hsc = HotelShoppingCart()
         hsc.user = user
         hsc.check_in = package.date_from
